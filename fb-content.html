@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Content Plan - @cerdascuan</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #898F9C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #1877F2;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #1877F2;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.3);
+            color: #1877F2;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(24, 119, 242, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(24, 119, 242, 0.1);
+            color: #1877F2;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(24, 119, 242, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #1877F2;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Content Plan</h1>
+        <p class="account">@cerdascuan</p>
+        <p>Full Day Schedule - Leads Asuransi Edukatif</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Go To Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Edukasi Pagi",
+                caption: `Tahukah kamu? 8 dari 10 keluarga Indonesia belum punya proteksi finansial yang memadai.
+
+Artinya kalau terjadi sesuatu yang tidak diinginkan, tabungan bisa habis dalam hitungan hari.
+
+Proteksi bukan soal takut, tapi soal SIAP.
+
+Yuk mulai edukasi diri tentang pentingnya perencanaan keuangan.
+
+Cek link di bio untuk konsultasi GRATIS!
+
+#CerdasCuan #EdukasiKeuangan #ProteksiKeluarga #PerencanaanKeuangan #LiterasiFinansial`,
+                imagePrompt: `Clean educational infographic style. Large statistic "8 dari 10 Keluarga Belum Terlindungi" with family silhouette icons (8 grey, 2 blue). Below: shield icon with text "Proteksi = KESIAPAN bukan Ketakutan". Soft blue gradient background (#1877F2 to white). Professional and trustworthy feel. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "06:30",
+                type: "Motivasi & Hook",
+                caption: `Pagi ini coba tanya ke diri sendiri:
+
+"Kalau aku sakit dan nggak bisa kerja 3 bulan, siapa yang tanggung biaya hidup keluargaku?"
+
+Bukan mau nakut-nakutin. Tapi ini REALITA yang banyak orang hindari.
+
+Kabar baiknya: ada solusi yang bisa kamu siapkan SEKARANG, sebelum terlambat.
+
+Info lengkapnya? Cek link di bio ya!
+
+#CerdasCuan #PertanyaanPenting #SiapBukanTakut #ProteksiDiri #KeuanganCerdas`,
+                imagePrompt: `Thought-provoking single image design. Person sitting at desk looking at family photo with thought bubble "Siapa yang tanggung mereka?". Split visual: left side shows worry/uncertainty (grey tones), right side shows peace of mind with protection shield (blue tones). Warm morning light coming from window. Empathetic and relatable. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "07:00",
+                type: "Fakta Edukatif",
+                caption: `FAKTA yang jarang dibahas:
+
+Biaya rawat inap RS swasta: Rp 2-5 juta/malam
+Biaya operasi besar: Rp 100-500 juta
+Biaya pengobatan penyakit kritis: Rp 500 juta - 1 Miliar
+
+Dan inflasi medis naik 10-15% SETIAP TAHUN.
+
+Pertanyaannya: tabunganmu cukup untuk cover ini semua?
+
+Yuk cari tahu solusinya. Klik link di bio untuk info lebih lanjut!
+
+#CerdasCuan #FaktaKesehatan #BiayaRumahSakit #InflasiMedis #SolusiProteksi`,
+                imagePrompt: `Professional infographic with hospital/medical theme. Stacked cost breakdown: "Rawat Inap: 2-5 Juta/malam", "Operasi Besar: 100-500 Juta", "Penyakit Kritis: 500 Juta - 1 Miliar" with upward arrow showing "Inflasi Medis 10-15%/tahun". Clean medical blue and white design, data visualization style. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "07:30",
+                type: "Storytelling",
+                caption: `Cerita nyata dari salah satu keluarga yang kami bantu:
+
+Pak Andi, 42 tahun, karyawan swasta. Sehat, rajin olahraga.
+
+Tiba-tiba divonis penyakit jantung. Butuh operasi Rp 350 juta.
+
+Untungnya, 2 tahun lalu dia sudah siapkan proteksi. Semua biaya TERCOVER 100%.
+
+Keluarganya tetap aman. Tabungan nggak tergerus.
+
+Jangan tunggu sampai terlambat. Konsultasi gratis di link bio!
+
+#CerdasCuan #KisahNyata #ProteksiPenting #JanganTungguTerlambat #KeluargaAman`,
+                imagePrompt: `Storytelling visual in 3 parts: Top section shows healthy man exercising (bright colors). Middle section shows hospital scene with family worried but calm (softer tones). Bottom section shows family smiling with "100% TERCOVER" shield badge (blue and gold). Narrative flow design with arrows connecting scenes. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "08:00",
+                type: "Tips Keuangan",
+                caption: `5 Tanda kamu BUTUH proteksi keuangan sekarang:
+
+1. Kamu satu-satunya pencari nafkah di keluarga
+2. Punya cicilan (rumah/kendaraan/lainnya)
+3. Belum punya dana darurat 12 bulan pengeluaran
+4. Punya tanggungan (anak/orangtua)
+5. Pekerjaanmu tidak menjamin tunjangan kesehatan seumur hidup
+
+Kalau minimal 2 poin relate, saatnya ambil langkah.
+
+Konsultasi GRATIS, cek link di bio!
+
+#CerdasCuan #TipsKeuangan #CekKondisi #DanaDarurat #LangkahCerdas`,
+                imagePrompt: `Checklist-style infographic with 5 items. Each item has an icon: 1) Single person with family behind (breadwinner), 2) House with loan tag, 3) Piggy bank with question mark, 4) Parent holding child hand, 5) Office building with X on health benefit. Clean numbered list, Facebook blue accent color, white background with subtle blue gradient border. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "08:30",
+                type: "Mitos vs Fakta",
+                caption: `MITOS: "Asuransi itu buang-buang uang kalau nggak sakit."
+
+FAKTA: Asuransi itu seperti helm. Kamu pakai bukan karena mau kecelakaan, tapi untuk JAGA-JAGA.
+
+Dan faktanya, manfaat asuransi modern itu BANYAK:
+- Proteksi kesehatan
+- Tabungan masa depan
+- Warisan untuk keluarga
+- Dana pensiun
+
+Mau tau produk yang paling cocok buat kamu? Cek link di bio!
+
+#CerdasCuan #MitosVsFakta #AsuransiBukanBuangUang #Proteksi #ManfaatAsuransi`,
+                imagePrompt: `Split design comparison. Left side (red tone): Big X mark, text "MITOS: Buang-buang uang" with money flying away illustration. Right side (blue/green tone): Big checkmark, text "FAKTA: Seperti Helm" with helmet and shield icon. Below: 4 benefit icons (health cross, piggy bank, family, retirement). Clean factual design, professional educational style. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "09:00",
+                type: "Engagement Post",
+                caption: `Quick poll buat teman-teman!
+
+Dari skala 1-10, seberapa siap kamu secara finansial kalau tiba-tiba:
+- Harus rawat inap 2 minggu?
+- Kehilangan penghasilan 6 bulan?
+- Ada kebutuhan darurat Rp 100 juta?
+
+Tulis jawabanmu di kolom komentar ya!
+
+Kalau skormu di bawah 7, mungkin sudah saatnya kita ngobrol. Link di bio!
+
+#CerdasCuan #FinancialCheckup #SkalaSiap #CekKeuangan #DiskusiBareng`,
+                imagePrompt: `Interactive poll-style design. Large scale/meter showing 1-10 with pointer. Three scenario cards below: "Rawat Inap 2 Minggu?", "Hilang Penghasilan 6 Bulan?", "Darurat 100 Juta?". Question mark icons and thinking emoji elements. Engaging blue and white design with call-to-action feel. Text "Berapa Skormu?" in bold. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "09:30",
+                type: "Edukasi Produk",
+                caption: `Banyak yang tanya: "Asuransi apa sih yang paling penting?"
+
+Jawabannya tergantung kondisi kamu:
+
+Single, belum menikah: Asuransi kesehatan + jiwa dasar
+Sudah menikah: Asuransi jiwa + kesehatan keluarga
+Punya anak: Asuransi pendidikan + jiwa + kesehatan
+Mendekati pensiun: Asuransi dana pensiun + kesehatan
+
+Setiap orang BERBEDA kebutuhannya. Makanya konsultasi itu penting!
+
+Gratis konsultasi, cek link di bio ya!
+
+#CerdasCuan #JenisAsuransi #KonsultasiGratis #SesuaiKebutuhan #PerencanaanHidup`,
+                imagePrompt: `Clean infographic with life stages. Four columns showing different life stages: 1) Single person icon - "Kesehatan + Jiwa Dasar", 2) Couple icon - "Jiwa + Kesehatan Keluarga", 3) Family with kids icon - "Pendidikan + Jiwa + Kesehatan", 4) Elderly couple icon - "Dana Pensiun + Kesehatan". Each column with matching blue gradient shade from light to dark. Professional advisor feel. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "10:00",
+                type: "Social Proof",
+                caption: `Feedback dari klien kami:
+
+"Awalnya ragu, tapi setelah dikasih penjelasan yang detail dan transparan, akhirnya paham betapa pentingnya proteksi. Sekarang tidur lebih tenang karena keluarga sudah terlindungi."
+- Ibu Sari, 35 tahun, ibu 2 anak
+
+Kami bantu kamu MEMAHAMI, bukan memaksa.
+
+Mau konsultasi tanpa tekanan? Klik link di bio!
+
+#CerdasCuan #TestimoniKlien #TransparanDanJujur #KonsultasiTanpaTekanan #KlienPuas`,
+                imagePrompt: `Testimonial card design. Large quotation marks in Facebook blue, testimonial text in elegant font on clean white card with subtle blue border. Small avatar silhouette with name "Ibu Sari, 35 thn". Star rating (5 stars) below. Soft blue gradient background. Trust badge "Konsultasi Tanpa Tekanan" at bottom. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "10:30",
+                type: "Edukasi Nilai",
+                caption: `Tahukah kamu bedanya MENABUNG vs PROTEKSI?
+
+Menabung:
+- Butuh waktu bertahun-tahun
+- Bisa terpakai untuk kebutuhan lain
+- Nilainya tergerus inflasi
+
+Proteksi (Asuransi):
+- Langsung aktif sejak hari pertama
+- Khusus untuk risiko besar
+- Nilainya tetap sesuai polis
+
+Keduanya penting. Tapi jangan sampai salah prioritas!
+
+Mau diskusi lebih lanjut? Link di bio ya!
+
+#CerdasCuan #TabungVsProteksi #EdukasiFinansial #Prioritas #CerdasPilih`,
+                imagePrompt: `Comparison infographic. Two columns side by side: Left "MENABUNG" with piggy bank icon (3 bullet points with time/clock, shopping cart, downward arrow icons). Right "PROTEKSI" with shield icon (3 bullet points with lightning bolt/instant, target/specific, document/fixed value icons). Center VS symbol. Bottom text: "Keduanya Penting - Jangan Salah Prioritas!" Clean blue and white educational design. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "11:00",
+                type: "Hook Emosional",
+                caption: `Bayangkan skenario ini:
+
+Kamu sedang di rumah sakit. Sakitmu butuh biaya ratusan juta.
+
+Di satu sisi, keluargamu harus jual aset, pinjam sana-sini, stres mikirin biaya.
+
+Di sisi lain, semua tercover. Keluargamu fokus mendoakan dan menemanimu.
+
+Perbedaannya? PERSIAPAN yang kamu lakukan HARI INI.
+
+Jangan tunda lagi. Konsultasi gratis di link bio!
+
+#CerdasCuan #BayangkanIni #Persiapan #KeluargaTenang #LindungiYangTercinta`,
+                imagePrompt: `Emotional split-screen design. Left side (dark, stressful): Family in hospital corridor looking worried, bills piling up, selling house icon. Right side (calm, peaceful): Same hospital but family smiling, holding hands, bills with "COVERED" stamp. Middle divider with text "Perbedaannya? PERSIAPAN." Cinematic feel with contrasting moods. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "11:30",
+                type: "Tips Praktis",
+                caption: `Cara memilih asuransi yang TEPAT (tanpa tertipu):
+
+1. Pahami kebutuhanmu dulu, bukan ikut-ikutan
+2. Baca polis dengan teliti (terutama pengecualian)
+3. Pilih perusahaan yang sudah terdaftar OJK
+4. Bandingkan minimal 2-3 produk
+5. Pastikan preminya sesuai budget (maks 10% penghasilan)
+6. Konsultasi dengan advisor yang transparan
+
+Butuh bantuan? Kami siap bantu, GRATIS dan tanpa tekanan.
+
+Klik link di bio ya!
+
+#CerdasCuan #TipsMemilihAsuransi #AntiTertipu #OJK #AdvisorTransparan`,
+                imagePrompt: `Step-by-step guide infographic. 6 numbered steps with icons: 1) Magnifying glass on person (pahami kebutuhan), 2) Document with eye (baca polis), 3) OJK badge/shield (terdaftar), 4) Comparison chart (bandingkan), 5) Calculator with 10% (budget), 6) Handshake (konsultasi). Clean professional layout, numbered pathway design, Facebook blue accents on white. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break Edukasi",
+                caption: `Lagi istirahat makan siang? Yuk baca 1 menit ini.
+
+Kamu tau nggak, rata-rata orang Indonesia menghabiskan:
+- Rp 3-5 juta/bulan untuk lifestyle
+- Rp 500rb-1 juta/bulan untuk kopi & jajan
+- Tapi Rp 0 untuk proteksi keluarga
+
+Dengan menyisihkan HANYA Rp 300-500rb/bulan, kamu sudah bisa punya proteksi ratusan juta.
+
+Mau tau caranya? Cek link di bio!
+
+#CerdasCuan #LunchBreakEdukasi #BudgetProteksi #SisihkanSedikit #InvestasiCerdas`,
+                imagePrompt: `Fun lifestyle comparison infographic. Three spending categories illustrated: Coffee cup "Kopi & Jajan: 500rb-1jt/bulan", Shopping bag "Lifestyle: 3-5jt/bulan", Shield with Rp 0 "Proteksi: Rp 0". Below: arrow pointing to "Cuma 300-500rb/bulan = Proteksi Ratusan Juta!" with sparkle effect. Casual lunch-time design, bright and engaging. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "12:30",
+                type: "Konten Viral",
+                caption: `Tag teman/keluarga yang PERLU baca ini!
+
+3 hal yang WAJIB disiapkan sebelum umur 40:
+
+1. Dana darurat minimal 6-12 bulan pengeluaran
+2. Asuransi kesehatan untuk seluruh keluarga
+3. Proteksi jiwa (terutama pencari nafkah utama)
+
+Sudah punya ketiganya? Selamat, kamu lebih siap dari 80% orang Indonesia!
+
+Belum punya? Yuk mulai sekarang. Link di bio!
+
+#CerdasCuan #TagTemanmu #Sebelum40 #3HalWajib #MulaiSekarang`,
+                imagePrompt: `Shareable list design optimized for Facebook engagement. Bold title "3 Hal WAJIB Sebelum Umur 40" with alarm/clock icon showing age 40. Three large cards: 1) Piggy bank "Dana Darurat 6-12 Bulan", 2) Health cross "Asuransi Kesehatan Keluarga", 3) Shield with heart "Proteksi Jiwa". "Tag yang perlu baca ini!" banner at top. Viral-optimized, colorful with blue theme. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "13:00",
+                type: "Edukasi Mendalam",
+                caption: `Kenapa orang cerdas TIDAK mengandalkan BPJS saja?
+
+BPJS itu bagus. Tapi ada limitasinya:
+- Antrian bisa sangat panjang
+- Ruang perawatan terbatas (kelas sesuai iuran)
+- Obat dan prosedur tertentu tidak dicover
+- Tidak ada santunan penghasilan saat sakit
+
+Asuransi swasta = PELENGKAP, bukan pengganti.
+
+Kombinasi keduanya = proteksi MAKSIMAL.
+
+Mau tau kombinasi yang pas buat kamu? Cek link di bio!
+
+#CerdasCuan #BPJSvsSwasta #KombinasiCerdas #ProteksiMaksimal #LiterasiAsuransi`,
+                imagePrompt: `Educational comparison design. BPJS card icon on left with list of limitations (queue icon, bed icon, medicine X, no income icon). Plus sign in middle. Private insurance card on right with complementary benefits. Equals sign leading to "PROTEKSI MAKSIMAL" with full shield icon. Balanced and informative design, not bashing BPJS. Professional blue tones. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "13:30",
+                type: "Pertanyaan Reflektif",
+                caption: `Coba jawab jujur:
+
+Kalau besok kamu nggak bisa kerja lagi karena sakit, berapa lama keluargamu bisa bertahan dengan tabungan yang ada?
+
+A) Kurang dari 1 bulan
+B) 1-3 bulan
+C) 3-6 bulan
+D) Lebih dari 6 bulan
+
+Kalau jawabanmu A atau B, ini bukan nakut-nakutin. Ini alarm untuk BERTINDAK.
+
+Langkah pertama: konsultasi gratis. Link di bio!
+
+#CerdasCuan #JawabJujur #AlarmFinansial #BertindakSekarang #JanganTunda`,
+                imagePrompt: `Interactive quiz-style design. Large question at top "Berapa Lama Keluargamu Bisa Bertahan?" with hourglass icon draining. Four answer options A-D styled as buttons with different colors (A red/urgent, B orange, C yellow, D green). Warning bell icon at bottom with text "Jawaban A atau B = Saatnya Bertindak". Engaging poll design for Facebook. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "14:00",
+                type: "Edukasi Ringan",
+                caption: `Fun fact: Premi asuransi itu ternyata LEBIH MURAH dari yang kamu kira!
+
+Contoh ilustrasi:
+- Proteksi jiwa Rp 500 juta = mulai Rp 250rb/bulan
+- Asuransi kesehatan keluarga = mulai Rp 500rb/bulan
+- Proteksi penyakit kritis = mulai Rp 300rb/bulan
+
+Lebih murah dari langganan streaming + kopi harian kamu!
+
+Mau tau detail yang sesuai profilmu? Cek link di bio!
+
+#CerdasCuan #PremiMurah #LebihMurahDariKopi #IlustrasiPremi #TernyataTerjangkau`,
+                imagePrompt: `Cost comparison fun infographic. Left side: daily expenses (coffee cup Rp 50rb/hari, streaming Rp 150rb/bulan, jajan Rp 100rb/hari) totaling to a big number. Right side: protection benefits (life shield 500 Juta, health cross for family, critical illness cover) for LESS cost. "Lebih Murah dari Kopi Harianmu!" bold text. Playful yet informative, Facebook blue with warm accent colors. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "14:30",
+                type: "Konten Keluarga",
+                caption: `Untuk para Ayah dan Ibu di sini:
+
+Anak-anak kita nggak minta dilahirkan. Tapi mereka bergantung sepenuhnya pada kita.
+
+Pertanyaannya:
+Sudahkah kita siapkan BACKUP PLAN kalau sesuatu terjadi pada kita?
+
+Bukan soal pesimis. Ini soal TANGGUNG JAWAB.
+
+Yuk diskusi. Kami bantu carikan solusi terbaik untuk keluargamu.
+
+Link di bio ya!
+
+#CerdasCuan #UntukOrangTua #TanggungJawab #BackupPlan #LindungiAnak`,
+                imagePrompt: `Heartfelt family-oriented design. Silhouette of parent holding child's hand with protective umbrella/shield above them. Warm blue sky with golden sunlight. Text overlay "Tanggung Jawab Terbesar = Memastikan Mereka Aman" in gentle font. Soft, emotional, not fear-based but love-based. Family protection theme. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "15:00",
+                type: "Myth Busting",
+                caption: `5 MITOS tentang asuransi yang SALAH BESAR:
+
+1. "Asuransi cuma buat orang kaya" - SALAH, premi mulai 200rb/bulan
+2. "Kalau nggak klaim, uangnya hilang" - SALAH, banyak produk yang ada nilai tunainya
+3. "Masih muda, belum butuh" - SALAH, justru premi lebih murah saat muda
+4. "BPJS sudah cukup" - KURANG, ada banyak limitasi
+5. "Ribet klaimnya" - TERGANTUNG perusahaan dan advisor
+
+Mau edukasi lebih lanjut? Kami jelaskan dengan sabar. Link di bio!
+
+#CerdasCuan #MitosAsuransi #SalahBesar #FaktaYangBenar #EdukasiPenting`,
+                imagePrompt: `Myth-busting design with 5 myths. Each myth in a "speech bubble" with red X mark crossed out, followed by the fact with green checkmark. Clean list format with alternating background rows. Bold header "5 MITOS yang SALAH BESAR" with explosion/breaking effect on myths. Educational and shareable format. Facebook blue and white with red accents for myths. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "15:30",
+                type: "Studi Kasus",
+                caption: `Studi kasus NYATA:
+
+Budi, 30 tahun. Gaji Rp 8 juta/bulan. Sisihkan Rp 500rb/bulan untuk asuransi.
+
+Di umur 33, didiagnosa penyakit kritis. Butuh Rp 200 juta untuk pengobatan.
+
+Karena sudah punya proteksi:
+- Biaya pengobatan 100% ditanggung
+- Dapat santunan Rp 300 juta
+- Keluarga tidak perlu jual rumah/pinjam
+
+Total premi yang sudah dibayar: Rp 18 juta
+Total manfaat yang diterima: Rp 500 juta
+
+Ini bukan jualan. Ini MATEMATIKA.
+
+Mau hitung kebutuhanmu? Link di bio!
+
+#CerdasCuan #StudiKasus #MatematikProteksi #BukanJualan #HitungSendiri`,
+                imagePrompt: `Case study infographic with timeline. Profile card "Budi, 30 thn, Gaji 8 Juta". Timeline: Age 30 starts paying 500rb/month, Age 33 diagnosed. Comparison box: "Total Premi: 18 Juta" vs "Total Manfaat: 500 Juta" with dramatic scale/balance visual showing the difference. Calculator icon with "Ini MATEMATIKA" text. Data-driven, convincing design. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "16:00",
+                type: "Konten Interaktif",
+                caption: `KUIS CEPAT: Mana yang lebih mahal?
+
+A) Premi asuransi Rp 500rb/bulan selama 10 tahun = Rp 60 juta
+
+B) Biaya satu kali operasi jantung = Rp 300-800 juta
+
+Jawabannya JELAS kan?
+
+Premi itu bukan BIAYA. Premi itu INVESTASI untuk ketenangan.
+
+Mau tau premi yang sesuai budget kamu? Konsultasi gratis di link bio!
+
+#CerdasCuan #KuisCepat #ManaLebihMahal #InvestasiKetenangan #HitungCerdas`,
+                imagePrompt: `Quiz comparison visual. Two options side by side: Option A - small stack of coins labeled "Premi 500rb/bulan x 10 tahun = 60 Juta" (small, manageable). Option B - massive pile of money/bills labeled "Operasi Jantung: 300-800 Juta" (overwhelming). Large "VS" in center. Answer highlighted: "JELAS!" with arrow pointing to A. Educational quiz format optimized for Facebook shares. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "16:30",
+                type: "Soft Selling",
+                caption: `Kenapa klien kami memilih konsultasi dengan kami:
+
+1. GRATIS - tidak dipungut biaya apapun
+2. TANPA TEKANAN - kami edukasi, bukan paksa
+3. TRANSPARAN - semua plus minus kami jelaskan
+4. PERSONALIZED - solusi disesuaikan kondisi kamu
+5. AFTER SALES - kami dampingi sampai klaim selesai
+
+Kami bukan sales yang kejar target. Kami ADVISOR yang peduli.
+
+Buktikan sendiri, cek link di bio!
+
+#CerdasCuan #KenapaKami #AdvisorPeduli #GratisDanTransparan #BuktikanSendiri`,
+                imagePrompt: `Trust-building design with 5 value propositions. Each point with a distinct icon: 1) Free tag icon, 2) No pressure hand icon, 3) Transparent glass icon, 4) Personalized puzzle piece icon, 5) Handshake/support icon. Central text "ADVISOR yang PEDULI" with heart and professional badge. Premium feel, Facebook blue gradient background with white cards. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "17:00",
+                type: "After Work Hook",
+                caption: `Baru pulang kerja? Sebelum rebahan, baca ini 30 detik:
+
+Hari ini kamu kerja 8-10 jam untuk menghasilkan uang.
+
+Tapi sudahkah kamu luangkan 30 MENIT untuk memastikan penghasilanmu TERLINDUNGI?
+
+Karena percuma kerja keras kalau satu musibah bisa menghapus semuanya.
+
+30 menit konsultasi bisa mengubah masa depan keluargamu.
+
+Cek link di bio, jadwalkan konsultasi GRATIS!
+
+#CerdasCuan #PulangKerja #30MenitUntukMasaDepan #KerjaKeras #LindungiHasil`,
+                imagePrompt: `After-work relatable design. Person arriving home tired from work, looking at clock showing evening time. Thought bubble with two paths: "Rebahan" (couch icon) vs "30 Menit untuk Masa Depan" (shield + family icon). Emphasis on "30 Menit = Ketenangan Seumur Hidup" with timer visualization. Warm evening colors with blue accent. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "17:30",
+                type: "Edukasi Dana Pensiun",
+                caption: `Fakta mengejutkan tentang PENSIUN di Indonesia:
+
+- Rata-rata orang pensiun umur 55-60
+- Harapan hidup rata-rata: 72 tahun
+- Artinya butuh dana untuk 12-17 TAHUN tanpa penghasilan aktif
+
+Sudah hitung berapa yang kamu butuhkan?
+
+Kalau pengeluaranmu Rp 10 juta/bulan, kamu butuh minimal Rp 1.4 MILIAR untuk pensiun tenang.
+
+Mulai siapkan dari sekarang. Langkah pertama? Link di bio!
+
+#CerdasCuan #DanaPensiun #FaktaPensiun #PensiunTenang #MulaiDariSekarang`,
+                imagePrompt: `Retirement planning infographic. Timeline from age 30 to 72, highlighting gap between retirement (55-60) and life expectancy (72). Calculator showing "10 Juta/bulan x 12 tahun = 1.4 Miliar" with shocked face emoji. Hourglass draining to show time running. Call to start now with arrow pointing to "Mulai Sekarang". Professional financial planning design, blue and gold tones. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "18:00",
+                type: "Konten Empati",
+                caption: `Kami mengerti kok kenapa banyak yang ragu soal asuransi:
+
+- Pernah dengar cerita klaim ditolak
+- Merasa preminya kemahalan
+- Bingung pilih produk yang mana
+- Takut dibohongi agen
+
+Semua kekhawatiran itu VALID.
+
+Makanya tugas kami adalah MENJELASKAN dengan jujur dan sabar, sampai kamu benar-benar paham dan yakin.
+
+Tanpa tekanan. Tanpa deadline palsu.
+
+Yuk ngobrol santai dulu. Link di bio!
+
+#CerdasCuan #KamiPaham #TanpaTekanan #JujurDanSabar #NgobrolDulu`,
+                imagePrompt: `Empathetic and understanding design. Person looking confused/worried with thought bubbles showing concerns: rejected claim icon, expensive tag, multiple product confusion, distrust icon. Below: warm handshake with text "Kami Paham. Yuk Ngobrol Tanpa Tekanan." Comforting colors - soft blue and warm white, non-threatening and inviting atmosphere. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "18:30",
+                type: "Quick Tips",
+                caption: `3 pertanyaan WAJIB yang harus kamu tanya ke advisor asuransi:
+
+1. "Apa saja yang TIDAK dicover oleh polis ini?"
+2. "Berapa lama masa tunggu sebelum bisa klaim?"
+3. "Bagaimana proses klaim dan berapa lama pencairannya?"
+
+Advisor yang bagus akan menjawab dengan JELAS dan JUJUR.
+
+Kalau mereka menghindar, itu RED FLAG!
+
+Kami siap jawab semua pertanyaanmu. Cek link di bio!
+
+#CerdasCuan #PertanyaanWajib #RedFlag #AdvisorJujur #SmartConsumer`,
+                imagePrompt: `Q&A format design. Three question cards stacked: each with question mark icon and the question text in bold. Red flag icon at bottom with warning text. Green checkmark section "Advisor Bagus = Jawab Jelas & Jujur". Clean, educational, consumer-empowering design. Facebook blue with red accent for warning. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "19:00",
+                type: "Konten Keluarga Malam",
+                caption: `Malam ini, coba peluk keluargamu lebih erat.
+
+Lalu tanyakan pada diri sendiri:
+
+"Sudahkah aku lakukan yang TERBAIK untuk melindungi mereka?"
+
+Cinta itu bukan cuma soal kasih sayang.
+Cinta itu juga soal PERSIAPAN dan PERLINDUNGAN.
+
+Karena kita nggak tau apa yang akan terjadi besok. Tapi kita BISA mempersiapkan diri.
+
+Langkah pertamanya ada di link bio.
+
+#CerdasCuan #CintaItuProteksi #KeluargaTercinta #Persiapan #MalamRefleksi`,
+                imagePrompt: `Warm family evening scene. Silhouette of family hugging in living room with warm lamp light. Soft heart-shaped glow around them. Text overlay "Cinta = Persiapan + Perlindungan" in gentle, warm font. Below: subtle shield icon merging with heart. Emotional but not sad - warm, loving, protective mood. Golden warm tones with soft blue accent. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "19:30",
+                type: "FAQ Ringkas",
+                caption: `FAQ yang sering ditanya ke kami:
+
+Q: Berapa minimal premi per bulan?
+A: Mulai dari Rp 200-300rb/bulan sudah bisa dapat proteksi.
+
+Q: Prosesnya ribet nggak?
+A: Cukup isi form online + video call 15 menit. Selesai!
+
+Q: Bisa klaim kapan?
+A: Setelah masa tunggu (biasanya 30 hari untuk sakit umum).
+
+Q: Kalau mau berhenti bisa?
+A: Bisa! Ada opsi cuti premi atau pencairan nilai tunai.
+
+Ada pertanyaan lain? Tanya langsung di link bio!
+
+#CerdasCuan #FAQ #PertanyaanJawaban #MudahDanCepat #TanyaLangsung`,
+                imagePrompt: `FAQ card design with 4 question-answer pairs. Each pair in a card with Q in blue circle and A in green circle. Clean, easy-to-read format with adequate spacing. "Ada Pertanyaan Lain? Tanya Langsung!" CTA banner at bottom. Simple, informative, no-clutter design optimized for readability on mobile. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "20:00",
+                type: "Penutup Edukatif",
+                caption: `Ringkasan edukasi hari ini:
+
+1. Proteksi itu KEBUTUHAN, bukan kemewahan
+2. Semakin muda mulai, semakin murah preminya
+3. BPJS bagus tapi butuh pelengkap
+4. Konsultasi dengan advisor yang transparan
+5. Jangan tunda - risiko tidak menunggu
+
+Terima kasih sudah meluangkan waktu untuk belajar hari ini!
+
+Kalau ada yang mau ditanyakan, kami selalu ready membantu.
+
+Klik link di bio untuk mulai ngobrol!
+
+#CerdasCuan #RingkasanHariIni #SelaluBelajar #TerimakasihSudahBaca #SiapMembantu`,
+                imagePrompt: `Summary/recap infographic. 5 key takeaways in numbered list with matching icons on a clean card design. Title "Ringkasan Edukasi Hari Ini" with graduation cap icon. Each point with a simple icon (shield, clock/youth, plus sign, handshake, lightning bolt). Footer "Terima Kasih Sudah Belajar!" with warm blue gradient. Professional and clean closure design. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "20:30",
+                type: "Good Night CTA",
+                caption: `Sebelum tidur, satu hal terakhir:
+
+Kamu sudah kerja keras seharian untuk keluargamu.
+Kamu sudah berkorban waktu dan tenaga.
+
+Sekarang tanyakan: "Apakah semua usahaku ini sudah TERLINDUNGI?"
+
+Kalau belum, besok adalah hari yang tepat untuk mulai.
+
+Selamat istirahat. Besok, ambil langkah pertamamu.
+
+Kami tunggu di link bio ya!
+
+Selamat malam dari @cerdascuan!
+
+#CerdasCuan #GoodNight #LangkahPertama #BesokMulai #SelamatIstirahat`,
+                imagePrompt: `Calming night-time closing design. Crescent moon and stars over a peaceful sleeping city/house. Family sleeping peacefully inside home with protective blue shield/dome above the house. Text "Selamat Istirahat. Besok, Ambil Langkah Pertamamu." in gentle night-time font. Peaceful, reassuring mood with deep blue and golden star accents. Watermark: @cerdascuan at bottom-right corner, semi-transparent white text.`
+            }
+        ];
+
+        const STATE_KEY = 'fb_cerdascuan_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(24, 119, 242, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Caption';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Go To Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt (Watermark: @cerdascuan)</span>${post.imagePrompt}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy Caption</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">1-Click Copy Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
