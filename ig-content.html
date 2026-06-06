@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Content Plan - @petrusjakub</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #e1306c;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #e1306c;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(225, 48, 108, 0.15);
+            border: 1px solid rgba(225, 48, 108, 0.3);
+            color: #e1306c;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(225, 48, 108, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #f09433, #dc2743);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(225, 48, 108, 0.1);
+            color: #e1306c;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(225, 48, 108, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(225, 48, 108, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #e1306c;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #f09433, #dc2743);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Instagram Content Plan</h1>
+        <p class="account">@petrusjakub</p>
+        <p>Full Day Schedule - Rekrut Agen Asuransi</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Quick Jump ke Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Motivasi Pagi",
+                caption: `Bangun pagi, buka HP, cek saldo... masih sama kayak kemarin.
+
+Tapi ada orang yang tiap pagi bangun dengan notifikasi komisi masuk.
+
+Bedanya? Mereka punya BISNIS yang bekerja 24/7.
+
+Kamu juga bisa mulai hari ini. Tanpa modal. Tanpa ribet.
+
+Cek bio ya guys, pelajari caranya sekarang.
+
+#MotivasiPagi #PeluangBisnis #AgenAsuransi #FinancialFreedom #PenghasilanTambahan`,
+                imagePrompt: `Single image post. Sunrise cityscape with a silhouette of a person standing on a rooftop looking at the city with arms open wide. Overlay bold text: "BISNIS YANG BEKERJA 24/7". Warm golden orange tones, motivational vibe. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "06:30",
+                type: "Pain Point",
+                caption: `"Gaji cukup buat hidup, tapi nggak cukup buat MIMPI."
+
+Relate banget kan?
+
+Banyak orang stuck di zona nyaman yang sebenernya nggak nyaman sama sekali.
+
+Kabar baiknya: ada peluang yang bisa kamu mulai HARI INI, tanpa modal, tanpa ninggalin kerjaan.
+
+Link di bio buat info lengkapnya.
+
+#GajiUMR #ZonaNyaman #FinancialFreedom #KarirBaru #PeluangEmas`,
+                imagePrompt: `Comic strip style, 3 panels horizontal. Panel 1: Person looking sad at small paycheck, thought bubble "Cukup buat hidup...". Panel 2: Same person looking at dream board (house, car, vacation) with thought bubble "Tapi nggak cukup buat mimpi". Panel 3: Person sees a glowing door labeled "PELUANG" with excited expression. Clean line art, blue and purple tones. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "07:00",
+                type: "Storytelling",
+                caption: `2 tahun lalu, saya cuma karyawan biasa dengan gaji pas-pasan.
+
+Hari ini? Penghasilan saya 10x lipat dari dulu.
+
+Bukan karena saya jenius.
+Bukan karena punya modal besar.
+
+Tapi karena saya BERANI ambil peluang yang orang lain ragu.
+
+Sekarang giliran kamu. Langkah pertama ada di bio.
+
+Klik link di bio ya guys!
+
+#SuksesStory #PerubahanHidup #AgenAsuransi #DariBiasaJadiLuarBiasa #Inspirasi`,
+                imagePrompt: `Carousel slider (5 slides). Slide 1: "2 Tahun Lalu vs Sekarang" title with split image - left side grey/dull office cubicle, right side bright luxury lifestyle. Slide 2: Timeline graphic showing growth from "Karyawan UMR" to "10x Income". Slide 3: Bold text "Bukan Karena Jenius. Bukan Karena Modal Besar." on dark gradient background. Slide 4: Text "Karena BERANI Ambil Peluang" with rocket illustration. Slide 5: CTA "Sekarang Giliran Kamu!" with arrow pointing down. Modern minimalist design, dark navy to gold gradient. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "07:30",
+                type: "Edukasi",
+                caption: `FAKTA: 80% orang Indonesia BELUM punya asuransi jiwa yang memadai.
+
+Artinya? PASAR MASIH SANGAT BESAR.
+
+Siapa yang mau bantu mereka sekaligus dapat penghasilan besar?
+
+Jadi agen asuransi bukan sekadar jualan.
+Ini MISI SOSIAL + BISNIS yang luar biasa.
+
+Tertarik? Cek bio ya guys.
+
+#FaktaAsuransi #PeluangBesar #BisnisAsuransi #MisiSosial #Indonesia2025`,
+                imagePrompt: `Infographic single image. Large bold statistic "80% Orang Indonesia BELUM Punya Asuransi Jiwa" with pie chart visual (80% red, 20% green). Below: text "= PASAR YANG SANGAT BESAR" with money/growth icons. Clean professional design, white background with navy blue accents. Watermark: @petrusjakub at bottom-right corner, semi-transparent dark text.`
+            },
+            {
+                time: "08:00",
+                type: "Social Proof",
+                caption: `Update tim saya bulan ini:
+
+- 5 orang baru join
+- 3 orang closing di minggu pertama
+- 1 orang langsung dapat komisi 12 juta
+
+Ini BUKAN MLM abal-abal.
+Ini bisnis legal, terdaftar OJK, dengan sistem training yang proven.
+
+Mau gabung tim yang supportive kayak gini?
+
+Link di bio, daftar gratis!
+
+#TimSukses #KomisiAsuransi #OJK #HasilNyata #BisnisTerpercaya`,
+                imagePrompt: `Single image post. Dashboard/scoreboard style graphic showing team achievements: "5 Member Baru", "3 Closing Minggu Pertama", "Komisi 12 Juta" with checkmark icons and celebration confetti elements. Professional green and gold color scheme. Badge icon showing "Terdaftar OJK" at the bottom. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "08:30",
+                type: "Hook Pertanyaan",
+                caption: `Kalau besok kamu di-PHK, apa plan B kamu?
+
+Jangan tunggu sampai kejadian baru panik.
+
+Bangun SIDE INCOME sekarang yang bisa jadi MAIN INCOME nanti.
+
+Caranya? Jadi agen asuransi profesional.
+
+- Modal NOL
+- Training GRATIS
+- Komisi UNLIMITED
+
+Cek bio ya guys buat mulai sekarang.
+
+#PlanB #SideIncome #AntiPHK #PersiapanMasaDepan #AgenProfesional`,
+                imagePrompt: `Comic strip style, 4 panels. Panel 1: Boss handing termination letter to shocked employee "Kamu di-PHK". Panel 2: Person panicking, empty wallet. Panel 3: Split - one path dark (no plan B), one path bright (has side income). Panel 4: Person confidently holding phone showing income notifications, text "Plan B = Agen Asuransi". Bold comic style, contrasting dark vs bright colors. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "09:00",
+                type: "Myth Busting",
+                caption: `"Jadi agen asuransi susah, harus jualan door-to-door."
+
+SALAH BESAR!
+
+Di era digital, kamu bisa closing dari HP.
+Dari rumah. Sambil ngurus anak. Sambil kerja kantoran.
+
+Yang penting: SISTEM + MENTOR yang tepat.
+
+Dan itu yang kami sediakan.
+
+Pelajari caranya, klik link di bio.
+
+#MythBusting #DigitalSelling #WorkFromHome #AgenModern #EraDigital`,
+                imagePrompt: `Carousel slider (3 slides). Slide 1: Big red X over old image of door-to-door salesman, text "MITOS: Harus Jualan Door-to-Door". Slide 2: Green checkmark with modern person on laptop/phone at home, kids playing nearby, text "FAKTA: Closing dari HP, dari Rumah!". Slide 3: Icons showing SISTEM + MENTOR = SUCCESS formula. Clean modern design, contrasting red (myth) vs green (fact) slides. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "09:30",
+                type: "Testimoni",
+                caption: `"Awalnya ragu, takut ditolak terus. Tapi setelah ikut training dan dapat mentor yang sabar, minggu ke-2 langsung closing pertama!"
+
+- Member baru kami
+
+Semua orang sukses pernah ragu di awal.
+Bedanya mereka tetap MULAI.
+
+Kamu kapan mulainya?
+
+Link di bio ya guys!
+
+#Testimoni #MulaiSekarang #BeraniBerubah #ClosingPertama #AgenBaru`,
+                imagePrompt: `Single image testimonial design. Quote card with large quotation marks, testimonial text in elegant font on soft gradient background (light purple to white). Small avatar silhouette with label "Member Baru". Decorative stars and subtle celebration elements. Professional and trustworthy feel. Watermark: @petrusjakub at bottom-right corner, semi-transparent dark text.`
+            },
+            {
+                time: "10:00",
+                type: "Konten Nilai",
+                caption: `3 ALASAN kenapa 2025 adalah waktu TERBAIK jadi agen asuransi:
+
+1. Kesadaran masyarakat soal proteksi naik drastis pasca pandemi
+2. Digital tools bikin prospecting 10x lebih mudah
+3. Komisi dan bonus semakin kompetitif
+
+Jangan sampai kamu ketinggalan momentum ini.
+
+Cek bio ya guys, daftar sekarang GRATIS!
+
+#Trend2025 #PeluangEmas #MomentumTerbaik #AgenAsuransi #Gratis`,
+                imagePrompt: `Carousel slider (4 slides). Slide 1: "3 Alasan 2025 = Waktu TERBAIK" title with golden trophy icon and year "2025" in bold. Slide 2: Graph showing rising awareness post-pandemic with upward arrow. Slide 3: Phone/laptop icons representing digital tools with "10x Lebih Mudah" text. Slide 4: Money growth chart showing competitive commissions, CTA "Jangan Ketinggalan!". Gradient blue to gold theme. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "10:30",
+                type: "Engagement",
+                caption: `Mana yang lebih penting buat kamu?
+
+A) Gaji besar tapi waktu habis di kantor
+B) Penghasilan fleksibel + waktu untuk keluarga
+
+Kalau jawab B, kamu cocok banget jadi agen asuransi.
+
+Serius. Ini bukan basa-basi.
+
+Buktikan sendiri, link di bio!
+
+#WorkLifeBalance #WaktuKeluarga #FleksibelIncome #PilihanHidup #KualitasHidup`,
+                imagePrompt: `Single image poll-style design. Split image: Left side (A) - stressed person in office, grey/blue cold tones, clock showing overtime. Right side (B) - happy person with family at park, warm golden tones, flexible schedule icon. Big "A or B?" text at top. VS symbol in the middle. Engaging and eye-catching. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "11:00",
+                type: "Behind The Scene",
+                caption: `Hari ini:
+07:00 - Meeting tim online
+09:00 - Follow up 3 prospek
+10:00 - Training closing technique
+10:30 - Posting konten IG
+
+Sibuk? IYA.
+Capek? PASTI.
+Worth it? 1000%!
+
+Karena setiap effort hari ini = PASSIVE INCOME besok.
+
+Mau kerja yang hasilnya kerasa? Join kami.
+
+Cek bio ya guys.
+
+#DayInMyLife #BehindTheScene #HustleMode #AgenAsuransi #Produktif`,
+                imagePrompt: `Single image timeline/schedule design. Vertical timeline showing daily activities: 07:00 Meeting (video call icon), 09:00 Follow Up (chat icon), 10:00 Training (book icon), 10:30 Content (phone icon). Clean aesthetic, dark background with neon accent lines connecting each time block. "Worth it 1000%!" bold text at bottom. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "11:30",
+                type: "Income Reveal",
+                caption: `Penghasilan agen asuransi di Indonesia:
+
+Level pemula: 5-15 juta/bulan
+Level menengah: 20-50 juta/bulan
+Level top performer: 100 juta++/bulan
+
+Dan ini BUKAN ceiling. UNLIMITED.
+
+Yang menentukan? USAHA dan KONSISTENSI kamu sendiri.
+
+Mulai dari nol, gratis, tanpa risiko.
+
+Klik link di bio buat daftar!
+
+#PenghasilanAgen #IncomeUnlimited #TanpaRisiko #GratisGabung #TopPerformer`,
+                imagePrompt: `Single image infographic. Staircase/level design showing income levels: Step 1 (green) "Pemula: 5-15 Juta/bulan", Step 2 (blue) "Menengah: 20-50 Juta/bulan", Step 3 (gold) "Top: 100 Juta++/bulan" with rocket at top breaking through ceiling with text "UNLIMITED!". Professional financial design, dark navy background. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break Content",
+                caption: `Lagi istirahat makan siang?
+
+Coba pikir sebentar:
+
+5 tahun lagi, kamu mau masih di posisi yang sama?
+Atau sudah punya kebebasan finansial?
+
+Keputusan HARI INI menentukan masa depan kamu.
+
+1 langkah kecil: pelajari peluangnya. Nggak ada ruginya. Gratis.
+
+Link di bio ya guys!
+
+#LunchBreak #MasaDepan #KeputusanHariIni #LangkahKecil #GratisInfo`,
+                imagePrompt: `Comic strip style, 3 panels. Panel 1: Person eating lunch, scrolling phone mindlessly. Panel 2: Thought bubble appears - split future: left side same old desk in 5 years (grey), right side financial freedom beach/family (colorful). Panel 3: Person puts down phone with determined look, opens browser to learn about the opportunity. Warm lunch-time colors, relatable style. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "12:30",
+                type: "Comparison",
+                caption: `Kerja Kantoran vs Agen Asuransi:
+
+Kantoran:
+- Gaji fixed, naik setahun sekali
+- Jam kerja 9-5 (kadang lembur gratis)
+- Karir tergantung bos
+
+Agen Asuransi:
+- Income UNLIMITED
+- Jam kerja FLEKSIBEL
+- Karir tergantung DIRI SENDIRI
+
+Kalau bisa pilih, pilih yang mana?
+
+Cek bio ya guys buat mulai!
+
+#Perbandingan #KerjaKantoran #AgenVsKantoran #PilihanKarir #BossOfMyLife`,
+                imagePrompt: `Carousel slider (3 slides). Slide 1: Title "Kantoran vs Agen Asuransi" with VS symbol, boxing match style. Slide 2: Left column "Kantoran" with red X icons (Fixed gaji, 9-5, Tergantung bos). Slide 3: Right column "Agen Asuransi" with green checkmark icons (UNLIMITED income, FLEKSIBEL, DIRI SENDIRI) with trophy at bottom. Bold comparison infographic style. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "13:00",
+                type: "Hook Kontroversial",
+                caption: `Unpopular opinion: Ijazah tinggi bukan jaminan penghasilan besar.
+
+Yang jaminan itu:
+- Skill yang relevan
+- Network yang kuat
+- Mindset yang growth
+
+Ketiga hal itu bisa kamu dapatkan GRATIS di bisnis asuransi.
+
+Nggak percaya? Buktikan sendiri.
+
+Klik link di bio.
+
+#UnpopularOpinion #SkillOverDegree #MindsetSukses #NetworkIsPower #BuktikanSendiri`,
+                imagePrompt: `Single image provocative design. Graduation cap with price tag showing "Rp 200 Juta+" crossed out, next to it three glowing icons: Brain (Skill), Network nodes (Network), Rocket (Mindset) with text "= GRATIS di Bisnis Asuransi". Bold controversial headline "Ijazah Bukan Jaminan" at top. Dark edgy design with neon accents. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "13:30",
+                type: "Tips Praktis",
+                caption: `5 Tips dapat CLIENT PERTAMA sebagai agen baru:
+
+1. Mulai dari orang terdekat (EDUKASI bukan jualan)
+2. Share konten edukasi di medsos SETIAP HARI
+3. Dengarkan kebutuhan mereka dulu
+4. Follow up dengan VALUE bukan spam
+5. Konsisten minimal 90 hari
+
+Mau belajar lebih detail? Ada training GRATIS untuk kamu.
+
+Cek bio ya guys!
+
+#TipsAgen #ClientPertama #AgenBaru #TrainingGratis #KonsistensiKunci`,
+                imagePrompt: `Carousel slider (6 slides). Slide 1: Title "5 Tips Dapat Client Pertama" with target/bullseye icon. Slide 2: Tip 1 - people icons with heart, "Edukasi Orang Terdekat". Slide 3: Tip 2 - phone with social media icons, "Share Konten Setiap Hari". Slide 4: Tip 3 - ear icon, "Dengarkan Dulu". Slide 5: Tip 4 - gift/value icon, "Follow Up dengan VALUE". Slide 6: Tip 5 - calendar showing 90 days, "Konsisten 90 Hari" + CTA. Each slide numbered, clean teal and white design. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "14:00",
+                type: "Urgency",
+                caption: `INFO: Kuota training GRATIS bulan ini tinggal beberapa slot!
+
+Yang kamu dapat:
+- Mentoring langsung dari top agent
+- Materi closing yang sudah proven
+- Group support 24/7
+- Akses ke tools digital prospecting
+
+Setelah penuh, harus tunggu bulan depan.
+
+Daftar sekarang, link di bio!
+
+#LimitedSlot #TrainingGratis #DaftarSekarang #JanganSampaiKehabisan #MentorTopAgent`,
+                imagePrompt: `Single image urgency design. Countdown/limited seats visual - auditorium with seats, most marked as "TAKEN" (red), only few remaining (green/glowing). Bold text "KUOTA HAMPIR HABIS!" with timer icon. List of benefits with checkmarks. Red and gold urgency colors, professional layout. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "14:30",
+                type: "Mindset",
+                caption: `Orang sukses dan orang biasa punya 24 jam yang SAMA.
+
+Bedanya?
+
+Orang sukses INVESTASI waktunya.
+Orang biasa HABISKAN waktunya.
+
+Scroll IG 2 jam tanpa tujuan = HABISKAN.
+Belajar bisnis 2 jam = INVESTASI.
+
+Hari ini kamu pilih yang mana?
+
+Mulai investasi waktu kamu, cek bio ya guys!
+
+#MindsetSukses #ManajemenWaktu #InvestasiWaktu #24JamSama #ProduktifHariIni`,
+                imagePrompt: `Comic strip style, 4 panels. Panel 1: Clock showing 24 hours for everyone equally. Panel 2: Person A scrolling phone on couch endlessly (grey tones). Panel 3: Person B studying, making calls, building business (golden tones). Panel 4: Fast forward - Person A same position, Person B on stage receiving award. Before/after contrast. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "15:00",
+                type: "FAQ",
+                caption: `FAQ paling sering ditanya:
+
+Q: Perlu pengalaman?
+A: TIDAK. Training dari nol.
+
+Q: Perlu modal?
+A: TIDAK. Gratis 100%.
+
+Q: Bisa sambil kerja kantoran?
+A: BISA. Fleksibel banget.
+
+Q: Kapan mulai dapat uang?
+A: Tergantung effort. Ada yang minggu pertama sudah closing.
+
+Masih ragu? Tanya langsung aja.
+
+Link di bio ya guys!
+
+#FAQ #TanpaModal #TanpaPengalaman #BisaSambilKerja #TanyaLangsung`,
+                imagePrompt: `Carousel slider (5 slides). Slide 1: "FAQ - Pertanyaan Paling Sering" title with question mark icons. Slide 2: Q&A card "Perlu pengalaman?" - "TIDAK!" with X icon on experience. Slide 3: Q&A card "Perlu modal?" - "GRATIS 100%!" with free tag icon. Slide 4: Q&A card "Bisa sambil kerja?" - "BISA! Fleksibel" with flexible schedule icon. Slide 5: Q&A card "Kapan dapat uang?" - "Minggu pertama bisa closing!" with money icon + CTA. Clean Q&A card design, alternating colors. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "15:30",
+                type: "Future Pacing",
+                caption: `Bayangkan 1 tahun dari sekarang:
+
+- Penghasilan 30-50 juta/bulan
+- Waktu fleksibel untuk keluarga
+- Bisa liburan tanpa mikir budget
+- Punya tim yang solid dan supportive
+- Diakui sebagai profesional
+
+Semua itu MUNGKIN.
+Tapi hanya kalau kamu MULAI HARI INI.
+
+Langkah pertama ada di bio.
+
+Klik link di bio ya guys!
+
+#Visualisasi #1TahunLagi #MulaiHariIni #ImpianJadiNyata #LangkahPertama`,
+                imagePrompt: `Single image visualization/dream board style. Split design: Left "SEKARANG" (grey, small apartment, crowded commute) vs Right "1 TAHUN LAGI" (colorful, luxury items: nice house, family vacation photo, flexible schedule, team celebration). Arrow pointing from left to right with text "MULAI HARI INI". Vision board aesthetic, aspirational. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "16:00",
+                type: "Challenge",
+                caption: `CHALLENGE untuk kamu yang baca ini:
+
+Hari ini, lakukan 1 hal yang bikin kamu TAKUT.
+
+- Daftar peluang bisnis baru? DO IT.
+- Chat orang yang kamu kagumi? DO IT.
+- Keluar dari zona nyaman? DO IT.
+
+Fear = tanda kamu sedang BERTUMBUH.
+
+Langkah pertama yang bisa kamu ambil sekarang:
+
+Cek bio ya guys!
+
+#ChallengeAccepted #ZonaNyaman #Growth #BeraniBerubah #DoItNow`,
+                imagePrompt: `Single image bold challenge design. Person jumping over a cliff/gap labeled "ZONA NYAMAN" to the other side labeled "GROWTH". Lightning bolt background, energetic action style. Bold text "DO IT TODAY!" with challenge badge icon. High contrast, red/orange energy colors on dark background. Motivational poster style. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "16:30",
+                type: "Real Result",
+                caption: `Update dari tim kami minggu ini:
+
+Member A: closing 3 polis, komisi 15 juta
+Member B: dapat 8 leads baru dari Instagram
+Member C: baru join 5 hari, sudah set meeting pertama
+
+Ini REAL RESULT. Bukan janji kosong. Bukan teori.
+
+Kamu bisa jadi yang selanjutnya.
+
+Link di bio buat join tim kami!
+
+#RealResult #BukanJanjiKosong #HasilNyata #TimKami #KamuSelanjutnya`,
+                imagePrompt: `Single image results showcase. Three achievement cards stacked: Card A (gold) "3 Polis - Komisi 15 Juta", Card B (silver) "8 Leads Baru dari IG", Card C (bronze) "5 Hari Join - Meeting Pertama!". Confetti and celebration elements. "REAL RESULTS" stamp at top. Professional achievement board design. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "17:00",
+                type: "After Work Hook",
+                caption: `Baru pulang kerja? Capek?
+
+Sekarang jujur sama diri sendiri:
+
+Sampai kapan mau kayak gini terus?
+Bangun-kerja-pulang-tidur. REPEAT.
+
+Ada cara lain. Cara yang bikin kamu kerja UNTUK DIRI SENDIRI.
+
+Tanpa bos yang ngatur.
+Tanpa gaji yang stuck.
+Tanpa karir yang mentok.
+
+Pelajari caranya, klik link di bio ya guys!
+
+#PulangKerja #JujurSamaDiri #AdaCaraLain #BosUntukDiriSendiri #BreakTheCycle`,
+                imagePrompt: `Comic strip style, 4 panels. Panel 1: Exhausted person on crowded train/bus after work, grey tones. Panel 2: Thought bubble showing endless loop: alarm-work-commute-sleep-repeat with circular arrows. Panel 3: Person sees bright alternative path - working from home, happy, free. Panel 4: Person makes decision, stepping through a bright door. Contrast between dull routine and bright freedom. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "17:30",
+                type: "Edukasi Produk",
+                caption: `Tahukah kamu?
+
+Biaya rumah sakit 1 malam: 5-10 JUTA
+Biaya ICU per hari: 20-50 JUTA
+Biaya operasi jantung: 300-800 JUTA
+
+Dan 70% orang Indonesia BAYAR SENDIRI karena tidak punya asuransi yang memadai.
+
+Ini masalah NYATA yang butuh solusi.
+
+KAMU bisa jadi bagian dari solusi itu + dapat penghasilan besar.
+
+Cek bio ya guys buat info lengkap!
+
+#FaktaKesehatan #BiayaRS #ProteksiKeluarga #SolusiAsuransi #JadiBagianSolusi`,
+                imagePrompt: `Carousel slider (4 slides). Slide 1: Hospital building with price tags floating around it, title "Fakta Biaya Kesehatan Indonesia". Slide 2: Price breakdown infographic - "1 Malam RS: 5-10 Juta", "ICU/hari: 20-50 Juta", "Operasi Jantung: 300-800 Juta" with hospital icons. Slide 3: Shocked face statistic "70% Bayar Sendiri!" with empty wallet visual. Slide 4: Hero visual - "KAMU Bisa Jadi Solusi + Dapat Penghasilan" with shield/protection icon. Medical blue and white theme. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "18:00",
+                type: "Evening CTA",
+                caption: `Sebelum scroll lebih jauh, STOP sebentar.
+
+Kamu udah habiskan berapa JAM hari ini di HP?
+
+Gimana kalau waktu itu kamu pakai untuk belajar sesuatu yang bisa MENGUBAH HIDUP kamu?
+
+Cuma butuh 5 menit buat baca info peluangnya.
+5 menit yang bisa jadi turning point.
+
+Link di bio. Sekarang.
+
+#StopScroll #5Menit #TurningPoint #UbahHidupmu #SekarangAtauKapan`,
+                imagePrompt: `Single image attention-grab design. Giant STOP hand sign in red, with phone screen showing infinite scroll being interrupted. Timer showing "5 MENIT" that could change everything. Split: left side endless scroll (grey/wasted), right side bright "5 Menit = Turning Point" with lightbulb. Bold disruptive design. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "18:30",
+                type: "Soft CTA",
+                caption: `Aku nggak bisa paksa kamu untuk berubah.
+Aku nggak bisa paksa kamu untuk ambil peluang ini.
+
+Tapi aku bisa TUNJUKKAN jalannya.
+
+Sisanya? Keputusan ada di tangan KAMU.
+
+Yang pasti: 1 tahun dari sekarang, kamu akan berterima kasih atau menyesal.
+
+Pilih yang mana?
+
+Klik link di bio ya guys!
+
+#KeputusanKamu #SekarangAtauMenyesal #AmbilPeluang #TunjukkanJalan #1TahunLagi`,
+                imagePrompt: `Single image emotional design. Two roads diverging in a forest (Robert Frost style). Left path dark and leads to regret (person looking back sadly). Right path bright, golden, leads to success (person celebrating). Road sign at fork: "SEKARANG" pointing right, "MENYESAL" pointing left. Atmospheric, cinematic lighting. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "19:00",
+                type: "Carousel Idea",
+                caption: `SAVE POST INI!
+
+Cara memulai karir agen asuransi dari NOL:
+
+Step 1: Daftar GRATIS (tanpa syarat ribet)
+Step 2: Ikut training & dapat mentor pribadi
+Step 3: Praktik dengan script yang sudah proven
+Step 4: Closing pertama & terima komisi
+Step 5: Bangun tim & scale up penghasilan
+
+Simple? IYA.
+Mudah? Butuh effort.
+Worth it? SANGAT.
+
+Mulai dari Step 1, cek bio ya guys!
+
+#SaveThis #StepByStep #KarirAgen #MulaiDariNol #PanduanLengkap`,
+                imagePrompt: `Carousel slider (6 slides). Slide 1: "SAVE INI! Cara Mulai dari NOL" with bookmark icon, eye-catching title. Slide 2: Step 1 - Registration form icon "Daftar GRATIS". Slide 3: Step 2 - Mentor and student icon "Training + Mentor Pribadi". Slide 4: Step 3 - Script/document icon "Praktik dengan Script Proven". Slide 5: Step 4 - Money/celebration icon "Closing Pertama!". Slide 6: Step 5 - Team pyramid icon "Bangun Tim & Scale Up" + CTA. Each step numbered with progress dots, gradient navy to gold. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "19:30",
+                type: "Storytelling Relatable",
+                caption: `Dulu saya diketawain waktu bilang mau jadi agen asuransi.
+
+"Ngapain? Susah itu."
+"Paling juga nggak laku."
+"Mending kerja kantoran aja yang pasti."
+
+Sekarang? Yang ketawa dulu, sekarang nanya: "Gimana caranya join?"
+
+Moral: Jangan dengarkan orang yang belum pernah MENCOBA.
+
+Buktikan sendiri. Link di bio!
+
+#DiketawainDulu #BuktikanHasil #LastLaughWins #JanganDengarkan #ProveThem`,
+                imagePrompt: `Comic strip style, 4 panels. Panel 1: Group of people laughing at main character, speech bubbles "Susah itu!", "Nggak laku!". Panel 2: Main character working hard alone, determined face. Panel 3: Main character on stage/podium with success, those who laughed watching from audience. Panel 4: Same people now asking "Gimana caranya join?" with sheepish expressions. Dramatic transformation story, empowering. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "20:00",
+                type: "Direct CTA",
+                caption: `Kalau kamu baca post ini sampai sini, artinya kamu SERIUS.
+
+Kamu bukan orang yang cuma scroll tanpa action.
+
+Jadi ini langkah selanjutnya:
+
+1. Klik link di bio
+2. Isi form sederhana (cuma 30 detik)
+3. Tunggu dihubungi tim kami
+4. Mulai perjalanan baru kamu
+
+Sesimple itu. Tanpa biaya. Tanpa risiko.
+
+Cek bio ya guys, sekarang!
+
+#ActionTaker #LangkahSelanjutnya #DaftarSekarang #TanpaBiaya #MulaiSekarang`,
+                imagePrompt: `Carousel slider (4 slides). Slide 1: "Kamu SERIUS? Ini Langkahnya:" with pointing finger icon, premium dark design. Slide 2: Step 1-2 with phone mockup showing "Klik Bio" and simple form. Slide 3: Step 3-4 with chat notification "Tim kami menghubungi kamu!" and handshake icon. Slide 4: Big bold "MULAI SEKARANG" with arrow, "Tanpa Biaya - Tanpa Risiko" badges. Direct, clean, conversion-focused design. Watermark: @petrusjakub on each slide at bottom-right corner, semi-transparent white text.`
+            },
+            {
+                time: "20:30",
+                type: "Night Closer",
+                caption: `Besok pagi kamu punya 2 pilihan:
+
+1. Bangun, scroll medsos, kerja, pulang, tidur. REPEAT selamanya.
+2. Bangun dengan TUJUAN baru. Membangun bisnis yang mengubah hidup.
+
+Malam ini, ambil keputusan.
+
+Besok, game berubah.
+
+Daftar malam ini, link di bio ya guys.
+
+Selamat malam, calon top agent!
+
+#NightMotivation #BesokBerubah #TopAgent #KeputusanMalamIni #GameChanger`,
+                imagePrompt: `Single image night motivation design. Night sky with moon, person standing at crossroads under starlight. Two paths illuminated: Path 1 (dim, circular, hamster wheel icon) labeled "REPEAT". Path 2 (bright, upward, stars) labeled "GAME BERUBAH". Inspirational text "Malam Ini, Ambil Keputusan" at top. "Selamat Malam, Calon Top Agent" at bottom. Dreamy, cinematic night atmosphere. Watermark: @petrusjakub at bottom-right corner, semi-transparent white text.`
+            }
+        ];
+
+        const STATE_KEY = 'ig_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(225, 48, 108, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = 'Copy Image Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Quick Jump ke Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt (Watermark: @petrusjakub)</span>${post.imagePrompt}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">Copy Image Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Sembunyikan</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
