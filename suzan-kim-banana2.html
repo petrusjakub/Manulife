@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Suzan Kim — Daily Content Pack (Banana 2)</title>
+<style>
+  :root{
+    --bg:#0f0d15;
+    --card:#1a1726;
+    --card2:#221d33;
+    --accent:#ffd54a;
+    --accent2:#ff7eb3;
+    --green:#3ddc97;
+    --text:#ece8f5;
+    --muted:#9b93b3;
+    --line:#2e2940;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
+    background:radial-gradient(1200px 600px at 80% -10%,#2a1f3d 0%,var(--bg) 55%);
+    color:var(--text);
+    line-height:1.55;
+    padding:24px 16px 80px;
+  }
+  .wrap{max-width:1180px;margin:0 auto;}
+
+  header.hero{
+    text-align:center;
+    padding:28px 20px 20px;
+    margin-bottom:10px;
+  }
+  header.hero h1{
+    font-size:34px;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    letter-spacing:.5px;
+  }
+  header.hero p{color:var(--muted);margin-top:6px;font-size:15px;}
+  .pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:14px;}
+  .pill{
+    background:var(--card2);border:1px solid var(--line);
+    padding:6px 14px;border-radius:999px;font-size:13px;color:var(--text);
+  }
+  .pill b{color:var(--accent);}
+
+  .ref{
+    background:linear-gradient(135deg,#241a36,#1a1726);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:20px;
+    margin:18px 0 28px;
+  }
+  .ref h2{font-size:18px;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+  .ref .copytext{
+    background:#0c0a12;border:1px dashed #3a3352;border-radius:12px;
+    padding:14px;font-size:13.5px;color:#d8d2ec;white-space:pre-wrap;font-family:ui-monospace,Menlo,Consolas,monospace;
+  }
+  .tip{font-size:13px;color:var(--muted);margin-top:12px;border-left:3px solid var(--accent);padding-left:10px;}
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+    gap:18px;
+  }
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:18px;
+    display:flex;flex-direction:column;gap:14px;
+    transition:transform .15s ease,border-color .15s ease;
+  }
+  .card:hover{transform:translateY(-3px);border-color:#463c66;}
+  .card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .time{
+    font-size:22px;font-weight:700;color:var(--accent);
+    display:flex;align-items:center;gap:8px;
+  }
+  .tag{
+    font-size:11px;padding:4px 10px;border-radius:999px;font-weight:600;
+  }
+  .tag.day{background:rgba(255,213,74,.15);color:var(--accent);border:1px solid rgba(255,213,74,.3);}
+  .tag.home{background:rgba(255,126,179,.15);color:var(--accent2);border:1px solid rgba(255,126,179,.3);}
+  .tag.sleep{background:rgba(61,220,151,.15);color:var(--green);border:1px solid rgba(61,220,151,.3);}
+  .scene{font-size:15px;font-weight:600;color:#fff;}
+
+  .label{font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+  .box{position:relative;}
+  .copytext{
+    background:#0c0a12;border:1px solid #2c2740;border-radius:12px;
+    padding:12px 12px 12px;font-size:13px;color:#cfc8e6;white-space:pre-wrap;
+    font-family:ui-monospace,Menlo,Consolas,monospace;max-height:215px;overflow:auto;
+  }
+  .caption .copytext{font-family:'Segoe UI',sans-serif;color:#e9e3f7;font-size:13.5px;}
+  .copy-btn{
+    margin-top:8px;width:100%;
+    background:linear-gradient(90deg,var(--accent),var(--accent2));
+    color:#1a1020;border:none;border-radius:10px;
+    padding:10px;font-size:13.5px;font-weight:700;cursor:pointer;
+    transition:opacity .15s ease,transform .1s ease;
+  }
+  .copy-btn:hover{opacity:.92;}
+  .copy-btn:active{transform:scale(.98);}
+  .copy-btn.copied{background:var(--green);color:#072017;}
+  .copy-btn.small{background:#2a2440;color:var(--text);margin-top:8px;}
+  .copy-btn.small.copied{background:var(--green);color:#072017;}
+
+  .pin{
+    display:inline-flex;align-items:center;gap:8px;
+    background:#e60023;color:#fff;text-decoration:none;
+    padding:9px 14px;border-radius:10px;font-size:13.5px;font-weight:600;
+    transition:opacity .15s ease;
+  }
+  .pin:hover{opacity:.9;}
+
+  footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:34px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="hero">
+    <h1>✨ Suzan Kim — Daily Content Pack</h1>
+    <p>AI Influencer · 28 th · Freelancer · Anak kost Jakarta · free-life vibes</p>
+    <div class="pills">
+      <span class="pill">📅 <b>Sabtu</b> — Libur kerja</span>
+      <span class="pill">⏰ Posting tiap <b>2 jam</b></span>
+      <span class="pill">👕 Outfit hari <b>09:00–17:00</b></span>
+      <span class="pill">🏠 Outfit rumah <b>17:00–00:00</b></span>
+      <span class="pill">🤖 Engine: <b>Nano Banana 2</b></span>
+    </div>
+  </header>
+
+  <!-- CHARACTER REFERENCE -->
+  <section class="ref">
+    <h2>🧬 Character Reference — WAJIB konsisten di tiap gambar</h2>
+    <div class="copytext" id="charRef">Photorealistic portrait of "Suzan Kim" — a 28-year-old Korean–Indonesian woman. Long straight dark-brown hair with soft caramel highlights, side-parted. Warm almond-shaped brown eyes, soft "clean girl" natural makeup, fuller glossy lips, small beauty mark under the left eye, fair glowing skin with realistic texture and subtle pores. Slim toned figure, height ~168cm, soft confident smile. IMPORTANT: keep the EXACT same face, features and identity in every image. Render in realistic candid Instagram lifestyle style.</div>
+    <p class="tip"><b>Tips konsistensi:</b> Generate gambar pertama, lalu pakai output itu sebagai <b>reference image</b> di Nano Banana 2 untuk semua prompt berikutnya. Tempel Character Reference di atas + Prompt scene tiap post. Tambahkan aspek rasio <b>4:5</b> atau <b>9:16</b> untuk feed/story.</p>
+    <button class="copy-btn" onclick="copyBox(this,'charRef')">📋 Copy Character Reference</button>
+  </section>
+
+  <!-- CARDS -->
+  <div class="grid" id="grid"></div>
+
+  <footer>
+    Dibuat untuk workflow AI Influencer — Suzan Kim · Edit prompt/caption sesuai feel kamu sebelum posting 💛
+  </footer>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const charRef = document.getElementById('charRef').innerText;
+
+const posts = [
+  {
+    time:"07:00", tag:"sleep", tagText:"Outfit Tidur",
+    scene:"Bangun tidur malas-malasan di kost",
+    prompt:`Scene: Saturday early morning, Suzan just woke up, lying and lazily stretching on a cozy unmade bed inside a small aesthetic Jakarta kost room. Soft warm sunlight streaming through sheer white curtains, small plants on the windowsill, warm fairy lights, a few books on the bedside table. Outfit: oversized plain white cotton t-shirt as sleepwear, bare legs tucked under a soft beige blanket, slightly messy bedhead hair, fresh bare-faced look with minimal makeup. Mood: sleepy, soft, intimate slow-morning vibe. Selfie/POV angle. Shot on iPhone 15 Pro, candid lifestyle photo, soft natural morning light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"korean girl waking up in bed oversized white tshirt morning aesthetic",
+    caption:`Pagi-pagi udah kangen? 🥱 Aku baru aja melek nih, masih anget-angetnya kasur… weekend gini enaknya mager bareng siapa ya? 😏☀️\n\n#goodmorning #kostlife #weekendvibes #morningmood`
+  },
+  {
+    time:"09:00", tag:"day", tagText:"Outfit Hari",
+    scene:"Bikin kopi sendiri di kost",
+    prompt:`Scene: late Saturday morning, Suzan standing in a small cozy kost kitchenette making pour-over coffee, soft daylight, minimalist shelves with mugs and a small plant in the background. She is holding a ceramic mug, looking at the camera with a warm smile. Outfit: fitted white ribbed tank top tucked into light-blue high-waisted denim shorts, delicate thin gold necklace and small hoop earrings, hair down and softly styled, light natural makeup. Mood: fresh, cheerful, cozy free-life vibe. Shot on iPhone 15 Pro, candid lifestyle photo, natural light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"white ribbed tank top denim shorts outfit coffee morning aesthetic",
+    caption:`Belum afdol kalau hari belum dimulai sama kopi ☕ Bikin sendiri di kost, tapi rasanya jadi lebih enak kalau ada yang nemenin 👀 Mau secangkir? 😉\n\n#coffeetime #morningroutine #freelancerlife #ootd`
+  },
+  {
+    time:"11:00", tag:"day", tagText:"Outfit Hari",
+    scene:"Brunch di café aesthetic",
+    prompt:`Scene: brunch at an aesthetic minimalist Jakarta café, Suzan sitting by a large window with hanging plants and warm light, a flat white and fluffy pancakes on a marble table. Candid moment, laughing softly while holding the coffee cup. Outfit: same fitted white ribbed tank top + light-blue high-waisted denim shorts, thin gold necklace, hair down. Mood: relaxed weekend brunch, cozy and bright. Shot on Sony A7 III 35mm, candid lifestyle photo, soft window light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"aesthetic cafe brunch jakarta minimalist window seat",
+    caption:`Brunch date… tapi sendirian 🥞🤭 Ada yang mau jadi 'tebengan' makan aku? Tempatnya secakep ini, sayang kalau cuma berdua sama kamera 😌📸\n\n#brunch #cafejakarta #weekendmood #cafehopping`
+  },
+  {
+    time:"13:00", tag:"day", tagText:"Outfit Hari",
+    scene:"Jalan-jalan sore di kota",
+    prompt:`Scene: early afternoon, Suzan walking along a sunny Jakarta street near a boutique, candid full-body street-style shot mid-stride looking back over her shoulder. Carrying a beige canvas tote bag, wearing trendy sunglasses pushed up on her head. Outfit: same white ribbed tank top + light-blue high-waisted denim shorts + clean white sneakers, thin gold necklace. Mood: confident, playful, free-spirited city walk. Shot on iPhone 15 Pro, candid street photography, bright natural sunlight, realistic skin texture, vertical 4:5.`,
+    pin:"korean street style ootd tank top denim shorts white sneakers tote bag",
+    caption:`Jalan-jalan sore tanpa tujuan, yang penting outfitnya niat 😎🛍️ Kira-kira pantes nggak kalau aku ajak kamu muter-muter Jakarta? 💁‍♀️\n\n#ootd #streetstyle #jakarta #weekend`
+  },
+  {
+    time:"15:00", tag:"day", tagText:"Outfit Hari",
+    scene:"Me-time nulis jurnal di café",
+    prompt:`Scene: cozy café corner in the afternoon, Suzan doing relaxed me-time — writing in a journal with an iced matcha latte beside her, soft golden afternoon light through the window, plants and warm wood tones. She glances up at the camera with a gentle smile. Outfit: same white ribbed tank top + light-blue denim shorts, hair down, light makeup. Mood: calm, dreamy, soft freelancer free-life energy. Shot on Sony A7 III 50mm, candid lifestyle photo, warm afternoon light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"cafe matcha journaling aesthetic afternoon me time",
+    caption:`Me time itu wajib, walaupun freelancer susah lepas dari kerjaan 😅 Sore ini aku cuma mau nulis-nulis sambil ngeliatin orang lewat… atau ngeliatin kamu? 👀💚\n\n#metime #matcha #cafehopping #freelancerlife`
+  },
+  {
+    time:"17:00", tag:"home", tagText:"Outfit Rumah",
+    scene:"Golden hour di kamar kost",
+    prompt:`Scene: golden hour back at the kost, Suzan sitting on the floor by the window, warm orange sunset light washing over her, sheer curtains glowing, small plants and fairy lights around. Dreamy, soft, intimate atmosphere, looking softly toward the window. Outfit (HOME): soft oversized cream knit sweater slightly off one shoulder + comfy shorts, cozy ankle socks, hair in a loose low bun, dewy natural makeup. Shot on iPhone 15 Pro, candid lifestyle photo, golden hour light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"cozy cream knit sweater home outfit golden hour bedroom aesthetic",
+    caption:`Golden hour selalu bikin baper 🌅 Pulang ke kost, ganti baju nyaman, terus tiba-tiba kepikiran kamu… eh 🙈 Sunset-nya cantik atau aku ya? 😚\n\n#goldenhour #homevibes #cozy #kostlife`
+  },
+  {
+    time:"19:00", tag:"home", tagText:"Outfit Rumah",
+    scene:"Masak ala anak kost",
+    prompt:`Scene: evening at the kost, Suzan cooking a simple cozy meal (instant ramen with egg) on a small portable stove, steam rising from the pot, warm yellow lamp light, cute kitchenware around. She looks at the camera mid-cook with a playful smile holding chopsticks. Outfit: same soft oversized cream knit sweater + comfy shorts, hair in a loose bun. Mood: warm, homey, intimate evening. Shot on iPhone 15 Pro, candid lifestyle photo, warm indoor lamp light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"anak kost cooking ramen cozy night aesthetic warm light",
+    caption:`Masak ala-ala anak kost 🍜✨ Nggak mewah, tapi dijamin bikin nagih — kayak yang masak 😏 Mau aku suapin? 🥢\n\n#dinner #kostlife #homemade #nightvibes`
+  },
+  {
+    time:"21:00", tag:"home", tagText:"Outfit Rumah",
+    scene:"Skincare malam glowing",
+    prompt:`Scene: night skincare routine in front of a vanity mirror with a soft LED ring light, Suzan gently applying serum/patting in moisturizer, glowing dewy skin, small skincare bottles on the table, cozy warm bedroom in the background. Soft, calm, self-care mood, looking at her reflection. Outfit: same soft oversized cream knit sweater, hair pushed back with a soft headband. Shot on iPhone 15 Pro, candid lifestyle photo, soft warm light, realistic glowing skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"korean skincare night routine vanity ring light aesthetic glowing skin",
+    caption:`Self-care time biar glowing terus buat kamu… eh, buat diri sendiri ding 💆‍♀️✨ Rahasia kulit mulus? Rajin skincare sama rajin senyum ke aku 😘\n\n#skincare #nightroutine #glowup #selfcare`
+  },
+  {
+    time:"23:00", tag:"home", tagText:"Outfit Rumah",
+    scene:"Winding down sebelum tidur",
+    prompt:`Scene: late night winding down, Suzan lying cozy in bed under a soft beige blanket, dim warm fairy lights and a small bedside lamp, softly scrolling her phone, sleepy relaxed expression looking toward the camera. Cozy intimate late-night atmosphere. Outfit: same soft oversized cream knit sweater, hair loose. Shot on iPhone 15 Pro, candid lifestyle photo, dim warm low light, realistic skin texture, shallow depth of field, vertical 4:5.`,
+    pin:"cozy bed night fairy lights aesthetic sleepy sweater",
+    caption:`Udah malem, tapi mata masih betah melek 🌙 Lagi mikirin sesuatu… atau seseorang? 🤭 Met bobo ya, jangan lupa mimpiin aku 😴💕\n\n#goodnight #latenight #sweetdreams #cozynight`
+  }
+];
+
+/* ============ RENDER ============ */
+const grid = document.getElementById('grid');
+posts.forEach((p,i)=>{
+  const pinUrl = "https://www.pinterest.com/search/pins/?q=" + encodeURIComponent(p.pin);
+  const card = document.createElement('div');
+  card.className = 'card';
+  card.innerHTML = `
+    <div class="card-head">
+      <div class="time">🕒 ${p.time}</div>
+      <span class="tag ${p.tag}">${p.tagText}</span>
+    </div>
+    <div class="scene">${p.scene}</div>
+
+    <div class="box">
+      <div class="label">🤖 Prompt Nano Banana 2</div>
+      <div class="copytext" id="prompt-${i}">${escapeHtml(charRef + "\n\n" + p.prompt)}</div>
+      <button class="copy-btn" onclick="copyBox(this,'prompt-${i}')">📋 Copy Prompt</button>
+    </div>
+
+    <div class="box">
+      <div class="label">📌 Referensi Outfit / Latar</div>
+      <a class="pin" href="${pinUrl}" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.08 3.16 9.41 7.62 11.16-.1-.95-.2-2.4.04-3.44.22-.93 1.4-5.94 1.4-5.94s-.36-.72-.36-1.78c0-1.67.97-2.92 2.18-2.92 1.03 0 1.52.77 1.52 1.7 0 1.03-.66 2.58-1 4.01-.28 1.2.6 2.18 1.79 2.18 2.15 0 3.8-2.27 3.8-5.54 0-2.9-2.08-4.92-5.05-4.92-3.44 0-5.46 2.58-5.46 5.25 0 1.04.4 2.16.9 2.76.1.12.11.22.08.34l-.33 1.37c-.05.22-.18.27-.4.16-1.5-.7-2.44-2.89-2.44-4.65 0-3.78 2.75-7.26 7.92-7.26 4.16 0 7.39 2.96 7.39 6.92 0 4.13-2.6 7.45-6.22 7.45-1.21 0-2.35-.63-2.74-1.38l-.75 2.84c-.27 1.04-1 2.35-1.49 3.15C9.57 23.81 10.76 24 12 24c6.63 0 12-5.37 12-12S18.63 0 12 0z"/></svg>
+        Cari di Pinterest
+      </a>
+    </div>
+
+    <div class="box caption">
+      <div class="label">✍️ Caption (engaging)</div>
+      <div class="copytext" id="cap-${i}">${escapeHtml(p.caption)}</div>
+      <button class="copy-btn small" onclick="copyBox(this,'cap-${i}')">📋 Copy Caption</button>
+    </div>
+  `;
+  grid.appendChild(card);
+});
+
+/* ============ COPY ============ */
+function copyBox(btn,id){
+  const el = id ? document.getElementById(id) : btn.parentElement.querySelector('.copytext');
+  const text = el.innerText;
+  navigator.clipboard.writeText(text).then(()=>{
+    const old = btn.innerHTML;
+    btn.innerHTML = '✓ Tersalin!';
+    btn.classList.add('copied');
+    setTimeout(()=>{btn.innerHTML=old;btn.classList.remove('copied');},1500);
+  }).catch(()=>{
+    // fallback
+    const ta=document.createElement('textarea');ta.value=text;document.body.appendChild(ta);
+    ta.select();document.execCommand('copy');ta.remove();
+    btn.innerHTML='✓ Tersalin!';setTimeout(()=>{btn.innerHTML='📋 Copy';},1500);
+  });
+}
+
+function escapeHtml(s){
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
