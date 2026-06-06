@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Content Calendar Threads - @ngobras.santuy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 720px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            color: #a0a0a0;
+            font-size: 0.95rem;
+            margin-bottom: 12px;
+        }
+
+        .header .account {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .strategy-box {
+            background: rgba(255, 193, 7, 0.08);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .strategy-box h3 {
+            color: #ffc107;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .strategy-box p {
+            color: #ccc;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        .strategy-box ul {
+            list-style: none;
+            margin-top: 10px;
+        }
+
+        .strategy-box ul li {
+            padding: 4px 0;
+            font-size: 0.88rem;
+            color: #ccc;
+        }
+
+        .strategy-box ul li::before {
+            content: "✅ ";
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.15);
+        }
+
+        .post-number {
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .post-time {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .post-time .time {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+            padding: 4px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-time .type {
+            color: #a0a0a0;
+            font-size: 0.78rem;
+        }
+
+        .post-time .interval {
+            color: #4caf50;
+            font-size: 0.75rem;
+            margin-left: auto;
+            background: rgba(76, 175, 80, 0.15);
+            padding: 3px 10px;
+            border-radius: 6px;
+        }
+
+        .caption {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            color: #e8e8e8;
+        }
+
+        .copy-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            opacity: 0.9;
+            transform: scale(1.01);
+        }
+
+        .copy-btn:active {
+            transform: scale(0.98);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+        }
+
+        .copy-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            font-size: 0.8rem;
+        }
+
+        .tips-section {
+            background: rgba(76, 175, 80, 0.08);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+
+        .tips-section h3 {
+            color: #4caf50;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+
+        .tips-section p {
+            color: #ccc;
+            font-size: 0.88rem;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+
+            .header h1 {
+                font-size: 1.4rem;
+            }
+
+            .post-card {
+                padding: 18px;
+            }
+
+            .caption {
+                font-size: 0.88rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Content Calendar Threads</h1>
+            <p class="subtitle">1 Day Full Content Plan - Lead Generation Asuransi</p>
+            <span class="account">@ngobras.santuy</span>
+        </div>
+
+        <div class="strategy-box">
+            <h3>Strategi Posting Aman (Anti-Spam)</h3>
+            <p>Rekomendasi jeda antar posting: <strong>45-60 menit</strong> untuk hasil optimal yang aman.</p>
+            <ul>
+                <li>Jeda 30 menit = agak agresif, bisa untuk hari tertentu saja</li>
+                <li>Jeda 45-60 menit = sweet spot, terlihat natural & aman</li>
+                <li>Jeda 1-2 jam = sangat aman, cocok untuk akun baru</li>
+                <li>Variasi jeda supaya tidak terdeteksi pattern bot</li>
+                <li>Selingi dengan reply/engage akun lain di antara posting</li>
+            </ul>
+        </div>
+
+        <div class="tips-section">
+            <h3>Tips Engagement Tambahan</h3>
+            <p>Sebelum posting pertama, scroll & reply 5-10 threads orang lain dulu (15 menit). Setelah setiap posting, balas 2-3 komentar di threads orang lain. Ini bikin akun terlihat natural & boost reach.</p>
+        </div>
+
+        <!-- POST 1 -->
+        <div class="post-card">
+            <div class="post-number">1</div>
+            <div class="post-time">
+                <span class="time">07:00</span>
+                <span class="type">Hook Pagi - Awareness</span>
+            </div>
+            <div class="caption" id="caption-1">Gue dulu mikir: "Ngapain sih bayar asuransi, buang duit aja."
+
+Sampe suatu hari temen gue masuk RS. Biaya operasi 85 juta. Dia gak punya apa-apa.
+
+Keluarganya harus jual motor + ngutang sana-sini.
+
+Sekarang gue ngerti kenapa orang bilang "asuransi itu bukan buat lo, tapi buat orang yang lo sayang."
+
+Yang mau mulai proteksi dari sekarang, cek sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+Jangan tunggu nyesel dulu baru gerak. 🙏</div>
+            <button class="copy-btn" onclick="copyCaption(1)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 2 -->
+        <div class="post-card">
+            <div class="post-number">2</div>
+            <div class="post-time">
+                <span class="time">08:00</span>
+                <span class="type">Edukasi - Mindset Shift</span>
+                <span class="interval">+1 jam</span>
+            </div>
+            <div class="caption" id="caption-2">Fakta yang bikin gue melek:
+
+Rata-rata orang Indonesia spend 15-20rb/hari buat kopi.
+Tapi ngerasa "mahal" bayar 15rb/hari buat proteksi jiwa + kesehatan.
+
+Kopi abis diminum = hilang.
+Proteksi = keluarga lo aman kalau terjadi sesuatu.
+
+Bukan soal mampu atau nggak. Soal prioritas.
+
+Mau tau proteksi yang terjangkau tapi coverage-nya gede?
+Cek di sini: https://projectcuan.petrusjakub.workers.dev/
+
+Share ke orang yang lo sayang. 💛</div>
+            <button class="copy-btn" onclick="copyCaption(2)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 3 -->
+        <div class="post-card">
+            <div class="post-number">3</div>
+            <div class="post-time">
+                <span class="time">09:15</span>
+                <span class="type">Engagement - Polling/Question</span>
+                <span class="interval">+1 jam 15 menit</span>
+            </div>
+            <div class="caption" id="caption-3">Quick poll:
+
+Lo udah punya asuransi kesehatan belum?
+
+A) Udah, alhamdulillah tenang 😌
+B) Belum, masih mikir-mikir 🤔
+C) Pengen tapi bingung mulai dari mana 😅
+D) Gak percaya asuransi ❌
+
+Kalau jawaban lo C, gue bisa bantu jelasin yang simpel & gak ribet.
+
+DM gue atau langsung cek: https://projectcuan.petrusjakub.workers.dev/
+
+No pressure, just info. ✌️</div>
+            <button class="copy-btn" onclick="copyCaption(3)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 4 -->
+        <div class="post-card">
+            <div class="post-number">4</div>
+            <div class="post-time">
+                <span class="time">10:15</span>
+                <span class="type">Storytelling - Social Proof</span>
+                <span class="interval">+1 jam</span>
+            </div>
+            <div class="caption" id="caption-4">Cerita client gue (izin share):
+
+Mas Andi, 29 tahun, gaji 6 juta.
+Awalnya ragu: "Gaji segini bisa punya asuransi?"
+
+Setelah gue bantu hitung, dia cuma sisihkan 300rb/bulan.
+Dapet: proteksi jiwa 500 juta + rawat inap + penyakit kritis.
+
+3 bulan kemudian, doi kena DBD. Rawat inap 5 hari.
+Biaya 12 juta? COVERED semua. Gak keluar sepeser pun.
+
+Lo juga bisa mulai dari yang ringan.
+Info lengkap: https://projectcuan.petrusjakub.workers.dev/
+
+Investasi kecil, dampak besar. 🔥</div>
+            <button class="copy-btn" onclick="copyCaption(4)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 5 -->
+        <div class="post-card">
+            <div class="post-number">5</div>
+            <div class="post-time">
+                <span class="time">11:30</span>
+                <span class="type">Edukasi - Myth Busting</span>
+                <span class="interval">+1 jam 15 menit</span>
+            </div>
+            <div class="caption" id="caption-5">3 Mitos asuransi yang HARUS lo buang sekarang:
+
+❌ "Asuransi ribet claim-nya"
+✅ Sekarang bisa claim online, proses 3-5 hari kerja
+
+❌ "Asuransi mahal"
+✅ Mulai dari 10rb/hari udah dapet proteksi lengkap
+
+❌ "Masih muda, belum butuh"
+✅ Justru makin muda = premi makin murah & gak ribet syaratnya
+
+Jangan sampe termakan mitos terus nyesel kemudian hari.
+
+Cek fakta lengkapnya: https://projectcuan.petrusjakub.workers.dev/
+
+Save thread ini buat reminder! 📌</div>
+            <button class="copy-btn" onclick="copyCaption(5)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 6 -->
+        <div class="post-card">
+            <div class="post-number">6</div>
+            <div class="post-time">
+                <span class="time">12:30</span>
+                <span class="type">Relatable Content - Humor</span>
+                <span class="interval">+1 jam</span>
+            </div>
+            <div class="caption" id="caption-6">POV: Lo di tahun 2030
+
+Versi A (tanpa proteksi):
+😰 Sakit, biaya 50jt, ngutang ke 10 orang
+😰 Keluarga panik, jual aset
+😰 Recovery fisik + finansial = 2x lebih berat
+
+Versi B (punya proteksi):
+😎 Sakit, tinggal gesek kartu asuransi
+😎 Keluarga tenang, fokus nemenin
+😎 Recovery cepet karena gak stress mikirin biaya
+
+Lo pilih versi mana?
+
+Mulai dari sekarang, bukan besok:
+https://projectcuan.petrusjakub.workers.dev/
+
+Tag temen lo yang masih nunda-nunda! 👇</div>
+            <button class="copy-btn" onclick="copyCaption(6)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 7 -->
+        <div class="post-card">
+            <div class="post-number">7</div>
+            <div class="post-time">
+                <span class="time">14:00</span>
+                <span class="type">Value Content - Tips Finansial</span>
+                <span class="interval">+1 jam 30 menit</span>
+            </div>
+            <div class="caption" id="caption-7">Formula keuangan yang jarang diajarkan:
+
+50% - Kebutuhan (makan, kos, transport)
+30% - Keinginan (healing, ngopi, gadget)
+20% - Masa depan (tabungan + PROTEKSI)
+
+Kebanyakan orang: 70% kebutuhan, 30% keinginan, 0% proteksi.
+
+Terus kalau sakit? Bingung.
+Kalau kenapa-kenapa? Keluarga yang nanggung.
+
+Mulai alokasi 20% itu sekarang.
+Proteksi yang affordable? Ada:
+https://projectcuan.petrusjakub.workers.dev/
+
+Gaji berapapun, bisa kok. Yang penting mulai. 💪</div>
+            <button class="copy-btn" onclick="copyCaption(7)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 8 -->
+        <div class="post-card">
+            <div class="post-number">8</div>
+            <div class="post-time">
+                <span class="time">15:00</span>
+                <span class="type">Fear of Loss - Urgency</span>
+                <span class="interval">+1 jam</span>
+            </div>
+            <div class="caption" id="caption-8">Yang perlu lo tau tentang asuransi:
+
+Kalau lo sehat sekarang = premi murah, syarat gampang, langsung aktif.
+
+Kalau lo UDAH sakit = premi mahal, bisa ditolak, atau ada pengecualian.
+
+Asuransi itu kayak payung.
+Belinya pas cerah, bukan pas udah kehujanan.
+
+Pas udah basah kuyup, baru nyari payung? Too late.
+
+Cek pilihan proteksi lo sekarang (selagi masih bisa):
+https://projectcuan.petrusjakub.workers.dev/
+
+Ini bukan nakut-nakutin. Ini realita. 🎯</div>
+            <button class="copy-btn" onclick="copyCaption(8)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 9 -->
+        <div class="post-card">
+            <div class="post-number">9</div>
+            <div class="post-time">
+                <span class="time">16:30</span>
+                <span class="type">Engagement - Controversial Take</span>
+                <span class="interval">+1 jam 30 menit</span>
+            </div>
+            <div class="caption" id="caption-9">Unpopular opinion:
+
+"Gak punya asuransi di umur 25+ itu egois."
+
+Bukan egois ke diri sendiri.
+Tapi egois ke keluarga yang bakal nanggung kalau lo kenapa-kenapa.
+
+Harsh? Iya.
+Tapi bener? Juga iya.
+
+Cinta itu bukan cuma bilang sayang.
+Cinta itu nyiapin proteksi buat orang-orang tersayang.
+
+Mulai dari yang simpel:
+https://projectcuan.petrusjakub.workers.dev/
+
+Setuju? Atau ada pendapat lain? Drop di bawah 👇</div>
+            <button class="copy-btn" onclick="copyCaption(9)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 10 -->
+        <div class="post-card">
+            <div class="post-number">10</div>
+            <div class="post-time">
+                <span class="time">17:30</span>
+                <span class="type">Soft Sell - Relatable</span>
+                <span class="interval">+1 jam</span>
+            </div>
+            <div class="caption" id="caption-10">Hal-hal yang orang nyesel gak lakuin lebih awal:
+
+1. Investasi
+2. Olahraga
+3. Belajar skill baru
+4. Punya asuransi ✅
+
+Serius, gue sering denger: "Kenapa gak dari dulu ya?"
+
+Karena dulu ngerasa sehat, ngerasa aman, ngerasa jauh.
+
+Sampai kenyataan dateng tanpa permisi.
+
+Sekarang masih bisa. Besok? Gak ada yang jamin.
+
+Info selengkapnya: https://projectcuan.petrusjakub.workers.dev/
+
+Better late than never. Tapi better NOW than late. 🚀</div>
+            <button class="copy-btn" onclick="copyCaption(10)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 11 -->
+        <div class="post-card">
+            <div class="post-number">11</div>
+            <div class="post-time">
+                <span class="time">19:00</span>
+                <span class="type">Evening - Personal Branding</span>
+                <span class="interval">+1 jam 30 menit</span>
+            </div>
+            <div class="caption" id="caption-11">Kenapa gue posting soal asuransi tiap hari?
+
+Bukan karena gue sales yang annoying.
+Tapi karena gue udah liat sendiri dampaknya.
+
+Liat orang kehilangan tabungan bertahun-tahun dalam 1 minggu.
+Liat keluarga pecah gara-gara biaya RS.
+Liat anak putus sekolah karena ortunya gak punya proteksi.
+
+Gue cuma mau bantu orang supaya gak ngalamin itu.
+
+Kalau lo atau keluarga lo butuh info proteksi yang bener:
+https://projectcuan.petrusjakub.workers.dev/
+
+Gratis konsultasinya. Serius. 🤝</div>
+            <button class="copy-btn" onclick="copyCaption(11)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <!-- POST 12 -->
+        <div class="post-card">
+            <div class="post-number">12</div>
+            <div class="post-time">
+                <span class="time">20:30</span>
+                <span class="type">Night - CTA Closing</span>
+                <span class="interval">+1 jam 30 menit</span>
+            </div>
+            <div class="caption" id="caption-12">Sebelum tidur, gue mau tanya 1 hal:
+
+Kalau besok (naudzubillah) lo masuk RS dan butuh biaya 50-100 juta...
+
+Lo udah siap?
+Keluarga lo udah siap?
+
+Kalau jawabannya "belum" atau "gak tau"...
+
+Itu artinya lo BUTUH ngobrol sama gue.
+
+Gak bakal gue paksa beli apa-apa.
+Gue cuma mau kasih tau opsi yang ada.
+
+Link info lengkap: https://projectcuan.petrusjakub.workers.dev/
+
+Tidur tenang itu bukan cuma soal kasur empuk.
+Tapi soal tau keluarga lo AMAN. 🌙
+
+Goodnight, people. Jaga kesehatan & jaga keuangan! 💤</div>
+            <button class="copy-btn" onclick="copyCaption(12)">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+                Copy Caption
+            </button>
+        </div>
+
+        <div class="footer">
+            <p>Content Calendar by @ngobras.santuy | Lead Generation Asuransi</p>
+            <p style="margin-top: 8px;">Target: https://projectcuan.petrusjakub.workers.dev/</p>
+        </div>
+    </div>
+
+    <script>
+        function copyCaption(num) {
+            const caption = document.getElementById('caption-' + num);
+            const btn = caption.parentElement.querySelector('.copy-btn');
+            const text = caption.textContent.trim();
+
+            navigator.clipboard.writeText(text).then(function() {
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
+
+                setTimeout(function() {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy Caption';
+                }, 2000);
+            }).catch(function() {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                btn.classList.add('copied');
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg> Copied!';
+
+                setTimeout(function() {
+                    btn.classList.remove('copied');
+                    btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg> Copy Caption';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
