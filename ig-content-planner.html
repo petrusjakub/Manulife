@@ -86,11 +86,52 @@
             padding: 20px;
             margin-bottom: 16px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
+            transition: transform 0.2s, opacity 0.3s, max-height 0.4s;
+            position: relative;
+            overflow: hidden;
         }
 
         .post-card:hover {
             transform: translateY(-2px);
+        }
+
+        .post-card.hiding {
+            opacity: 0;
+            transform: translateX(100px);
+            max-height: 0 !important;
+            margin-bottom: 0;
+            padding: 0 20px;
+            transition: opacity 0.3s, transform 0.3s, max-height 0.4s 0.2s, margin-bottom 0.4s 0.2s, padding 0.4s 0.2s;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(118, 75, 162, 0.1);
+            color: #764ba2;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(118, 75, 162, 0.3);
+        }
+
+        .delete-btn:active {
+            transform: scale(0.9);
         }
 
         .post-header {
@@ -98,6 +139,7 @@
             align-items: center;
             justify-content: space-between;
             margin-bottom: 14px;
+            padding-right: 36px;
         }
 
         .time-badge {
@@ -316,6 +358,7 @@
 
         <!-- POST 1 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">06:30</span>
                 <div>
@@ -349,6 +392,7 @@ Mau tau caranya? Klik link di bio atau chat langsung 👇
 
         <!-- POST 2 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">07:45</span>
                 <div>
@@ -386,6 +430,7 @@ Klik link ini buat tau lebih lanjut 👇
 
         <!-- POST 3 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">09:00</span>
                 <div>
@@ -426,6 +471,7 @@ Info lengkap 👇
 
         <!-- POST 4 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">10:15</span>
                 <div>
@@ -467,6 +513,7 @@ DM "JOIN" atau klik link 👇
 
         <!-- POST 5 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">11:30</span>
                 <div>
@@ -506,6 +553,7 @@ WA: 087781896087
 
         <!-- POST 6 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">12:45</span>
                 <div>
@@ -547,6 +595,7 @@ Info lengkap? Klik 👇
 
         <!-- POST 7 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">14:00</span>
                 <div>
@@ -588,6 +637,7 @@ Klik link ini 👇
 
         <!-- POST 8 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">15:15</span>
                 <div>
@@ -625,6 +675,7 @@ Konsultasi GRATIS, klik 👇
 
         <!-- POST 9 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">16:30</span>
                 <div>
@@ -671,6 +722,7 @@ Link pendaftaran 👇
 
         <!-- POST 10 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">18:00</span>
                 <div>
@@ -714,6 +766,7 @@ WA: 087781896087
 
         <!-- POST 11 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">19:30</span>
                 <div>
@@ -754,6 +807,7 @@ JOIN sekarang 👇
 
         <!-- POST 12 -->
         <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
             <div class="post-header">
                 <span class="time-badge">21:00</span>
                 <div>
@@ -839,6 +893,35 @@ WA: 087781896087
                 }
                 document.body.removeChild(textArea);
             });
+        }
+
+        function hidePost(button) {
+            const card = button.closest('.post-card');
+            card.classList.add('hiding');
+            setTimeout(function() {
+                card.style.display = 'none';
+                updateStats();
+            }, 500);
+        }
+
+        function updateStats() {
+            const visibleCards = document.querySelectorAll('.post-card:not([style*="display: none"])');
+            let totalVisible = visibleCards.length;
+            let leadsCount = 0;
+            let recruitCount = 0;
+
+            visibleCards.forEach(function(card) {
+                if (card.querySelector('.type-leads')) {
+                    leadsCount++;
+                } else if (card.querySelector('.type-recruit')) {
+                    recruitCount++;
+                }
+            });
+
+            const statNums = document.querySelectorAll('.stat-item .num');
+            statNums[0].textContent = totalVisible;
+            statNums[1].textContent = leadsCount;
+            statNums[2].textContent = recruitCount;
         }
     </script>
 </body>
