@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Content Plan - @ngobras.santuy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #e1306c;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #e1306c;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(225, 48, 108, 0.15);
+            border: 1px solid rgba(225, 48, 108, 0.3);
+            color: #e1306c;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(225, 48, 108, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #f09433, #dc2743);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(225, 48, 108, 0.1);
+            color: #e1306c;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(225, 48, 108, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(225, 48, 108, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #e1306c;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #f09433, #dc2743);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(225, 48, 108, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Instagram Content Plan</h1>
+        <p class="account">@ngobras.santuy</p>
+        <p>Full Day Schedule - Leads Nasabah Asuransi</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Quick Jump ke Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "07:00",
+                type: "Hook Emosional Pagi",
+                caption: `Pernah nggak sih kamu mikir...
+
+"Kalau besok aku sakit parah, siapa yang nanggung biaya rumah sakit?"
+
+Keluarga? Tabungan yang pas-pasan?
+
+Jangan sampai orang yang kamu sayang jadi korban karena kita nggak siap.
+
+Proteksi itu bukan kemewahan. Itu TANGGUNG JAWAB.
+
+Yuk pelajari solusinya, santuy aja. Klik link di bio!
+
+#ProteksiKeluarga #AsuransiJiwa #TanggungJawab #KeluargaAman #NgobrasAsuransi #FinancialPlanning #HidupTenang #IndonesiaSadarAsuransi`,
+                imagePrompt: `Single image post, rasio 1:1. Ilustrasi emosional keluarga Indonesia (ayah, ibu, anak kecil) berpelukan di depan rumah sederhana, dengan visual semi-transparan payung pelindung besar melindungi mereka dari hujan badai yang menggambarkan risiko hidup. Warna hangat keluarga kontras dengan warna gelap badai di luar payung. Judul besar bold di atas: "SIAPA YANG JAGA KELUARGAMU?". Style: emotional illustration, warm tones. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, ukuran kecil, opacity 30%.`
+            },
+            {
+                time: "08:00",
+                type: "Edukasi Fakta",
+                caption: `FAKTA yang bikin kaget:
+
+Biaya rawat inap RS di Indonesia:
+- Kamar biasa: 500rb - 2 juta/hari
+- ICU: 5 - 25 juta/hari
+- Operasi jantung: 300 - 800 juta
+
+Dan 70% orang Indonesia BELUM punya proteksi yang cukup.
+
+Bayangin kalau tiba-tiba butuh biaya segitu... Tabungan langsung ludes.
+
+Solusinya? Mulai proteksi dari SEKARANG. Nggak harus mahal kok.
+
+Penasaran? Klik link di bio, konsultasi GRATIS!
+
+#FaktaKesehatan #BiayaRumahSakit #AsuransiKesehatan #ProteksiDiriSekarang #CegahBangkrut #LiterasiKeuangan #NgobrasFinansial #IndonesiaSehat`,
+                imagePrompt: `Single image infographic, rasio 1:1. Desain infografis dengan background gelap navy blue. Di tengah ada visual rumah sakit dengan price tag floating: "ICU: 5-25 Juta/Hari", "Operasi: 300-800 Juta". Statistik besar bold: "70% Belum Terlindungi". Di bagian bawah ada ikon perisai dengan teks "Mulai Proteksi Sekarang". Gaya clean, modern, professional dengan aksen warna merah untuk angka-angka. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "09:00",
+                type: "Storytelling Relatable",
+                caption: `Cerita nyata dari tetangga saya...
+
+Pak Budi, usia 45 tahun, sehat bugar. Nggak pernah sakit berat.
+
+Suatu hari tiba-tiba stroke. Opname 3 minggu. Biaya total: 180 juta.
+
+Tabungan anak kuliah? HABIS.
+Dana darurat? LUDES.
+Istrinya harus jual motor buat nutup biaya.
+
+Padahal kalau punya asuransi, semua TERCOVER.
+
+Jangan tunggu sampai kejadian. Proteksi dari sekarang.
+
+Konsultasi gratis, klik link di bio ya!
+
+#CeritaNyata #JanganTungguSakit #AsuransiPenting #ProteksiKeluarga #FinancialSafety #NgobrasStory #BiayaRSSedih #SiapSediaPayung`,
+                imagePrompt: `Comic strip style, rasio 1:1, 4 panel. Panel 1: Pak Budi sehat senyum, jogging pagi, caption "Sehat, Bugar, Nggak Pernah Sakit". Panel 2: Pak Budi di rumah sakit, terbaring di kasur, keluarga menangis, caption "Tiba-tiba Stroke". Panel 3: Istri memegang tagihan 180 Juta, wajah shock, tabungan anak hancur. Panel 4: Split - sisi kiri gelap (tanpa asuransi, keluarga menderita), sisi kanan terang (dengan asuransi, keluarga tenang, tagihan tercover). Gaya komik emosional, warna kontras. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "10:00",
+                type: "Myth Busting",
+                caption: `"Asuransi itu SCAM!"
+"Asuransi itu ribet claimnya!"
+"Asuransi mah buat orang kaya aja."
+
+Pernah denger kan? Mungkin kamu juga mikir gitu.
+
+FAKTA:
+- Asuransi legal, diawasi OJK
+- Claim digital sekarang cepet banget
+- Premi mulai dari 100rb/bulan!
+
+Yang scam itu OKNUM, bukan produknya.
+
+Pilih agen yang terpercaya + edukasi yang benar = kamu AMAN.
+
+Mau tau lebih lanjut? Santuy aja, klik link di bio!
+
+#MythBusting #AsuransiBukanScam #OJK #EdukasiAsuransi #NgobrasEdukasi #LiterasiKeuangan #ProteksiMurah #AgenTerpercaya`,
+                imagePrompt: `Carousel/infographic style, rasio 1:1. Background gelap dengan 3 mitos di-coret merah besar (X): "SCAM!", "RIBET!", "BUAT ORANG KAYA!". Di bawahnya 3 fakta dengan centang hijau: "Legal & Diawasi OJK", "Claim Digital Cepat", "Mulai 100rb/bulan". Judul besar bold di atas: "STOP PERCAYA MITOS!". Desain bold, kontras merah vs hijau, modern dan eye-catching. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "11:00",
+                type: "Pain Point Keluarga",
+                caption: `Coba tanya ke diri sendiri:
+
+"Kalau aku meninggal besok, keluargaku bisa bertahan berapa lama?"
+
+Berat? Emang.
+
+Tapi ini pertanyaan yang HARUS dijawab.
+
+Asuransi jiwa itu bukan buat kamu. Itu buat orang-orang yang kamu TINGGALKAN.
+
+Biar mereka tetap bisa makan.
+Biar anak tetap bisa sekolah.
+Biar pasangan nggak harus berjuang sendirian.
+
+Konsultasi gratis, santuy aja. Klik link di bio!
+
+#AsuransiJiwa #UntukKeluarga #Pertanyaan Berat #ProteksiMasaDepan #CintaKeluarga #NgobrasSerius #WarisanCinta #AnakTetapSekolah`,
+                imagePrompt: `Single image emotional, rasio 1:1. Siluet seorang ayah/ibu memegang tangan anak kecil, berjalan menuju cahaya. Di belakang mereka ada bayang-bayang visual payung asuransi yang melindungi. Teks bold besar: "UNTUK MEREKA YANG KAMU TINGGALKAN". Tone emosional, warm golden light di depan, gelap di belakang. Style sinematik, menyentuh hati. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break Edukasi",
+                caption: `Lagi istirahat siang? Baca ini 30 detik aja.
+
+Tau nggak bedanya MENABUNG vs ASURANSI?
+
+Nabung: kamu kumpulin uang pelan-pelan
+- Sakit di tahun ke-2? Tabungan belum cukup.
+
+Asuransi: langsung dapat perlindungan PENUH dari hari pertama
+- Sakit di bulan ke-1? Sudah TERCOVER.
+
+Keduanya penting. Tapi asuransi kasih JARING PENGAMAN yang tabungan belum bisa kasih.
+
+Mau tau produk yang cocok buat kamu? Gratis konsultasinya!
+
+Klik link di bio ya!
+
+#NabungVsAsuransi #EdukasiKeuangan #JaringPengaman #LunchBreakIlmu #NgobrasEdukasi #ProteksiHariPertama #SmartFinance #GratisKonsultasi`,
+                imagePrompt: `Infographic comparison, rasio 1:1. Split design: kiri "NABUNG" (ikon celengan, progress bar pelan-pelan terisi, X merah di tahun ke-2 "Belum Cukup!"), kanan "ASURANSI" (ikon perisai, full bar dari hari pertama, centang hijau "Langsung Tercover!"). Judul atas: "NABUNG vs ASURANSI". Visual clean, background putih dengan aksen biru navy. Kesimpulan di bawah: "Keduanya Penting, Tapi..." dengan panah ke asuransi. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "13:00",
+                type: "Social Proof / Testimoni",
+                caption: `Chat dari nasabah kemarin:
+
+"Alhamdulillah kak, claim asuransi suami saya cair 50 juta. Padahal baru 8 bulan ikut. Kalau nggak ada ini, entah gimana bayar RS nya..."
+
+Ini BUKAN iklan. Ini KENYATAAN.
+
+Banyak yang baru SADAR pentingnya asuransi SETELAH kejadian.
+
+Jangan jadi orang yang nyesel belakangan.
+
+Konsultasi gratis sekarang, klik link di bio!
+
+#TestimoniNasabah #ClaimCair #BuktiNyata #AsuransiBekerja #NgobrasProof #NasabahPuas #JanganMenyesal #ProteksiSekarang`,
+                imagePrompt: `Single image testimonial design, rasio 1:1. Mockup chat bubble WhatsApp style dengan testimoni nasabah (nama disamarkan). Background soft gradient ungu ke biru. Di bawah chat ada badge "CLAIM CAIR - 50 JUTA" dengan ikon centang verified. Elemen dekoratif: bintang-bintang kecil, confetti subtle. Teks besar di atas: "BUKTI NYATA". Professional dan trustworthy. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "14:00",
+                type: "Engagement Poll",
+                caption: `Quick poll! Jawab jujur ya:
+
+Kamu termasuk yang mana?
+
+A) Sudah punya asuransi dan tenang
+B) Belum punya, tapi pengen tau
+C) Masih ragu, takut kena tipu
+D) Nggak peduli, YOLO aja
+
+Kalau B atau C, santuy... DM aku atau klik link di bio.
+
+Nggak ada paksaan. Cuma EDUKASI biar kamu nggak salah pilih.
+
+Yang jawab D... semoga selalu sehat ya. Serius.
+
+#PollIG #JawabJujur #AsuransiAtauYOLO #EdukasiGratis #NgobrasInteraktif #DMSantuy #TanyaAja #FinancialAwareness`,
+                imagePrompt: `Single image poll style, rasio 1:1. Desain 4 pilihan dengan visual menarik: A) Orang senyum dengan perisai (hijau), B) Orang curious dengan tanda tanya (biru), C) Orang ragu dengan peringatan (kuning), D) Orang santai YOLO (merah). Judul besar: "KAMU YANG MANA?". Background gradient gelap, setiap option dalam card terpisah dengan warna berbeda. Engaging dan eye-catching, mengundang interaksi. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "15:00",
+                type: "Tips Memilih Asuransi",
+                caption: `5 TIPS pilih asuransi biar NGGAK KENA TIPU:
+
+1. Pastikan perusahaan terdaftar di OJK
+2. Baca polis SEBELUM tanda tangan
+3. Tanya benefit DAN pengecualian
+4. Pilih agen yang MAU edukasi, bukan cuma jualan
+5. Sesuaikan premi dengan kemampuan
+
+Simpan post ini! Bakal berguna banget nanti.
+
+Mau dibantu pilih yang tepat? Gratis kok.
+
+Klik link di bio ya!
+
+#TipsAsuransi #AntiTipu #CekOJK #BacaPolis #AgenEdukasi #NgobrasIlmu #SmartBuyer #SimpanPostIni`,
+                imagePrompt: `Carousel infographic, rasio 1:1. Desain checklist dengan 5 tips, masing-masing punya ikon: 1) Logo OJK dengan centang, 2) Dokumen polis dengan kaca pembesar, 3) Tanda tanya benefit vs pengecualian, 4) Agen dengan hati (bukan dollar), 5) Dompet dengan keseimbangan. Judul besar: "5 TIPS ANTI TIPU!". Background putih bersih dengan aksen hijau (aman) dan merah (bahaya). Clean, shareable, educational. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "16:00",
+                type: "Fear of Missing Out",
+                caption: `Tau nggak yang paling nyeselin?
+
+Bukan nggak mampu bayar premi.
+
+Tapi DITOLAK pas mau daftar asuransi karena sudah keburu SAKIT.
+
+Ya, asuransi itu harus diambil waktu SEHAT.
+
+Kalau udah sakit? Maaf, ditolak. Atau premi jadi MAHAL BANGET.
+
+Jadi selagi sehat, selagi muda, selagi premi masih murah...
+
+AMBIL SEKARANG.
+
+Konsultasi gratis, klik link di bio!
+
+#AmbilSekarangSelagiSehat #DitolakAsuransi #PremiMurah #JanganTungguSakit #NgobrasUrgent #MudaDanTerlindungi #WaktunyaSekarang #RealTalk`,
+                imagePrompt: `Comic strip emosional, rasio 1:1, 3 panel. Panel 1: Orang muda sehat berpikir "Nanti aja deh, masih muda". Panel 2: Beberapa tahun kemudian, orang yang sama di RS, mencoba daftar asuransi dari HP tapi layar menampilkan "DITOLAK - Riwayat Penyakit". Panel 3: Teks besar bold "ASURANSI = HARUS DIAMBIL WAKTU SEHAT" dengan jam pasir yang hampir habis. Warna transisi dari cerah (panel 1) ke gelap (panel 2) ke urgent merah (panel 3). Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "17:00",
+                type: "After Work Hook",
+                caption: `Baru pulang kerja? Capek? Sama.
+
+Tapi coba pikir ini sebentar...
+
+Kamu kerja keras setiap hari buat siapa?
+
+Buat keluarga kan?
+
+Tapi kalau tiba-tiba kamu nggak bisa kerja karena sakit atau kecelakaan...
+
+Siapa yang GANTIIN penghasilanmu?
+
+Asuransi bisa jadi "gaji" kamu saat kamu nggak bisa bekerja.
+
+Serius. Ini penting banget.
+
+Pelajari caranya, klik link di bio!
+
+#PulangKerja #KerjaUntukSiapa #ProteksiPenghasilan #IncomeProtection #NgobrasAfterWork #GajiSaatSakit #PikirkanlnDepan #AsuransiKaryawan`,
+                imagePrompt: `Single image emotional, rasio 1:1. Ilustrasi orang pulang kerja, lelah, di kereta/angkot. Thought bubble menampilkan keluarga di rumah yang menunggu. Visual split: atas gelap (bekerja keras), bawah terang (keluarga aman karena ada proteksi). Teks bold: "KALAU KAMU NGGAK BISA KERJA, SIAPA YANG GANTIIN?". Tone warm tapi menggugah. Style ilustrasi modern Indonesia. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "18:00",
+                type: "Perbandingan Harga",
+                caption: `Coba bandingin:
+
+Kopi kekinian per hari: 25-35rb
+Sebulan: 750rb - 1 juta
+
+Premi asuransi jiwa per bulan: 150-300rb
+
+Jadi kamu lebih pilih:
+Kopi yang habis 5 menit?
+Atau proteksi yang jaga keluarga seumur hidup?
+
+Bukan berarti nggak boleh ngopi ya. Tapi coba alokasiin dikit aja buat proteksi.
+
+Mau tau premi yang cocok buat budget kamu? Gratis konsultasinya!
+
+Klik link di bio!
+
+#KopiVsAsuransi #Perbandingan #PremiMurah #BudgetProteksi #NgobrasHitung #MulaiDariKecil #AlokasiBijak #InvestasiProteksi`,
+                imagePrompt: `Infographic comparison, rasio 1:1. Split design fun dan catchy: kiri ada gelas kopi kekinian besar dengan price tag "25-35rb/hari = 1 Juta/bulan" (warna coklat hangat), kanan ada ikon perisai/payung proteksi dengan "150-300rb/bulan = Proteksi Seumur Hidup" (warna biru emas). Di tengah ada "VS" besar. Judul: "KOPI vs PROTEKSI". Style playful tapi edukatif, bikin mikir. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "19:00",
+                type: "Video/Reels Hook",
+                caption: `STOP SCROLL! Tonton ini.
+
+3 hal yang WAJIB kamu punya sebelum usia 35:
+
+1. Dana darurat (minimal 6 bulan pengeluaran)
+2. Asuransi kesehatan (jangan cuma BPJS!)
+3. Asuransi jiwa (kalau punya tanggungan)
+
+Kenapa? Karena setelah 35, risiko naik dan premi MAKIN MAHAL.
+
+Belum punya semua? Tenang, kita ngobrol santuy aja.
+
+Klik link di bio buat konsultasi gratis!
+
+#Sebelum35 #WajibPunya #DanaDarurat #AsuransiKesehatan #AsuransiJiwa #NgobrasPlanning #FinancialChecklist #MudaTerlindungi`,
+                imagePrompt: `Video/Reels concept, rasio 1:1. Frame utama menampilkan host/avatar berbicara ke kamera (style HeyGen talking head). Background: papan tulis digital dengan 3 checklist items tertulis. Visual countdown "SEBELUM 35" dengan jam besar. Teks overlay bold: "3 HAL WAJIB PUNYA". Energi urgent tapi friendly, warna biru teal dan kuning highlight. Format yang cocok untuk HeyGen video dengan avatar presenter casual. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "20:00",
+                type: "Soft CTA Malam",
+                caption: `Malam ini sebelum tidur, coba pikirin ini:
+
+Kalau sesuatu terjadi besok, apakah keluargamu sudah SIAP?
+
+Bukan nakut-nakutin. Tapi ini realita.
+
+Hal buruk nggak pernah kirim undangan sebelum datang.
+
+Yang bisa kita lakukan: PERSIAPAN.
+
+Nggak harus langsung beli. Mulai dari TAHU dulu.
+
+Chat aku atau klik link di bio. Konsultasi GRATIS, tanpa paksaan.
+
+Selamat malam, jaga keluarga ya!
+
+#MalamRefleksi #JagaKeluarga #PersiapanHidup #KonsultasiGratis #NgobrasLateNight #TanpaPaksaan #MulaiDariTahu #SelamatMalam`,
+                imagePrompt: `Single image night mood, rasio 1:1. Ilustrasi seseorang duduk di tepi tempat tidur malam hari, melihat foto keluarga di meja. Cahaya lampu tidur warm dan lembut. Di atas ada visual perisai transparan yang melindungi rumah. Teks emosional: "SUDAH SIAP?". Tone tenang, reflektif, tidak menakutkan tapi menggugah hati. Warna dominan biru malam dengan aksen emas hangat. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            },
+            {
+                time: "21:00",
+                type: "Closing + CTA Kuat",
+                caption: `Post terakhir hari ini.
+
+Kalau kamu udah baca semua post hari ini dan masih belum take action...
+
+Tanya ke diri sendiri: "Nunggu apa lagi?"
+
+- Nunggu sakit dulu?
+- Nunggu kejadian buruk?
+- Nunggu ditolak asuransi karena udah kena penyakit?
+
+Jangan.
+
+1 langkah kecil hari ini bisa selamatkan keluargamu besok.
+
+Klik link di bio: https://projectcuan.petrusjakub.workers.dev/
+
+Atau DM aku. Santuy aja. No pressure.
+
+Sampai ketemu besok!
+
+#LastPost #TakeAction #NunggApaLagi #1LangkahKecil #NgobrasClosing #KlikLinkDiBio #ProteksiSekarang #SampaiKetemuBesok`,
+                imagePrompt: `Single image powerful closing, rasio 1:1. Background gradien gelap dramatis. Di tengah ada tombol besar glowing "TAKE ACTION" dengan efek cahaya. Di bawahnya ada 3 item di-coret: "Nunggu sakit", "Nunggu kejadian buruk", "Nunggu ditolak". Teks utama besar: "NUNGGU APA LAGI?". Di bagian bawah ada CTA: "Klik Link di Bio" dengan panah ke bawah. Desain urgent, powerful, tapi tetap clean. Warna merah-emas dengan background gelap. Watermark @ngobras.santuy semi-transparan di pojok kanan bawah, opacity 30%.`
+            }
+        ];
+
+        const STATE_KEY = 'ngobras_santuy_ig_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(225, 48, 108, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = 'Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Quick Jump ke Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image/Video Prompt (Watermark: @ngobras.santuy)</span>${post.imagePrompt}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">Copy Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Sembunyikan</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
