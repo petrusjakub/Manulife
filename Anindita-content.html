@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Content Plan - Anindita</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #898F9C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #1877F2;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #1877F2;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.3);
+            color: #1877F2;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(24, 119, 242, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(24, 119, 242, 0.1);
+            color: #1877F2;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(24, 119, 242, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #1877F2;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(230, 0, 35, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(230, 0, 35, 0.2);
+        }
+
+        .pinterest-links .pinterest-label {
+            display: block;
+            color: #E60023;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links a {
+            color: #E60023;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+        }
+
+        .pinterest-links a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Content Plan</h1>
+        <p class="account">Anindita</p>
+        <p>Full Day Schedule - Engagement & Lifestyle Influencer</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Go To Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "09:00",
+                type: "Morning Selfie",
+                caption: `Baru bangun dan langsung bingung mau ngapain hari ini.
+
+Tapi ya udah, mending keluar kamar dulu daripada overthinking di kasur.
+
+Kalian pernah gitu nggak sih, bangun pagi tapi rasanya kayak dunia belum siap nerima kita.
+
+Atau jangan-jangan cuma aku yang gini.
+
+Cerita dong pagi kalian ngapain biasanya.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang selfie di depan cermin besar di latar image 3. Ekspresi masih agak ngantuk tapi tetap cantik, rambut sedikit berantakan natural. Pegang handphone image 4 untuk selfie mirror. Morning soft light dari jendela, kamar aesthetic bernuansa pastel.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20crop%20top%20mini%20skirt%20set%20young%20woman%20aesthetic" },
+                    { label: "Latar - Aesthetic Bedroom Mirror Selfie", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20bedroom%20full%20mirror%20pastel%20morning%20light" },
+                    { label: "Item - Mirror Selfie Phone", url: "https://www.pinterest.com/search/pins/?q=mirror%20selfie%20phone%20case%20aesthetic" }
+                ]
+            },
+            {
+                time: "10:00",
+                type: "Coffee Moment",
+                caption: `Aku tuh bukan tipe yang bisa langsung semangat pagi-pagi.
+
+Butuh kopi dulu, duduk diam dulu, baru bisa ngomong sama dunia.
+
+Kalau kalian tipe yang langsung ceria bangun tidur, ajarin aku dong.
+
+Serius nanya, itu bisa dilatih atau emang bakat.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang duduk sendirian di latar image 3. Pegang gelas kopi aesthetic image 4, pandangan ke luar jendela cafe, pose candid dari samping agak depan. Di latar ada beberapa orang Indonesia lain duduk di meja berbeda tidak sadar kamera. Warm morning cafe lighting.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20off%20shoulder%20top%20skirt%20young%20woman%20cafe" },
+                    { label: "Latar - Aesthetic Cozy Cafe Interior", url: "https://www.pinterest.com/search/pins/?q=cozy%20aesthetic%20cafe%20interior%20warm%20light%20indonesia" },
+                    { label: "Item - Aesthetic Coffee Cup Latte Art", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20latte%20art%20coffee%20cup%20cafe" }
+                ]
+            },
+            {
+                time: "11:00",
+                type: "Random Thoughts",
+                caption: `Kadang aku mikir, kenapa ya susah banget buat mulai ngobrol duluan sama orang baru.
+
+Padahal di kepala udah nyusun kalimatnya.
+Tapi pas mau ngomong, tiba-tiba blank.
+
+Apa cuma aku yang kayak gini atau kalian juga pernah.
+
+Pengen banget punya circle yang seru tapi nggak tau harus mulai dari mana.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang melamun sambil duduk di bangku di latar image 3. Pose candid difotoin dari samping, tangan menopang dagu, ekspresi mikir tapi tetap manis. Ada buku kecil image 4 di pangkuan. Taman kota dengan pepohonan, sinar matahari pagi menembus dedaunan. Natural outdoor lighting.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20casual%20crop%20top%20mini%20skirt%20young%20asian%20girl%20outdoor" },
+                    { label: "Latar - City Park Bench Trees Sunlight", url: "https://www.pinterest.com/search/pins/?q=city%20park%20bench%20trees%20morning%20sunlight%20indonesia" },
+                    { label: "Item - Small Cute Notebook", url: "https://www.pinterest.com/search/pins/?q=small%20cute%20notebook%20aesthetic%20pastel" }
+                ]
+            },
+            {
+                time: "12:00",
+                type: "OOTD Siang",
+                caption: `Katanya outfit itu bisa ngaruh ke mood.
+
+Jadi hari ini aku coba pakai sesuatu yang beda dari biasanya.
+Sedikit lebih berani, sedikit lebih percaya diri.
+
+Hasilnya gimana menurut kalian.
+
+Jujur aja nggak papa, aku butuh pendapat orang lain soalnya biasa cuma nanya ke cermin.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berdiri pose full body di latar image 3. Difotoin dari depan agak bawah, Anindita satu tangan di pinggang, satu tangan pegang sunglasses image 4. Ekspresi sedikit senyum tipis percaya diri. Background mall outdoor area atau plaza dengan arsitektur modern. Bright midday natural sunlight.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20outfit%20crop%20top%20high%20waist%20skirt%20young%20woman%20ootd" },
+                    { label: "Latar - Modern Plaza Outdoor Mall Area", url: "https://www.pinterest.com/search/pins/?q=modern%20plaza%20outdoor%20area%20bright%20architecture" },
+                    { label: "Item - Trendy Sunglasses Fashion", url: "https://www.pinterest.com/search/pins/?q=trendy%20sunglasses%20fashion%20young%20woman" }
+                ]
+            },
+            {
+                time: "13:00",
+                type: "Lunch Solo",
+                caption: `Makan siang sendirian itu bukan sedih.
+
+Justru ini waktu paling tenang buat aku.
+Nggak perlu mikirin mau ngobrol apa, nggak perlu pura-pura tertawa.
+
+Cuma aku, makanan, dan pikiran-pikiran random yang datang pergi.
+
+Tapi kalau ada yang mau temenin, aku nggak nolak juga sih.
+Asal orangnya nggak berisik.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang makan sendirian di latar image 3. Selfie angle dari atas dengan makanan cantik di meja, ekspresi damai dan senyum kecil. Ada sepiring makanan aesthetic image 4 tertata rapi di depannya. Restoran casual aesthetic dengan dekorasi tanaman, soft indoor lighting. Di latar terlihat meja-meja lain dengan pengunjung Indonesia yang tidak sadar kamera.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20casual%20outfit%20young%20woman%20restaurant" },
+                    { label: "Latar - Aesthetic Casual Restaurant Plants", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20casual%20restaurant%20plants%20decor%20cozy" },
+                    { label: "Item - Aesthetic Food Plating", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20food%20plating%20restaurant%20indonesia" }
+                ]
+            },
+            {
+                time: "14:00",
+                type: "Window Shopping",
+                caption: `Niatnya cuma jalan-jalan lihat-lihat.
+
+Tapi entah kenapa setiap lewat toko baju, kaki ini otomatis belok masuk.
+
+Nggak beli kok. Cuma coba-coba.
+Oke mungkin beli satu. Atau dua.
+
+Kalian tim window shopping beneran atau tim pasti beli juga.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berjalan di latar image 3. Difotoin dari belakang agak samping, Anindita menoleh ke etalase toko dengan ekspresi tertarik. Pegang shopping bag kecil image 4 di satu tangan. Lorong mall dengan toko-toko fashion, beberapa orang Indonesia lain berjalan di background tidak sadar kamera. Indoor mall lighting yang terang dan modern.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20outfit%20young%20woman%20mall%20shopping%20style" },
+                    { label: "Latar - Mall Fashion Store Corridor", url: "https://www.pinterest.com/search/pins/?q=mall%20corridor%20fashion%20stores%20modern%20bright" },
+                    { label: "Item - Small Shopping Bag Fashion", url: "https://www.pinterest.com/search/pins/?q=small%20shopping%20bag%20fashion%20aesthetic%20hand" }
+                ]
+            },
+            {
+                time: "15:00",
+                type: "Afternoon Vibes",
+                caption: `Sore ini anginnya enak banget.
+
+Duduk di sini sambil dengerin lagu random dan mikir tentang hidup.
+Nggak ada yang spesial sebenernya.
+Tapi justru momen kayak gini yang bikin tenang.
+
+Kalian kalau lagi butuh ketenangan biasanya ngapain.
+Kasih tau aku, siapa tau bisa aku coba juga.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang duduk santai di latar image 3. Pose candid dari samping, Anindita pakai headphone image 4, mata sedikit terpejam menikmati musik, angin meniup rambut pelan. Rooftop cafe atau area outdoor tinggi dengan pemandangan kota sore hari. Warm afternoon golden light.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Crop Top Mini Skirt Set", url: "https://www.pinterest.com/search/pins/?q=bold%20casual%20outfit%20young%20woman%20rooftop%20afternoon" },
+                    { label: "Latar - Rooftop Cafe City View Afternoon", url: "https://www.pinterest.com/search/pins/?q=rooftop%20cafe%20city%20view%20afternoon%20golden%20hour" },
+                    { label: "Item - Aesthetic Wireless Headphone", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20wireless%20headphone%20pastel%20woman" }
+                ]
+            },
+            {
+                time: "16:00",
+                type: "Outfit Change",
+                caption: `Ganti baju buat malam nanti.
+
+Aku suka momen ini, milih outfit depan cermin, mix and match sampai nemu yang pas.
+
+Ada yang bilang aku terlalu berani soal fashion.
+Tapi menurutku, pakai apa yang bikin kita nyaman itu bukan berani.
+Itu cuma jadi diri sendiri.
+
+Setuju atau nggak.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berdiri di depan lemari pakaian terbuka di latar image 3. Selfie mirror full body dengan outfit malam yang berbeda dan lebih bold dari sebelumnya, ekspresi percaya diri. Ada beberapa pilihan baju tergantung image 4 di gantungan pintu lemari. Bedroom lighting warm, aesthetic room dengan fairy lights.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=bold%20night%20out%20dress%20bodycon%20young%20woman%20asian" },
+                    { label: "Latar - Aesthetic Bedroom Wardrobe Open", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20bedroom%20wardrobe%20open%20fairy%20lights" },
+                    { label: "Item - Clothes Hanging Door Outfit Options", url: "https://www.pinterest.com/search/pins/?q=outfit%20options%20hanging%20clothes%20door%20aesthetic" }
+                ]
+            },
+            {
+                time: "17:00",
+                type: "Golden Hour",
+                caption: `Cahaya sore ini bagus banget buat foto.
+
+Tapi aku bukan tipe yang minta orang lain fotoin.
+Jadi ya selfie sendiri aja, cari angle yang pas sambil pura-pura nggak niat.
+
+Hasilnya lumayan kan.
+Atau jelek. Jujur aja nggak papa.
+
+Aku masih belajar soal percaya diri ini.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang selfie di latar image 3. Golden hour lighting dari samping membuat siluet cantik, Anindita angkat handphone untuk selfie dengan background sunset kota. Pegang iced drink image 4 di tangan satunya. Spot outdoor aesthetic dengan railing atau pagar besi dekoratif, langit sore berwarna oranye dan ungu.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=bold%20bodycon%20dress%20young%20woman%20golden%20hour%20sunset" },
+                    { label: "Latar - Outdoor Spot Railing Sunset City", url: "https://www.pinterest.com/search/pins/?q=outdoor%20railing%20sunset%20city%20golden%20hour%20spot" },
+                    { label: "Item - Iced Drink Sunset Aesthetic", url: "https://www.pinterest.com/search/pins/?q=iced%20drink%20hand%20sunset%20golden%20hour%20aesthetic" }
+                ]
+            },
+            {
+                time: "18:00",
+                type: "Evening Walk",
+                caption: `Jalan sore sendirian itu underrated banget.
+
+Nggak perlu ngobrol, nggak perlu senyum ke siapa-siapa.
+Cuma jalan, lihat sekitar, dan nikmatin udara yang mulai dingin.
+
+Kadang aku nemu hal-hal kecil yang menarik di jalan.
+Lampu toko yang bagus, kucing yang duduk rapi, atau bau makanan yang bikin lapar.
+
+Kalian suka jalan sendirian juga atau lebih suka ada teman.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berjalan santai di latar image 3. Difotoin dari belakang, Anindita berjalan di trotoar dengan lampu-lampu toko mulai menyala. Di latar ada beberapa orang Indonesia lain berjalan atau duduk di depan toko tidak sadar kamera. Pegang paper bag kecil image 4 dari toko. Early evening blue hour lighting, kota mulai menyala.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=bold%20outfit%20night%20young%20woman%20street%20evening" },
+                    { label: "Latar - Evening Street Lights Shop Front", url: "https://www.pinterest.com/search/pins/?q=evening%20street%20lights%20shop%20front%20blue%20hour%20city" },
+                    { label: "Item - Small Paper Bag Shop", url: "https://www.pinterest.com/search/pins/?q=small%20paper%20bag%20shop%20hand%20aesthetic%20evening" }
+                ]
+            },
+            {
+                time: "19:00",
+                type: "Dinner Spot",
+                caption: `Nemu tempat makan yang vibes-nya enak banget.
+
+Duduk di pojokan, pesen makanan yang nggak pernah aku coba sebelumnya.
+Rasanya kayak mini adventure sendiri.
+
+Aneh nggak sih kalau aku bilang aku lebih nyaman makan sendirian di tempat baru daripada rame-rame di tempat biasa.
+
+Atau mungkin itu karena aku belum nemu orang yang pas buat diajak.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang duduk di pojokan restoran di latar image 3. Candid difotoin dari meja sebelah, Anindita sedang lihat menu dengan ekspresi penasaran, satu tangan menopang pipi. Ada lilin kecil menyala image 4 di meja. Restoran semi-fine dining dengan pencahayaan warm dan dekorasi industrial. Beberapa pengunjung Indonesia lain di meja-meja sekitar tidak sadar kamera.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=bold%20dress%20young%20woman%20restaurant%20dinner%20night" },
+                    { label: "Latar - Cozy Restaurant Corner Industrial", url: "https://www.pinterest.com/search/pins/?q=cozy%20restaurant%20corner%20industrial%20warm%20candle%20light" },
+                    { label: "Item - Candle Table Restaurant Aesthetic", url: "https://www.pinterest.com/search/pins/?q=candle%20table%20restaurant%20aesthetic%20dinner" }
+                ]
+            },
+            {
+                time: "20:00",
+                type: "Night City",
+                caption: `Kota malam ini cantik banget.
+
+Lampu-lampunya kayak bintang yang turun ke bumi.
+Aku berdiri di sini dan mikir, pasti seru kalau ada yang nemenin lihat pemandangan ini.
+
+Tapi untuk sekarang, ditemani angin malam juga cukup.
+
+Kalau kalian di sini sekarang, kita ngobrol apa ya.
+Coba tulis di komentar, aku penasaran.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berdiri bersandar di railing di latar image 3. Difotoin dari samping, Anindita memandang pemandangan kota malam dengan lampu-lampu, rambut sedikit tertiup angin, ekspresi tenang dan sedikit tersenyum. Pegang minuman hangat cup image 4. Jembatan penyeberangan atau spot tinggi dengan view kota malam, city lights bokeh background.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=bold%20dress%20night%20city%20view%20young%20woman%20asian" },
+                    { label: "Latar - Night City View Bridge Lights", url: "https://www.pinterest.com/search/pins/?q=night%20city%20view%20bridge%20lights%20bokeh%20urban" },
+                    { label: "Item - Hot Cup Drink Night Aesthetic", url: "https://www.pinterest.com/search/pins/?q=hot%20cup%20drink%20night%20city%20aesthetic%20hand" }
+                ]
+            },
+            {
+                time: "21:00",
+                type: "Late Night Thoughts",
+                caption: `Jam segini biasanya pikiranku mulai kemana-mana.
+
+Mikirin masa depan, mikirin apa aku udah cukup baik, mikirin kenapa susah banget deket sama orang baru.
+
+Tapi terus aku ingetin diri sendiri, nggak harus buru-buru.
+Semua orang punya pace masing-masing.
+
+Kalian juga lagi mikirin sesuatu malam ini.
+Cerita aja kalau mau, aku dengerin kok.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang duduk di lantai kamar bersandar ke tempat tidur di latar image 3. Pose candid dari samping, lutut ditekuk, Anindita memeluk bantal kecil sambil menatap ke depan dengan tatapan menerawang. Ada string lights image 4 menyala di dinding kamar. Kamar aesthetic gelap dengan pencahayaan warm dari lampu tumblr, intimate cozy mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=cozy%20bold%20sleepwear%20satin%20young%20woman%20bedroom" },
+                    { label: "Latar - Aesthetic Bedroom Floor String Lights", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20bedroom%20floor%20sitting%20string%20lights%20cozy%20dark" },
+                    { label: "Item - String Lights Fairy Lights Bedroom", url: "https://www.pinterest.com/search/pins/?q=string%20fairy%20lights%20bedroom%20wall%20aesthetic" }
+                ]
+            },
+            {
+                time: "22:00",
+                type: "Vulnerable Post",
+                caption: `Aku mau jujur sedikit.
+
+Kadang aku iri sama orang yang gampang banget punya teman.
+Yang bisa langsung akrab tanpa canggung.
+
+Aku bukan tipe itu.
+Aku butuh waktu, butuh rasa aman dulu baru bisa terbuka.
+
+Tapi bukan berarti aku nggak mau kenal kalian.
+Justru sebaliknya.
+
+Jadi kalau kalian mau ngobrol, mulai aja dulu.
+Aku pasti bales kok.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berbaring di sofa di latar image 3. Selfie dari atas, Anindita menatap kamera dengan ekspresi lembut dan sedikit rentan tapi cantik, rambut terurai di bantal sofa. Pegang handphone image 4 dengan satu tangan. Ruang tamu minimalis dengan pencahayaan lamp warm, suasana malam tenang dan intimate.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Night Out Dress Bodycon", url: "https://www.pinterest.com/search/pins/?q=satin%20slip%20dress%20young%20woman%20sofa%20evening" },
+                    { label: "Latar - Minimalist Living Room Sofa Night Lamp", url: "https://www.pinterest.com/search/pins/?q=minimalist%20living%20room%20sofa%20night%20lamp%20warm%20cozy" },
+                    { label: "Item - Phone in Hand Lying Down", url: "https://www.pinterest.com/search/pins/?q=phone%20hand%20lying%20down%20selfie%20aesthetic" }
+                ]
+            },
+            {
+                time: "23:00",
+                type: "Midnight Tease",
+                caption: `Nggak bisa tidur.
+
+Entah kenapa malam ini rasanya panjang banget.
+Biasanya aku langsung tidur, tapi sekarang malah scroll timeline sambil mikir random.
+
+Kalau kalian juga belum tidur, berarti kita sama.
+Kita teman insomnia malam ini.
+
+Besok aku cerita lagi ya.
+Atau mungkin nanti pagi.
+Tergantung mood.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang duduk di tepi tempat tidur di latar image 3. Foto dari samping sedikit gelap, hanya tersinari cahaya handphone dan lampu tidur redup, Anindita menatap layar HP dengan ekspresi setengah senyum. Ada segelas air image 4 di nakas. Suasana kamar malam hari gelap dengan aksen cahaya warm dari lampu kecil, moody intimate atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Bold Sleepwear Satin Short Set", url: "https://www.pinterest.com/search/pins/?q=satin%20sleepwear%20short%20set%20young%20woman%20aesthetic%20night" },
+                    { label: "Latar - Dark Bedroom Edge of Bed Night", url: "https://www.pinterest.com/search/pins/?q=dark%20bedroom%20edge%20bed%20night%20moody%20lighting" },
+                    { label: "Item - Glass of Water Nightstand", url: "https://www.pinterest.com/search/pins/?q=glass%20water%20nightstand%20night%20aesthetic%20minimal" }
+                ]
+            },
+            {
+                time: "00:00",
+                type: "Midnight Closing",
+                caption: `Sudah tengah malam.
+
+Hari ini aku senang bisa berbagi sama kalian di sini.
+Meskipun lewat layar, meskipun kita belum pernah ketemu langsung.
+
+Rasanya nggak terlalu sepi kalau tau ada yang baca.
+
+Makasih sudah di sini.
+Selamat tidur buat yang mau tidur.
+Dan buat yang masih terjaga, semoga malam ini baik-baik aja.
+
+Sampai besok.`,
+                imagePrompt: `Anindita pakai outfit image 2, sedang berbaring di tempat tidur di latar image 3. Foto dari atas angle miring, Anindita sudah memejamkan mata dengan senyum tipis damai, selimut menutupi sebagian badan, rambut terurai di bantal putih. Ada jam digital image 4 menunjukkan 00:00 di nakas samping tempat tidur. Pencahayaan sangat redup dan warm, moonlight sedikit masuk dari jendela, peaceful sleeping atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Satin Sleepwear Elegant", url: "https://www.pinterest.com/search/pins/?q=satin%20sleepwear%20elegant%20young%20woman%20sleeping" },
+                    { label: "Latar - Peaceful Bedroom Sleeping Moonlight", url: "https://www.pinterest.com/search/pins/?q=peaceful%20bedroom%20sleeping%20moonlight%20white%20sheets" },
+                    { label: "Item - Digital Clock Nightstand Midnight", url: "https://www.pinterest.com/search/pins/?q=digital%20clock%20nightstand%20midnight%2000%20aesthetic" }
+                ]
+            }
+        ];
+
+        const STATE_KEY = 'fb_anindita_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(24, 119, 242, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Caption';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Go To Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                let pinterestHTML = '';
+                if (post.pinterestLinks && post.pinterestLinks.length > 0) {
+                    pinterestHTML = `<div class="pinterest-links"><span class="pinterest-label">Pinterest Reference Links</span>`;
+                    post.pinterestLinks.forEach(link => {
+                        pinterestHTML += `<a href="${link.url}" target="_blank">${link.label}</a>`;
+                    });
+                    pinterestHTML += `</div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt</span>${post.imagePrompt}</div>
+                    ${pinterestHTML}
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy Caption</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">1-Click Copy Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
