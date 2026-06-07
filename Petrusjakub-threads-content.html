@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threads Content Plan - @petrusjakub | Full Day</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0f2027 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #fda085);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #58a6ff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #58a6ff;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        /* Navigation Section */
+        .nav-section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .nav-section h3 {
+            color: #58a6ff;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.nav-done {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            background: rgba(255, 82, 82, 0.1);
+            border-color: rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+            text-decoration: line-through;
+        }
+
+        /* Post Cards */
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f093fb, #f5576c);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8b949e;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(88, 166, 255, 0.1);
+            color: #58a6ff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #c9d1d9;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(88, 166, 255, 0.1);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8b949e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-show-all {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            margin: 16px auto;
+            display: block;
+        }
+
+        .btn-show-all:hover {
+            background: rgba(100, 255, 218, 0.2);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Threads Content Plan</h1>
+        <p class="account">@petrusjakub</p>
+        <p>Full Day Schedule (06:00 - 22:00 WIB) - Leads Rekrut Agen Asuransi</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-section">
+        <h3>Navigasi Cepat ke Task</h3>
+        <div class="nav-buttons" id="navButtons"></div>
+    </div>
+
+    <button class="btn btn-show-all" onclick="showAllTasks()">Tampilkan Semua Task</button>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Motivasi Pagi",
+                caption: `Bangun pagi, buka HP, scroll timeline...
+
+Semua orang posting liburan, beli rumah, resign dari kantor.
+
+Sementara kamu? Masih hitung hari sampai gajian.
+
+Bukan salah kamu. Tapi kalau NGGAK BERUBAH sekarang, 5 tahun lagi tetap sama.
+
+Ada 1 peluang yang bisa ubah hidupmu dalam 90 hari.
+
+Klik link di bio.
+
+#MotivasiPagi #PerubahanHidup #Peluang2025`
+            },
+            {
+                time: "06:30",
+                type: "Hook Emosional",
+                caption: `"Mas, kapan nikah?"
+"Mbak, kapan beli rumah?"
+"Udah umur segini, nabung berapa?"
+
+Pertanyaan yang bikin SAKIT tapi nggak bisa dijawab.
+
+Karena penghasilan cuma cukup buat survive, bukan buat MIMPI.
+
+Tapi ada jalan lain. Yang nggak butuh ijazah tinggi. Yang bisa dimulai HARI INI.
+
+Cek: https://projectcuan.petrusjakub.workers.dev/
+
+#RealTalk #PenghasilanTambahan #JalanKeluar`
+            },
+            {
+                time: "07:00",
+                type: "Storytelling",
+                caption: `Cerita nyata:
+
+Dulu saya malu kalau ditanya kerja apa.
+Penghasilan pas-pasan. Masa depan nggak jelas.
+
+Sampai satu hari, saya NEKAT ambil peluang yang orang lain remehkan.
+
+Hasilnya? Dalam 6 bulan, penghasilan saya naik 5x lipat.
+
+Bukan sulap. Bukan judi. Tapi BISNIS LEGAL yang terdaftar OJK.
+
+Mau tau caranya? https://projectcuan.petrusjakub.workers.dev/
+
+#KisahNyata #DariNol #SuksesStory`
+            },
+            {
+                time: "07:30",
+                type: "Edukasi + Hook",
+                caption: `DATA MENGEJUTKAN:
+
+70% keluarga Indonesia TIDAK SIAP menghadapi musibah finansial.
+
+Artinya? Kalau ada yang sakit atau meninggal, keluarga HANCUR secara ekonomi.
+
+Ini bukan nakut-nakutin. Ini FAKTA.
+
+Dan di balik masalah ini, ada PELUANG BESAR buat kamu yang mau jadi solusi.
+
+Jadi agen asuransi = bantu orang + dapat penghasilan besar.
+
+Info: klik link di bio
+
+#FaktaIndonesia #AgenAsuransi #PeluangBisnis`
+            },
+            {
+                time: "08:00",
+                type: "Social Proof",
+                caption: `Update dari tim @petrusjakub minggu ini:
+
+- Member baru closing di hari ke-5
+- 1 orang dapat komisi pertama 7.5 juta
+- 3 orang naik level
+
+Ini bukan MLM.
+Ini bukan skema ponzi.
+
+Ini bisnis LEGAL, didukung perusahaan asuransi ternama, terdaftar OJK.
+
+Mau gabung di tim yang saling support?
+
+Daftar: https://projectcuan.petrusjakub.workers.dev/
+
+#TimSolid #HasilNyata #BukanMLM`
+            },
+            {
+                time: "08:30",
+                type: "Pain Point + CTA",
+                caption: `Jujur aja...
+
+Kamu pernah nggak, tengah malam kepikiran:
+"Gimana kalau besok aku kena PHK?"
+"Gimana kalau ortu sakit dan butuh biaya besar?"
+"Gimana kalau tabungan habis?"
+
+Rasa takut itu VALID.
+
+Tapi yang bikin beda: ada orang yang BERTINDAK, ada yang cuma KHAWATIR.
+
+Kamu mau jadi yang mana?
+
+Langkah pertama: https://projectcuan.petrusjakub.workers.dev/
+
+#TengahMalamThoughts #Bertindak #LawanTakut`
+            },
+            {
+                time: "09:00",
+                type: "Myth Busting",
+                caption: `3 MITOS tentang jadi agen asuransi:
+
+MITOS 1: "Harus jago jualan"
+FAKTA: Yang dibutuhkan itu EMPATI, bukan jago ngomong.
+
+MITOS 2: "Butuh modal besar"
+FAKTA: GRATIS. Nol rupiah.
+
+MITOS 3: "Susah dapat client"
+FAKTA: Dengan digital marketing, client yang DATANG ke kamu.
+
+Masih percaya mitos? Atau mau buktikan sendiri?
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#MythBusting #FaktaAgen #DigitalMarketing`
+            },
+            {
+                time: "09:30",
+                type: "Relatable Content",
+                caption: `Pernah ngerasa kayak gini?
+
+- Kerja keras tapi nggak dihargai
+- Gaji naik dikit, harga semua naik banyak
+- Pengen resign tapi takut nggak punya income
+
+Kalau iya, kamu BUKAN sendirian.
+
+Dan kabar baiknya: ada SOLUSI yang nggak perlu langsung resign.
+
+Bangun side income dulu. Kalau sudah lebih besar dari gaji, baru putuskan.
+
+Mulai di sini: klik link di bio
+
+#Relatable #SideIncome #JalanKeluar`
+            },
+            {
+                time: "10:00",
+                type: "Edukasi Karir",
+                caption: `Kenapa agen asuransi jadi KARIR PALING MENJANJIKAN di 2025?
+
+1. Pasar 270 JUTA jiwa, 80% belum punya asuransi
+2. Komisi bisa puluhan juta per bulan
+3. Jam kerja FLEKSIBEL
+4. Bisa dikerjakan dari MANA SAJA
+5. Passive income dari renewal
+
+Ini bukan hype. Ini REALITA.
+
+Yang butuh cuma KEBERANIAN untuk mulai.
+
+Info lengkap: https://projectcuan.petrusjakub.workers.dev/
+
+#Karir2025 #AgenAsuransi #PasarBesar`
+            },
+            {
+                time: "10:30",
+                type: "Engagement Hook",
+                caption: `Coba jawab jujur:
+
+Kalau ada peluang yang:
+- GRATIS untuk mulai
+- Potensi income UNLIMITED
+- Bisa dikerjakan part-time
+- Ada mentor yang membimbing
+
+...kenapa nggak COBA?
+
+Yang paling rugi itu bukan yang gagal.
+Yang paling rugi itu yang NGGAK PERNAH MULAI.
+
+Mulai sekarang: https://projectcuan.petrusjakub.workers.dev/
+
+#JujurSamaDiri #MulaiSekarang #NggakAdaRugi`
+            },
+            {
+                time: "11:00",
+                type: "Behind The Scene",
+                caption: `Hari ini jadwal saya:
+
+07:00 - Morning briefing sama tim
+09:00 - Follow up 5 prospek
+10:00 - Closing meeting (BERHASIL!)
+11:00 - Share tips di Threads
+
+Capek? Pasti.
+Tapi pas liat komisi masuk... SEMUANYA WORTH IT.
+
+Yang bikin beda: saya kerja untuk DIRI SENDIRI. Bukan untuk kekayaan orang lain.
+
+Mau kayak gini juga? Klik link di bio.
+
+#BehindTheScene #DayInMyLife #KerjaUntukDiriSendiri`
+            },
+            {
+                time: "11:30",
+                type: "Testimoni",
+                caption: `Pesan dari member baru kami:
+
+"Awalnya ragu banget. Takut ditolak. Takut gagal. Tapi pas ikut training pertama, langsung ngerasa: INI YANG AKU CARI."
+
+"Minggu ke-3, closing pertama. Komisi 5 juta. Dari HP doang."
+
+Semua yang sukses itu dulunya RAGU.
+Bedanya, mereka tetap MELANGKAH.
+
+Giliranmu kapan?
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#Testimoni #DariRaguJadiSukses #GiliranKamu`
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break Content",
+                caption: `Lagi break makan siang?
+
+Coba pikir 30 detik:
+
+1 tahun lagi, kamu mau masih di posisi yang SAMA?
+Atau sudah punya penghasilan 2x lipat dari sekarang?
+
+Bedanya cuma SATU KEPUTUSAN.
+
+Dan keputusan itu bisa kamu ambil SEKARANG.
+
+Gratis. Tanpa risiko. Tinggal klik.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#LunchBreakThoughts #SatuKeputusan #SekarangAtauNanti`
+            },
+            {
+                time: "12:30",
+                type: "Perbandingan",
+                caption: `REALITA 2025:
+
+Harga rumah: NAIK
+Harga sembako: NAIK
+Biaya sekolah anak: NAIK
+UMR: naik dikit...
+
+Solusinya bukan ngeluh.
+Solusinya CARI INCOME TAMBAHAN.
+
+Dan yang paling realistis tanpa modal:
+Jadi agen asuransi profesional.
+
+Penghasilan bisa 10-50 JUTA per bulan.
+Tanpa modal. Tanpa ijazah tinggi.
+
+Info: klik link di bio
+
+#Realita2025 #SolusiNyata #IncomeTambahan`
+            },
+            {
+                time: "13:00",
+                type: "Hook Kontroversial",
+                caption: `Hot take: Ijazah S1 bukan jaminan hidup enak.
+
+Yang jamin hidup enak:
+- SKILL yang menghasilkan uang
+- NETWORK yang membuka pintu
+- ACTION yang konsisten
+
+3 hal itu bisa kamu dapat di bisnis asuransi. GRATIS.
+
+Tanpa perlu bayar kuliah 100 juta.
+Tanpa perlu nunggu 4 tahun.
+
+Buktinya? Banyak agen top kami bukan sarjana.
+
+Klik: https://projectcuan.petrusjakub.workers.dev/
+
+#HotTake #SkillOverDegree #ActionOverDiploma`
+            },
+            {
+                time: "13:30",
+                type: "Tips Praktis",
+                caption: `Mau dapat LEADS setiap hari tanpa spam?
+
+Ini caranya:
+
+1. Buat konten yang MENGEDUKASI (bukan jualan)
+2. Share cerita REAL (testimoni, pengalaman)
+3. Bangun personal brand yang TERPERCAYA
+4. Konsisten posting minimal 3x sehari
+5. Selalu kasih VALUE dulu
+
+Hasilnya? Orang yang DATANG ke kamu, bukan kamu yang ngejar.
+
+Mau belajar lebih dalam? Training GRATIS.
+
+Daftar: https://projectcuan.petrusjakub.workers.dev/
+
+#TipsLeads #PersonalBrand #ContentStrategy`
+            },
+            {
+                time: "14:00",
+                type: "Urgency",
+                caption: `Tahun depan kamu akan bilang:
+
+"Kenapa nggak mulai dari TAHUN LALU?"
+
+Jangan ulangi penyesalan yang sama.
+
+Sekarang ada kesempatan.
+Sekarang ada mentornya.
+Sekarang ada training gratisnya.
+
+Yang nggak ada: WAKTU YANG TERBUANG bisa diambil kembali.
+
+Daftar hari ini: https://projectcuan.petrusjakub.workers.dev/
+
+#JanganTunda #WaktuNggakBisaDiulang #MulaiHariIni`
+            },
+            {
+                time: "14:30",
+                type: "Mindset",
+                caption: `Kenapa orang takut GAGAL?
+
+Karena mereka pikir gagal itu akhir dari segalanya.
+
+Padahal...
+- Gagal = BELAJAR
+- Ditolak = DATA
+- Salah = PENGALAMAN
+
+Yang benar-benar GAGAL itu yang nggak pernah MENCOBA.
+
+Di bisnis asuransi, kamu nggak kehilangan apa-apa kalau gagal.
+Tapi bisa DAPAT SEGALANYA kalau berhasil.
+
+Coba: klik link di bio
+
+#MindsetShift #GagalItuBelajar #BeraniBerubah`
+            },
+            {
+                time: "15:00",
+                type: "Q&A",
+                caption: `Pertanyaan yang sering masuk:
+
+"Kak, beneran gratis?"
+YA. 100% gratis daftar.
+
+"Bisa sambil kerja kantoran?"
+BISA. Banyak member kami part-timer.
+
+"Saya introvert, bisa?"
+BISA. Di era digital, nggak perlu door-to-door.
+
+"Kapan bisa mulai dapat income?"
+Tergantung effort. Ada yang 1 minggu sudah closing.
+
+Pertanyaan lain? Klik link, tim kami siap jawab.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#FAQ #JawabJujur #TanpaBasa`
+            },
+            {
+                time: "15:30",
+                type: "Future Pacing",
+                caption: `Tutup mata sebentar. Bayangkan ini:
+
+6 bulan dari sekarang...
+- Rekening kamu isinya BERLIPAT dari sekarang
+- Kamu bisa traktir ortu tanpa mikir dua kali
+- Cicilan lunas lebih cepat
+- Kamu bangun pagi dengan SEMANGAT, bukan beban
+
+Itu BUKAN mimpi. Itu target yang bisa dicapai.
+
+Tapi hanya kalau kamu MULAI.
+
+Start here: https://projectcuan.petrusjakub.workers.dev/
+
+#Visualisasi #6BulanLagi #TargetBukanMimpi`
+            },
+            {
+                time: "16:00",
+                type: "Challenge",
+                caption: `TANTANGAN buat kamu yang baca ini:
+
+Hari ini, lakukan SATU hal yang menakutkan.
+
+Daftar sesuatu yang baru.
+Kirim pesan ke orang yang kamu kagumi.
+Ambil langkah yang selama ini kamu tunda.
+
+Takut? BAGUS. Itu tanda kamu sedang BERTUMBUH.
+
+1 langkah kecil hari ini = 1 perubahan besar besok.
+
+Langkah kecilnya: https://projectcuan.petrusjakub.workers.dev/
+
+#TantanganHariIni #1Langkah #KeluarDariZonaNyaman`
+            },
+            {
+                time: "16:30",
+                type: "Social Proof Update",
+                caption: `BUKTI. Bukan JANJI.
+
+Screenshot komisi member kami bulan ini:
+- Rp 12.000.000 (member 3 bulan)
+- Rp 7.500.000 (member 1 bulan)
+- Rp 25.000.000 (leader tim)
+
+Dan ini baru KOMISI PERTAMA mereka.
+
+Belum termasuk bonus dan reward.
+
+Kamu bisa jadi yang SELANJUTNYA.
+
+Daftar: https://projectcuan.petrusjakub.workers.dev/
+
+#BuktiBukanJanji #KomisiNyata #NextIsYou`
+            },
+            {
+                time: "17:00",
+                type: "After Work Hook",
+                caption: `Baru pulang kerja?
+
+Badan capek. Otak penuh. Hati galau mikirin masa depan.
+
+Terus besok... ulang lagi. Dan lagi. Dan lagi.
+
+Sampai kapan?
+
+Ada orang yang memutuskan BERHENTI dari siklus ini.
+Mereka bangun BISNIS SENDIRI. Dari HP. Tanpa modal.
+
+Dan sekarang? Mereka yang tentukan JAM KERJA sendiri.
+
+Mau juga? Klik link di bio.
+
+#SiklusYangSama #BerhentiSekarang #BisnisFromHP`
+            },
+            {
+                time: "17:30",
+                type: "Edukasi Finansial",
+                caption: `Penghasilan agen asuransi di Indonesia:
+
+Pemula (bulan 1-3): 3 - 10 juta/bulan
+Intermediate (bulan 4-12): 15 - 40 juta/bulan
+Advanced (tahun 2+): 50 - 100++ juta/bulan
+
+UNLIMITED. Tanpa CEILING.
+
+Yang menentukan BUKAN:
+- Ijazah
+- Pengalaman
+- Tampang
+
+Yang menentukan:
+- KONSISTENSI
+- KEBERANIAN
+- KEMAUAN BELAJAR
+
+Info: https://projectcuan.petrusjakub.workers.dev/
+
+#PenghasilanAgen #Unlimited #TanpaBatas`
+            },
+            {
+                time: "18:00",
+                type: "Evening Reflection",
+                caption: `Sore ini, sebelum scroll lebih jauh...
+
+Tanya ke diri sendiri:
+
+"Dari semua waktu yang aku habiskan di HP hari ini, berapa yang MENGHASILKAN?"
+
+Kalau jawabannya NOL...
+
+Mungkin sudah waktunya ubah SCROLL jadi ACTION.
+
+1 klik bisa jadi awal perubahan.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#RefleksiSore #ScrollVsAction #WaktuBerharga`
+            },
+            {
+                time: "18:30",
+                type: "CTA Emosional",
+                caption: `Aku nggak tau kondisi kamu sekarang.
+
+Mungkin lagi struggling.
+Mungkin lagi stuck.
+Mungkin lagi hopeless.
+
+Tapi yang aku tau: SETIAP ORANG berhak punya kehidupan yang lebih baik.
+
+Dan kadang, yang dibutuhkan cuma 1 PINTU yang terbuka.
+
+Ini pintunya: https://projectcuan.petrusjakub.workers.dev/
+
+Nggak ada yang rugi kalau coba. Yang rugi kalau nggak.
+
+#KamuBerhak #SatuPintu #HidupLebihBaik`
+            },
+            {
+                time: "19:00",
+                type: "Step by Step",
+                caption: `Cara gabung tim @petrusjakub:
+
+Step 1: Klik link (30 detik)
+Step 2: Isi data singkat
+Step 3: Tim kami hubungi kamu
+Step 4: Ikut training GRATIS
+Step 5: Mulai praktek + dapat mentor
+Step 6: CLOSING PERTAMA
+
+Sesederhana itu.
+
+Yang susah bukan prosesnya.
+Yang susah itu KEPUTUSAN PERTAMA untuk mulai.
+
+Ambil keputusan itu SEKARANG: https://projectcuan.petrusjakub.workers.dev/
+
+#StepByStep #Sesederhana #MulaiDariSatu`
+            },
+            {
+                time: "19:30",
+                type: "Storytelling",
+                caption: `3 bulan lalu, ada yang DM saya:
+
+"Kak, saya cuma lulusan SMA. Bisa nggak?"
+
+Saya jawab: "Yang penting MAU BELAJAR."
+
+Hari ini dia kirim screenshot komisi pertamanya: 8.5 JUTA.
+
+Sambil nangis.
+
+Karena itu lebih besar dari gaji bulanan dia sebelumnya.
+
+Bukan soal ijazah. Soal KEMAUAN.
+
+Mau jadi cerita sukses selanjutnya?
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#CeritaSukses #LulusanSMA #SemangaBerubah`
+            },
+            {
+                time: "20:00",
+                type: "Soft Selling",
+                caption: `Kalau kamu masih baca sampai sini...
+
+Kamu BUKAN orang biasa.
+
+Orang biasa sudah scroll lewat dari tadi.
+Tapi kamu masih di sini. Artinya ada SESUATU di dalam diri kamu yang mau LEBIH.
+
+Jangan abaikan feeling itu.
+
+Ini saatnya bertindak:
+1. Klik link
+2. Isi form (30 detik)
+3. Tunggu dihubungi
+4. Mulai perjalanan baru
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#BukanOrangBiasa #SaatnyaBertindak #LangkahPertama`
+            },
+            {
+                time: "20:30",
+                type: "Motivasi Malam",
+                caption: `Malam ini, sebelum tidur...
+
+Jangan cuma berharap besok lebih baik.
+PASTIKAN besok lebih baik.
+
+Caranya? Ambil 1 keputusan MALAM INI yang mengubah arah hidupmu.
+
+- Daftar peluang baru
+- Commit untuk belajar
+- Beranikan diri untuk mulai
+
+Karena esok hari dimulai dari keputusan MALAM INI.
+
+Daftar: klik link di bio
+
+#MalamIni #KeputusanBerubah #BesokLebihBaik`
+            },
+            {
+                time: "21:00",
+                type: "Late Night Hook",
+                caption: `Jam segini biasanya scroll tanpa tujuan ya?
+
+Gimana kalau kali ini BEDA?
+
+Gimana kalau malam ini jadi malam TERAKHIR kamu hidup tanpa rencana?
+
+Besok pagi, kamu bisa bangun sebagai orang yang sudah punya ARAH.
+
+Yang perlu dilakukan cuma 1: klik link di bawah.
+
+30 detik. Gratis. Life-changing.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#LateNightThoughts #MalamTerakhirTanpaRencana #Berubah`
+            },
+            {
+                time: "21:30",
+                type: "Closing Emosional",
+                caption: `Saya tau rasanya ngerasa STUCK.
+Saya tau rasanya ngerasa NGGAK CUKUP.
+Saya tau rasanya pengen berubah tapi nggak tau CARANYA.
+
+Karena saya pernah di posisi itu.
+
+Dan yang mengubah segalanya bukan keberuntungan.
+Tapi KEBERANIAN untuk ambil langkah pertama.
+
+Malam ini, jadilah versi BERANI dari dirimu.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#DariStuckJadiBerkah #Keberanian #LangkahPertama`
+            },
+            {
+                time: "22:00",
+                type: "Night Closer",
+                caption: `Selamat malam.
+
+Ini pesan terakhir untuk hari ini:
+
+Kamu LAYAK punya kehidupan yang lebih baik.
+Kamu MAMPU mengubah nasibmu sendiri.
+Kamu CUKUP untuk memulai dari nol.
+
+Yang dibutuhkan hanya 1 keputusan dan 1 langkah.
+
+Besok pagi, bangun dengan TUJUAN BARU.
+
+Daftar malam ini: https://projectcuan.petrusjakub.workers.dev/
+
+Tidur yang nyenyak, calon top agent.
+
+#SelamatMalam #PesanTerakhir #CalonTopAgent`
+            }
+        ];
+
+        const STATE_KEY = 'petrusjakub_threads_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateNavButtons();
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateNavButtons();
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function showAllTasks() {
+            localStorage.removeItem(STATE_KEY);
+            renderPosts();
+            showToast('Semua task ditampilkan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function scrollToPost(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(240, 147, 251, 0.4)';
+                setTimeout(() => {
+                    card.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            const navContainer = document.getElementById('navButtons');
+            navContainer.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.textContent = post.time;
+                btn.onclick = () => scrollToPost(index);
+
+                const status = state[index] || '';
+                if (status === 'done') {
+                    btn.classList.add('nav-done');
+                } else if (status === 'hidden') {
+                    btn.classList.add('nav-hidden');
+                }
+
+                navContainer.appendChild(btn);
+            });
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
