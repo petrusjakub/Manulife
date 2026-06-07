@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Content Plan - Vivi Lim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #898F9C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #1877F2;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #1877F2;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.3);
+            color: #1877F2;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(24, 119, 242, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(24, 119, 242, 0.1);
+            color: #1877F2;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-redirect {
+            display: inline-block;
+            margin-left: 8px;
+            background: rgba(24, 119, 242, 0.2);
+            color: #4fc3f7;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            text-decoration: none;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .post-redirect:hover {
+            background: rgba(24, 119, 242, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(24, 119, 242, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #1877F2;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(230, 0, 35, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(230, 0, 35, 0.2);
+        }
+
+        .pinterest-links .pinterest-label {
+            display: block;
+            color: #E60023;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links a {
+            color: #E60023;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+        }
+
+        .pinterest-links a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Content Plan</h1>
+        <p class="account">Vivi Lim</p>
+        <p>Full Day Schedule - Career Woman & Lifestyle Influencer</p>
+        <p style="color:#8892b0; font-size:0.82rem; margin-top:4px;">Anak rantau Medan di Bandung | Karir tinggi | Sosialita | Foodie | Traveler</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Go To Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Morning Routine",
+                redirect: "#post-0600",
+                caption: `Jam 6 pagi di Bandung itu beda.
+
+Dinginnya masuk sampai ke tulang, tapi bikin semangat banget buat bangun.
+
+Anak rantau dari Medan yang udah kebal dingin? Nggak juga sih. Masih ngumpet di selimut 5 menit dulu.
+
+Tapi begitu buka jendela... pemandangan kota Bandung pagi hari itu selalu bikin grateful.
+
+Yang di Bandung juga, pagi ini udaranya gimana?
+
+#ViviLim #MorningBandung #AnakRantauMedan #PagiBandung #BandungDingin`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berdiri di dekat jendela kamar sambil meregangkan badan di latar image 3. Selfie dengan senyum segar, rambut masih sedikit berantakan natural. Ada gelas air putih image 4 di nakas samping tempat tidur. Morning soft light dari jendela, suasana kamar bersih dan rapi.`,
+                pinterestLinks: [
+                    { label: "Outfit - Silk Pajama Set Elegant", url: "https://www.pinterest.com/search/pins/?q=silk%20pajama%20set%20elegant%20morning%20woman" },
+                    { label: "Latar - Bedroom Window Morning Light Bandung", url: "https://www.pinterest.com/search/pins/?q=bedroom%20window%20morning%20light%20city%20view%20aesthetic" },
+                    { label: "Item - Glass of Water Nightstand", url: "https://www.pinterest.com/search/pins/?q=glass%20water%20nightstand%20morning%20routine%20aesthetic" }
+                ]
+            },
+            {
+                time: "07:00",
+                type: "Breakfast Goals",
+                redirect: "#post-0700",
+                caption: `Sarapan anak rantau Medan versi upgrade:
+
+Dulu di Medan, sarapan = lontong sayur dari emak.
+Sekarang di Bandung? Bikin sendiri... tapi yang fancy dikit.
+
+Bukan sombong, tapi kalau nggak treat diri sendiri, siapa lagi?
+
+Yang pasti, perut kenyang = mood kerja bagus.
+Setuju nggak?
+
+Drop menu sarapan favorit kalian! Vivi butuh inspirasi buat besok.
+
+#ViviLim #BreakfastGoals #AnakMedan #SarapanFancy #TreatYourself`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang duduk di meja makan minimalis di latar image 3. Difotoin dari depan, Vivi tersenyum sambil pegang sendok, siap makan. Ada breakfast plate aesthetic image 4 (avocado toast, buah, dan kopi latte) tertata rapi di meja. Bright morning natural lighting, clean kitchen background.`,
+                pinterestLinks: [
+                    { label: "Outfit - Casual Home Wear Chic", url: "https://www.pinterest.com/search/pins/?q=casual%20home%20wear%20chic%20woman%20morning" },
+                    { label: "Latar - Minimalist Dining Table Morning", url: "https://www.pinterest.com/search/pins/?q=minimalist%20dining%20table%20morning%20breakfast%20aesthetic" },
+                    { label: "Item - Aesthetic Breakfast Plate Avocado Toast", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20breakfast%20plate%20avocado%20toast%20latte" }
+                ]
+            },
+            {
+                time: "08:00",
+                type: "OOTD Commute",
+                redirect: "#post-0800",
+                caption: `Hari ini Vivi mau ke kantor dengan semangat 110%.
+
+...atau minimal 60%. Yang penting berangkat dulu.
+
+Outfit hari ini: professional tapi tetap stylish.
+Karena di kantor itu bukan cuma soal kerja, tapi juga soal confidence.
+
+First impression itu tiap hari loh, bukan cuma hari pertama.
+
+Siapa yang setuju outfit bagus = produktivitas naik?
+
+#ViviLim #OOTDKantor #CareerWoman #BandungStyle #ProfessionalLook`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berjalan menuju mobil di latar image 3 (area parkir apartemen modern Bandung). Difotoin full body dari samping, Vivi menoleh ke kamera dengan pose percaya diri sambil pegang car key. Ada tas kerja premium image 4 di tangan satunya. Morning sunlight, urban professional vibes.`,
+                pinterestLinks: [
+                    { label: "Outfit - Professional Blazer Skirt Set", url: "https://www.pinterest.com/search/pins/?q=professional%20blazer%20skirt%20set%20women%20office%20style" },
+                    { label: "Latar - Modern Apartment Parking Area", url: "https://www.pinterest.com/search/pins/?q=modern%20apartment%20parking%20area%20morning%20urban" },
+                    { label: "Item - Premium Work Bag Women", url: "https://www.pinterest.com/search/pins/?q=premium%20work%20bag%20women%20professional%20leather" }
+                ]
+            },
+            {
+                time: "09:00",
+                type: "Office Life",
+                redirect: "#post-0900",
+                caption: `Sampai kantor. Kopi sudah di tangan. Ruangan sudah wangi.
+
+Ini ritual Vivi setiap pagi:
+1. Nyalakan laptop
+2. Buka email
+3. Tarik napas dalam
+4. Bilang ke diri sendiri: "Hari ini kamu bisa."
+
+Sederhana, tapi powerful.
+
+Kadang kita lupa bahwa motivasi terbesar itu datang dari diri sendiri.
+
+Apa ritual pagi kalian di kantor?
+
+#ViviLim #OfficeLife #MorningRitual #CareerWoman #BossLady #Motivasi`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang duduk di kursi kantor di ruangan kerja pribadi di latar image 3 (ruangan kantor modern dengan jendela besar, tanaman indoor, dan rak buku). Selfie dari meja kerja, Vivi senyum profesional sambil pegang gelas kopi latte image 4. Background rapi dan aesthetic, ada laptop terbuka di meja. Bright office natural lighting.`,
+                pinterestLinks: [
+                    { label: "Outfit - Office Blazer Elegant", url: "https://www.pinterest.com/search/pins/?q=office%20blazer%20elegant%20women%20professional%20asian" },
+                    { label: "Latar - Modern Private Office Room Plants", url: "https://www.pinterest.com/search/pins/?q=modern%20private%20office%20room%20plants%20window%20aesthetic" },
+                    { label: "Item - Latte Coffee Cup Office Desk", url: "https://www.pinterest.com/search/pins/?q=latte%20coffee%20cup%20office%20desk%20aesthetic%20morning" }
+                ]
+            },
+            {
+                time: "10:00",
+                type: "Work Wisdom",
+                redirect: "#post-1000",
+                caption: `Tips dari Vivi buat yang baru mulai karir:
+
+Jangan takut ruangan rapat yang isinya orang-orang senior.
+Jangan minder kalau kamu yang paling muda.
+Jangan diam kalau punya ide bagus.
+
+Dulu Vivi juga nervous banget. Tangan dingin, suara gemetar.
+
+Tapi percaya deh, semakin sering ngomong, semakin natural jadinya.
+
+Yang penting: siapkan data, bukan cuma opini.
+Orang respek sama yang datang dengan fakta.
+
+Save postingan ini kalau bermanfaat!
+
+#ViviLim #CareerTips #WorkWisdom #BossLady #PercayaDiri #TipsKarir`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berdiri presentasi di depan whiteboard di latar image 3 (ruang meeting modern dengan meja panjang dan kursi-kursi). Difotoin dari samping belakang oleh rekan kerja, Vivi terlihat percaya diri menunjuk ke whiteboard. Ada dokumen dan laptop image 4 di meja meeting. Di latar ada beberapa orang Indonesia duduk memperhatikan tidak sadar kamera. Professional office lighting.`,
+                pinterestLinks: [
+                    { label: "Outfit - Business Formal Woman Presentation", url: "https://www.pinterest.com/search/pins/?q=business%20formal%20woman%20presentation%20meeting%20room" },
+                    { label: "Latar - Modern Meeting Room Whiteboard", url: "https://www.pinterest.com/search/pins/?q=modern%20meeting%20room%20whiteboard%20office%20corporate" },
+                    { label: "Item - Documents Laptop Meeting Table", url: "https://www.pinterest.com/search/pins/?q=documents%20laptop%20meeting%20table%20professional" }
+                ]
+            },
+            {
+                time: "11:00",
+                type: "Snack Break",
+                redirect: "#post-1100",
+                caption: `Jam 11: perut mulai demo.
+
+Makan siang masih lama, tapi otak udah nggak fokus.
+
+Solusi Vivi? Snack drawer rahasia di laci meja kerja.
+
+Hari ini menunya: dark chocolate + almond.
+Katanya bagus buat otak. Entah bener atau nggak, yang penting enak.
+
+Kalian team snacking di kantor atau team tahan sampai makan siang?
+
+#ViviLim #SnackBreak #OfficeLife #DarkChocolate #TeamSnacking`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang duduk santai di kursi kantor sambil nyemil di latar image 3 (ruangan kantor pribadi, angle dari samping meja). Selfie candid, Vivi nyengir lucu sambil pegang coklat yang sudah digigit sedikit. Ada snack box aesthetic image 4 terbuka di atas meja kerja di samping laptop. Soft office lighting, playful candid mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Smart Casual Office Look", url: "https://www.pinterest.com/search/pins/?q=smart%20casual%20office%20look%20women%20blazer" },
+                    { label: "Latar - Private Office Desk Side Angle", url: "https://www.pinterest.com/search/pins/?q=private%20office%20desk%20side%20angle%20modern" },
+                    { label: "Item - Aesthetic Snack Box Dark Chocolate Almonds", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20snack%20box%20dark%20chocolate%20almonds%20desk" }
+                ]
+            },
+            {
+                time: "12:00",
+                type: "Lunch Date",
+                redirect: "#post-1200",
+                caption: `Lunch time!
+
+Hari ini Vivi makan di luar sama tim.
+Bonding itu penting. Bukan cuma kerja terus.
+
+Menu hari ini: pasta carbonara yang creamy-nya bikin lupa diet.
+
+Vivi percaya: hubungan baik sama tim = karir yang sustainable.
+Nggak ada yang sukses sendirian.
+
+Kalian biasa lunch bareng siapa di kantor?
+
+#ViviLim #LunchDate #TeamBonding #PastaCarbonara #OfficeLunch #WorkLifeBalance`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang makan di latar image 3 (restoran Italia aesthetic di Bandung dengan dekorasi rustic modern). Difotoin dari depan, Vivi tertawa natural sambil angkat fork berisi pasta. Di latar ada 2-3 rekan kerja Indonesia sedang makan dan ngobrol tidak sadar kamera. Ada pasta carbonara image 4 yang cantik di piring depan Vivi. Warm restaurant lighting, cheerful lunch atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Office Wear Lunch Out", url: "https://www.pinterest.com/search/pins/?q=office%20wear%20women%20lunch%20restaurant%20smart" },
+                    { label: "Latar - Italian Restaurant Rustic Modern Bandung", url: "https://www.pinterest.com/search/pins/?q=italian%20restaurant%20rustic%20modern%20interior%20cozy" },
+                    { label: "Item - Pasta Carbonara Aesthetic Plating", url: "https://www.pinterest.com/search/pins/?q=pasta%20carbonara%20aesthetic%20plating%20restaurant" }
+                ]
+            },
+            {
+                time: "13:00",
+                type: "Post-Lunch Vibes",
+                redirect: "#post-1300",
+                caption: `Abis makan siang itu godaannya besar banget buat tidur.
+
+Mata berat. Otak nge-lag. Cursor di layar cuma berkedip.
+
+Tapi Vivi punya trik: jalan kaki 10 menit di sekitar kantor.
+Udara Bandung yang sejuk langsung bikin melek lagi.
+
+Daripada ngantuk-ngantukan, mendingan gerak sebentar.
+
+Kalian punya trik anti ngantuk setelah makan siang?
+
+#ViviLim #PostLunchVibes #TrikAntiNgantuk #BandungSejuk #OfficeHack`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berjalan santai di latar image 3 (area taman/courtyard gedung perkantoran Bandung dengan pohon-pohon dan bangku). Difotoin dari belakang agak samping, Vivi menoleh ke kamera sambil senyum segar. Ada iced americano image 4 di tangan. Bright midday Bandung sun, fresh outdoor office area feel.`,
+                pinterestLinks: [
+                    { label: "Outfit - Office Wear Walking Outdoor", url: "https://www.pinterest.com/search/pins/?q=office%20wear%20women%20walking%20outdoor%20professional" },
+                    { label: "Latar - Office Building Courtyard Garden", url: "https://www.pinterest.com/search/pins/?q=office%20building%20courtyard%20garden%20trees%20modern" },
+                    { label: "Item - Iced Americano Takeaway Cup", url: "https://www.pinterest.com/search/pins/?q=iced%20americano%20takeaway%20cup%20outdoor%20aesthetic" }
+                ]
+            },
+            {
+                time: "14:00",
+                type: "Random Thought",
+                redirect: "#post-1400",
+                caption: `Pemikiran random jam 2 siang:
+
+Kadang Vivi kangen Medan.
+Kangen suara emak teriak manggil makan.
+Kangen bapak yang diem-diem sisain lauk terenak buat anak-anaknya.
+Kangen adek yang ributin remote TV.
+
+Tapi di sini, di Bandung, Vivi membangun versi baru dari diri sendiri.
+Yang mandiri. Yang kuat. Yang bikin keluarga bangga.
+
+Untuk semua anak rantau: kita pasti bisa.
+
+Tag temen rantau kamu yang butuh pelukan virtual hari ini.
+
+#ViviLim #AnakRantau #KangenMedan #Bandung #MerantauBermakna #AnakRantauKuat`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang memandang ke luar jendela kantor di latar image 3 (jendela besar kantor dengan view kota Bandung di siang hari). Difotoin dari samping, Vivi terlihat reflektif dengan senyum tipis penuh makna. Ada frame foto kecil image 4 di meja kerja (foto keluarga). Soft natural window lighting, contemplative mood, warm afternoon tones.`,
+                pinterestLinks: [
+                    { label: "Outfit - Professional Look Window View", url: "https://www.pinterest.com/search/pins/?q=professional%20woman%20looking%20window%20office%20contemplative" },
+                    { label: "Latar - Office Window City View Bandung", url: "https://www.pinterest.com/search/pins/?q=office%20window%20city%20view%20afternoon%20modern" },
+                    { label: "Item - Small Family Photo Frame Desk", url: "https://www.pinterest.com/search/pins/?q=small%20family%20photo%20frame%20office%20desk%20aesthetic" }
+                ]
+            },
+            {
+                time: "15:00",
+                type: "Coffee Run",
+                redirect: "#post-1500",
+                caption: `Jam 3 sore: waktunya kopi kedua.
+
+Jangan judge. Ini survival mechanism buat meeting jam 4 nanti.
+
+Vivi itu tipe yang kalau belum ngopi, jangan diajak diskusi berat.
+Nanti jawabannya cuma: "Hmm iya." "Oke." "Noted."
+
+Setelah ngopi? Barulah keluar 1000 ide dalam 5 menit.
+
+Kalian team 1 kopi sehari atau team refill terus?
+
+#ViviLim #CoffeeRun #CoffeeAddict #OfficeLife #NgopiDulu #KopiSore`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berdiri di mini pantry kantor di latar image 3 (pantry kantor modern dengan coffee machine dan rak-rak rapi). Selfie sambil pose cheers dengan gelas kopi baru dibuat, ekspresi excited. Ada coffee machine image 4 di background. Warm indoor pantry lighting, cozy work break atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Office Smart Casual Afternoon", url: "https://www.pinterest.com/search/pins/?q=office%20smart%20casual%20afternoon%20woman%20professional" },
+                    { label: "Latar - Modern Office Pantry Coffee Machine", url: "https://www.pinterest.com/search/pins/?q=modern%20office%20pantry%20coffee%20machine%20clean" },
+                    { label: "Item - Coffee Cup Cheers Pose", url: "https://www.pinterest.com/search/pins/?q=coffee%20cup%20cheers%20pose%20office%20woman" }
+                ]
+            },
+            {
+                time: "16:00",
+                type: "End of Work",
+                redirect: "#post-1600",
+                caption: `Jam 4 sore: laptop ditutup. Otak di-switch off dari mode kerja.
+
+Bukan berarti nggak dedicated.
+Tapi Vivi percaya: work-life balance itu bukan mitos.
+
+Kalau kamu kerja 24/7, yang burn out siapa? Kamu juga.
+Kalau kamu istirahat cukup, besok bisa kasih performa lebih baik.
+
+Jadi sekarang: waktunya jadi Vivi yang bukan bos.
+Waktunya jadi Vivi yang suka jajan dan jalan-jalan.
+
+Siap-siap timeline berubah jadi food content.
+
+#ViviLim #WorkLifeBalance #AftWork #BandungEvening #SwitchOff #MeTime`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berjalan keluar gedung kantor di latar image 3 (lobby gedung perkantoran modern Bandung). Difotoin full body dari depan, Vivi terlihat happy dan lega sambil jalan percaya diri. Ada tas kerja dan shopping bag kecil image 4 di tangan. Afternoon golden light masuk dari pintu kaca lobby, transition mood from work to personal.`,
+                pinterestLinks: [
+                    { label: "Outfit - Evening Casual Chic Transition", url: "https://www.pinterest.com/search/pins/?q=evening%20casual%20chic%20woman%20after%20work%20outfit" },
+                    { label: "Latar - Modern Office Building Lobby Exit", url: "https://www.pinterest.com/search/pins/?q=modern%20office%20building%20lobby%20glass%20door%20afternoon" },
+                    { label: "Item - Work Bag Shopping Bag Combo", url: "https://www.pinterest.com/search/pins/?q=work%20bag%20shopping%20bag%20woman%20walking%20after%20work" }
+                ]
+            },
+            {
+                time: "17:00",
+                type: "Cafe Hopping",
+                redirect: "#post-1700",
+                caption: `After work therapy: cafe hopping.
+
+Bandung itu surganya cafe. Setiap minggu ada yang baru.
+Dan Vivi nggak mau ketinggalan satu pun.
+
+Hari ini nemu tempat baru yang vibes-nya... *chef's kiss*
+
+Interiornya aesthetic. Kopinya enak. WiFi-nya kenceng.
+Apa lagi yang kurang?
+
+Oh iya, kurangnya: temen ngopi. Siapa yang mau diajak next time?
+
+#ViviLim #CafeHopping #BandungCafe #CafeAesthetic #NgopiBandung #AfterWork`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang duduk di sofa cafe aesthetic di latar image 3 (cafe baru di Bandung dengan interior industrial-boho, tanaman gantung, exposed brick). Difotoin dari depan agak samping, Vivi pose santai dengan kaki disilangkan sambil pegang latte art. Ada latte art cantik image 4 di cangkir dan kue di meja. Warm cafe lighting with fairy lights, cozy Instagram-worthy setting.`,
+                pinterestLinks: [
+                    { label: "Outfit - Casual Chic Evening Woman Cafe", url: "https://www.pinterest.com/search/pins/?q=casual%20chic%20evening%20woman%20cafe%20outfit" },
+                    { label: "Latar - Industrial Boho Cafe Bandung Interior", url: "https://www.pinterest.com/search/pins/?q=industrial%20boho%20cafe%20interior%20plants%20fairy%20lights" },
+                    { label: "Item - Latte Art Cup Cake Cafe Table", url: "https://www.pinterest.com/search/pins/?q=latte%20art%20cup%20cake%20cafe%20table%20aesthetic" }
+                ]
+            },
+            {
+                time: "18:00",
+                type: "Golden Hour",
+                redirect: "#post-1800",
+                caption: `Golden hour di Bandung hits different.
+
+Langitnya berubah warna setiap menit.
+Dari kuning, ke oranye, ke pink, ke ungu.
+
+Dan Vivi? Nggak pernah bosan motoin.
+
+47 foto diambil. Yang bagus? Mungkin 3.
+Tapi worth it? SANGAT.
+
+Bandung kamu cantik banget sore ini.
+
+Siapa yang juga suka nangkep golden hour? Share foto terbaik kalian!
+
+#ViviLim #GoldenHour #BandungSunset #SkyLovers #MagicHour #Fotografi`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berdiri di rooftop cafe atau area outdoor tinggi di latar image 3 (rooftop dengan view pegunungan Bandung saat golden hour). Difotoin dari belakang, Vivi mengangkat tangan menyentuh matahari terbenam, rambut tertiup angin. Ada kamera HP image 4 di tangan satunya. Dramatic golden hour backlighting, stunning sky colors, cinematic silhouette.`,
+                pinterestLinks: [
+                    { label: "Outfit - Casual Evening Dress Golden Hour", url: "https://www.pinterest.com/search/pins/?q=casual%20evening%20dress%20woman%20golden%20hour%20rooftop" },
+                    { label: "Latar - Rooftop Bandung Mountain View Sunset", url: "https://www.pinterest.com/search/pins/?q=rooftop%20mountain%20view%20sunset%20golden%20hour%20bandung" },
+                    { label: "Item - Phone Camera Golden Hour Silhouette", url: "https://www.pinterest.com/search/pins/?q=woman%20holding%20phone%20golden%20hour%20silhouette%20sunset" }
+                ]
+            },
+            {
+                time: "19:00",
+                type: "Dinner Spot",
+                redirect: "#post-1900",
+                caption: `Dinner time!
+
+Malam ini Vivi pilih: Sunda food.
+Karena tinggal di Bandung tanpa jatuh cinta sama masakan Sunda itu... impossible.
+
+Nasi liwet. Ikan bakar. Sambal dadak. Lalapan fresh.
+Simpel tapi bikin jiwa tenang.
+
+Makan enak itu bentuk self-love yang paling gampang.
+Jangan skip makan malam ya, sibuk apapun.
+
+Rekomendasi tempat makan Sunda favorit kalian di Bandung?
+
+#ViviLim #DinnerSpot #MasakanSunda #NasiLiwet #BandungFood #KulinerBandung`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang makan di latar image 3 (restoran Sunda outdoor dengan saung kayu dan view sawah/taman). Difotoin dari samping, Vivi tersenyum sumringah sambil sendokin nasi liwet. Di meja ada hidangan lengkap nasi liwet set image 4 yang tertata cantik di daun pisang. Ada orang-orang Indonesia lain di saung sebelah makan tidak sadar kamera. Warm evening lighting with string lights, authentic Sundanese dining atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Casual Evening Dinner Look", url: "https://www.pinterest.com/search/pins/?q=casual%20evening%20dinner%20outfit%20woman%20restaurant" },
+                    { label: "Latar - Sundanese Restaurant Saung Outdoor", url: "https://www.pinterest.com/search/pins/?q=sundanese%20restaurant%20saung%20outdoor%20garden%20bandung" },
+                    { label: "Item - Nasi Liwet Set Banana Leaf", url: "https://www.pinterest.com/search/pins/?q=nasi%20liwet%20set%20banana%20leaf%20sundanese%20food" }
+                ]
+            },
+            {
+                time: "20:00",
+                type: "Night Walk",
+                redirect: "#post-2000",
+                caption: `Setelah makan, Vivi suka jalan kaki malam di Bandung.
+
+Udaranya dingin. Jalanannya sepi. Lampu-lampu toko berkedip.
+
+Ada something magical tentang kota ini di malam hari.
+Kayak semua masalah jadi lebih kecil.
+Kayak semua mimpi jadi lebih mungkin.
+
+Mungkin karena dinginnya bikin kepala jernih.
+Atau mungkin karena Bandung memang punya energi yang beda.
+
+Kalian suka jalan malam juga nggak?
+
+#ViviLim #NightWalk #BandungMalam #CityLights #NightVibes #Healing`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berjalan di latar image 3 (jalan pedestrian Bandung malam hari dengan lampu-lampu toko dan pohon). Difotoin dari depan jarak sedang, Vivi berjalan santai dengan jaket di pundak. Di latar ada beberapa orang Indonesia lewat tidak sadar kamera. Ada paper bag dari toko image 4 di tangan. Night city ambiance, warm street lights, urban evening mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Night Walk Casual Jacket Shoulders", url: "https://www.pinterest.com/search/pins/?q=night%20walk%20casual%20woman%20jacket%20shoulders%20city" },
+                    { label: "Latar - Bandung Night Street Pedestrian Lights", url: "https://www.pinterest.com/search/pins/?q=city%20night%20street%20pedestrian%20warm%20lights%20trees" },
+                    { label: "Item - Shopping Paper Bag Night Walk", url: "https://www.pinterest.com/search/pins/?q=shopping%20paper%20bag%20woman%20walking%20night%20city" }
+                ]
+            },
+            {
+                time: "21:00",
+                type: "Skincare Ritual",
+                redirect: "#post-2100",
+                caption: `Ritual malam yang nggak boleh di-skip: skincare.
+
+Vivi itu percaya investasi terbaik itu di kulit sendiri.
+Mahal? Nggak harus. Yang penting konsisten.
+
+Step Vivi malam ini:
+1. Double cleanse
+2. Toner
+3. Serum
+4. Moisturizer
+5. Lip mask
+
+Totalnya 10 menit. Tapi efeknya? Long term banget.
+
+Share skincare routine malam kalian dong! Vivi selalu cari rekomendasi baru.
+
+#ViviLim #SkincareRitual #NightRoutine #SkinInvestment #GlowUp #SkincareAddict`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang apply serum di depan cermin di latar image 3 (bathroom vanity aesthetic dengan lampu warm dan tanaman kecil). Selfie di mirror, Vivi pakai headband lucu dengan wajah fresh habis cuci muka, senyum natural. Ada deretan skincare products image 4 tertata rapi di vanity. Soft warm bathroom lighting, clean and aesthetic self-care mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Skincare Routine Wear Headband", url: "https://www.pinterest.com/search/pins/?q=skincare%20routine%20woman%20headband%20pajama%20mirror" },
+                    { label: "Latar - Bathroom Vanity Aesthetic Warm Light", url: "https://www.pinterest.com/search/pins/?q=bathroom%20vanity%20aesthetic%20warm%20light%20modern" },
+                    { label: "Item - Skincare Products Lined Up Vanity", url: "https://www.pinterest.com/search/pins/?q=skincare%20products%20lined%20up%20vanity%20aesthetic" }
+                ]
+            },
+            {
+                time: "22:00",
+                type: "Late Night Thoughts",
+                redirect: "#post-2200",
+                caption: `Late night thoughts:
+
+3 tahun lalu Vivi pindah ke Bandung dengan 1 koper dan 1 mimpi.
+
+Sekarang? Alhamdulillah punya ruangan kantor sendiri, tim yang solid, dan kehidupan yang Vivi bangun dari nol.
+
+Bukan flexing. Tapi reminder:
+
+Kalau kamu sekarang lagi di titik nol, jangan minder.
+Semua orang sukses pernah di titik itu.
+Bedanya cuma: mereka nggak berhenti jalan.
+
+Kamu juga bisa. Vivi percaya sama kamu.
+
+#ViviLim #LateNightThoughts #MotivationReal #DariNol #AnakRantauSukses #NeverGiveUp`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang duduk di sofa ruang tamu sambil menulis di journal di latar image 3 (ruang tamu apartment cozy dengan lampu temaram dan lilin). Difotoin dari samping, angle candid, Vivi tersenyum kecil sambil menulis. Ada journal dan pena image 4 di tangan, secangkir teh hangat di meja. Dim cozy night lighting with candles, introspective peaceful mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Cozy Night Loungewear", url: "https://www.pinterest.com/search/pins/?q=cozy%20night%20loungewear%20woman%20sofa%20writing" },
+                    { label: "Latar - Cozy Living Room Dim Candle Night", url: "https://www.pinterest.com/search/pins/?q=cozy%20living%20room%20dim%20candle%20night%20apartment" },
+                    { label: "Item - Journal Pen Tea Cup Night", url: "https://www.pinterest.com/search/pins/?q=journal%20pen%20tea%20cup%20cozy%20night%20writing" }
+                ]
+            },
+            {
+                time: "23:00",
+                type: "Grateful Post",
+                redirect: "#post-2300",
+                caption: `Sebelum tidur, Vivi mau bilang:
+
+Terima kasih buat hari ini.
+Terima kasih buat kalian yang selalu hadir di timeline Vivi.
+Terima kasih buat Bandung yang jadi rumah kedua.
+Terima kasih buat keluarga di Medan yang selalu support dari jauh.
+
+Hidup nggak selalu sempurna.
+Tapi malam ini, di detik ini, Vivi merasa cukup.
+
+Dan "cukup" itu... indah banget.
+
+Besok kita ketemu lagi ya. Tidur yang nyenyak!
+
+#ViviLim #GratefulHeart #Bersyukur #GoodNight #ThankfulPost #SleepWell`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang berbaring di tempat tidur sambil pegang HP di latar image 3 (kamar tidur aesthetic dengan fairy lights dan bedding putih bersih). Selfie dari bantal, Vivi senyum hangat dengan mata sedikit sleepy tapi bahagia. Ada fairy lights image 4 berkedip di headboard. Very soft dim warm lighting, cozy sleepy grateful atmosphere, goodnight mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Sleepwear Cozy Elegant", url: "https://www.pinterest.com/search/pins/?q=sleepwear%20cozy%20elegant%20woman%20bed%20night" },
+                    { label: "Latar - Bedroom Fairy Lights White Bedding", url: "https://www.pinterest.com/search/pins/?q=bedroom%20fairy%20lights%20white%20bedding%20cozy%20night" },
+                    { label: "Item - Fairy Lights Headboard Bedroom", url: "https://www.pinterest.com/search/pins/?q=fairy%20lights%20headboard%20bedroom%20aesthetic%20night" }
+                ]
+            },
+            {
+                time: "00:00",
+                type: "Midnight Bonus",
+                redirect: "#post-0000",
+                caption: `Bonus post tengah malam buat yang masih scrolling:
+
+Hei. Kamu yang belum tidur.
+
+Vivi tau mungkin ada yang lagi mikirin banyak hal.
+Kerjaan. Hubungan. Masa depan. Keluarga.
+
+Tapi coba tarik napas sebentar.
+
+Kamu sudah melakukan yang terbaik hari ini.
+Besok masih ada kesempatan baru.
+
+Sekarang, letakkan HP-nya. Pejamkan mata.
+Biarkan dunia istirahat sebentar.
+
+Selamat malam dari Vivi. Sampai besok pagi.
+
+#ViviLim #MidnightPost #TidurYuk #PelukanVirtual #BesokLebihBaik #RestWell`,
+                imagePrompt: `Vivi pakai outfit image 2, sedang memandang ke luar jendela kamar di malam hari di latar image 3 (jendela kamar dengan view lampu kota Bandung malam, tirai tipis berkibar). Difotoin dari belakang, siluet Vivi di depan jendela dengan cahaya kota sebagai background. Ada secangkir chamomile tea image 4 di windowsill. Moody night ambiance, city lights bokeh through sheer curtains, peaceful midnight atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Night Robe Silhouette Window", url: "https://www.pinterest.com/search/pins/?q=night%20robe%20woman%20silhouette%20window%20city%20view" },
+                    { label: "Latar - Window City Night View Sheer Curtain", url: "https://www.pinterest.com/search/pins/?q=window%20city%20night%20view%20sheer%20curtain%20lights%20bokeh" },
+                    { label: "Item - Chamomile Tea Cup Windowsill Night", url: "https://www.pinterest.com/search/pins/?q=chamomile%20tea%20cup%20windowsill%20night%20cozy" }
+                ]
+            }
+        ];
+
+        const STATE_KEY = 'fb_vivilim_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(24, 119, 242, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Caption';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Go To Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                let pinterestHTML = '';
+                if (post.pinterestLinks && post.pinterestLinks.length > 0) {
+                    pinterestHTML = `<div class="pinterest-links"><span class="pinterest-label">Pinterest References</span>`;
+                    post.pinterestLinks.forEach(link => {
+                        pinterestHTML += `<a href="${link.url}" target="_blank">${link.label}</a>`;
+                    });
+                    pinterestHTML += `</div>`;
+                }
+
+                const redirectHTML = post.redirect ? `<a href="${post.redirect}" class="post-redirect" target="_blank">Open Post Link</a>` : '';
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    ${redirectHTML}
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt</span>${post.imagePrompt}</div>
+                    ${pinterestHTML}
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy Caption</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">1-Click Copy Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
