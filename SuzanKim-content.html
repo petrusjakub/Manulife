@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Content Plan - Suzan Kim</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #898F9C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #1877F2;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #1877F2;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.3);
+            color: #1877F2;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(24, 119, 242, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(24, 119, 242, 0.1);
+            color: #1877F2;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(24, 119, 242, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #1877F2;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links {
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(230, 0, 35, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(230, 0, 35, 0.2);
+        }
+
+        .pinterest-links .pinterest-label {
+            display: block;
+            color: #E60023;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links a {
+            display: inline-block;
+            color: #E60023;
+            background: rgba(230, 0, 35, 0.1);
+            border: 1px solid rgba(230, 0, 35, 0.3);
+            padding: 4px 10px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin: 3px 4px 3px 0;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .pinterest-links a:hover {
+            background: rgba(230, 0, 35, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Content Plan</h1>
+        <p class="account">Suzan Kim</p>
+        <p>Full Day Engagement - Freestyle Kost Girl Jakarta</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Go To Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "09:00",
+                type: "Morning Vibes",
+                caption: `Baru bangun dan langsung kena sinar matahari dari jendela kost. Rambut masih berantakan tapi males ngapa-ngapain dulu. Pagi ini mau rebahan sambil mikir mau sarapan apa atau skip aja kayak biasa. Kalian tim sarapan atau tim kopi doang?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang duduk di pinggir kasur sambil merenggangkan badan di latar image 3, gaya selfie dari atas, rambut agak berantakan natural, ada scrunchie image 4 di pergelangan tangannya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=aesthetic+kost+room+jakarta+morning+light",
+                    outfit: "https://www.pinterest.com/search/pins/?q=crop+top+putih+celana+pendek+denim+high+waist+korean",
+                    item: "https://www.pinterest.com/search/pins/?q=silk+scrunchie+aesthetic+pastel"
+                }
+            },
+            {
+                time: "10:00",
+                type: "Breakfast Spot",
+                caption: `Nemu warung baru di gang sebelah kost yang jual nasi uduk legend. Ibu-ibunya ramah banget, langsung ditambahin kerupuk gratis. Kadang hal kecil kayak gini yang bikin hari terasa spesial. Kalian punya warung langganan yang bikin betah juga?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang makan nasi uduk di warung pinggir jalan di latar image 3, difotoin teman dari depan, ada orang-orang Indonesia lain di belakang tidak sadar kamera, Suzan senyum natural sambil pegang sendok, ada tote bag kanvas image 4 di kursi sebelahnya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=warung+makan+jakarta+aesthetic+pagi",
+                    outfit: "https://www.pinterest.com/search/pins/?q=crop+top+denim+shorts+casual+street+look",
+                    item: "https://www.pinterest.com/search/pins/?q=canvas+tote+bag+aesthetic+minimalist"
+                }
+            },
+            {
+                time: "11:00",
+                type: "Daily Activity",
+                caption: `Hari ini laundry day tapi malah rebahan di depan mesin cuci nungguin baju muter. Hypnotizing banget sumpah. Ada yang sama kayak aku yang bisa ngeliatin mesin cuci berjam-jam atau aku doang yang aneh?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang duduk jongkok di depan mesin cuci di latar image 3 (laundry kost sederhana), candid dari samping, ekspresi bengong lucu, ada sandal rumah image 4 yang cute di kakinya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=laundry+room+kost+indonesia+simple",
+                    outfit: "https://www.pinterest.com/search/pins/?q=casual+home+outfit+crop+top+shorts+asian",
+                    item: "https://www.pinterest.com/search/pins/?q=cute+fluffy+house+slippers+aesthetic"
+                }
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break",
+                caption: `Makan siang bareng anak-anak kost. Rame banget kayak biasa, pada rebutan lauk. Seru sih tinggal di kost yang penghuninya kompak gini. Tapi tetep ya, kamar mandi jangan lama-lama dipakenya. Itu aturan nomer satu yang nggak boleh dilanggar.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang makan bareng teman-teman di meja makan kost di latar image 3, difotoin teman lain, suasana ramai dan hangat, ada beberapa orang Indonesia lainnya tertawa di background, Suzan pegang mangkok sambil ketawa, ada gantungan kunci boneka kecil image 4 di resleting tas yang tergeletak di meja`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=makan+bersama+kost+jakarta+hangat",
+                    outfit: "https://www.pinterest.com/search/pins/?q=casual+crop+top+high+waist+shorts+girl",
+                    item: "https://www.pinterest.com/search/pins/?q=cute+keychain+plush+mini+aesthetic"
+                }
+            },
+            {
+                time: "13:00",
+                type: "Chill Time",
+                caption: `Jam segini tuh jam paling enak buat tiduran di kasur sambil scroll hp tanpa rasa bersalah. Angin dari kipas angin kena muka, mata setengah melek. Produktivitas bisa ditunda sebentar lah ya. Hidup nggak harus ngebut terus.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang tiduran di kasur sambil pegang handphone di latar image 3 (kamar kost cozy dengan kipas angin), selfie dari atas angle tinggi, ekspresi santai mata sayu, ada bando lucu image 4 di kepalanya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=cozy+kamar+kost+aesthetic+siang",
+                    outfit: "https://www.pinterest.com/search/pins/?q=girl+laying+bed+casual+outfit+aesthetic",
+                    item: "https://www.pinterest.com/search/pins/?q=cute+headband+bando+korean+aesthetic"
+                }
+            },
+            {
+                time: "14:00",
+                type: "Hangout Tease",
+                caption: `Temen ngajakin keluar tapi aku masih males gerak dari kasur. Dia udah spam chat dari tadi. Iya iya bentar lagi siap-siap. Atau mungkin nggak. Tergantung mood. Yang jelas hari ini pengen keluar sih, cuma belum tau mau kemana.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang berdiri di depan cermin kamar kost sambil ngecek penampilan di latar image 3, selfie lewat cermin, pose satu tangan di pinggang, ada jam tangan lucu image 4 di pergelangan tangannya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=mirror+selfie+kamar+kost+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=mirror+selfie+crop+top+denim+shorts+girl",
+                    item: "https://www.pinterest.com/search/pins/?q=cute+watch+women+casual+colorful"
+                }
+            },
+            {
+                time: "15:00",
+                type: "Afternoon Out",
+                caption: `Akhirnya keluar juga. Jalan ke minimarket dulu beli es krim sama minum dingin. Panas banget di luar tapi ya mau gimana lagi, nggak bisa selamanya di kamar. Matahari jam tiga emang paling jahat sih. Siapa yang relate?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (crop top putih + celana pendek denim high waist), sedang jalan di trotoar depan minimarket di latar image 3, difotoin teman dari belakang agak samping, Suzan noleh ke kamera sambil pegang es krim, ada orang-orang lewat di background tidak sadar kamera, ada sunglasses image 4 di atas kepalanya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=jalan+trotoar+jakarta+siang+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=street+style+crop+top+denim+shorts+summer",
+                    item: "https://www.pinterest.com/search/pins/?q=retro+sunglasses+women+aesthetic+y2k"
+                }
+            },
+            {
+                time: "16:00",
+                type: "Transition Post",
+                caption: `Balik ke kost sebentar buat ganti baju. Nanti malem ada acara sama geng. Bingung mau pake yang mana. Lemari kecil tapi isinya banyak banget baju yang belum dipake. Kenapa ya cewek selalu ngerasa nggak punya baju padahal lemari udah meledak?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang berdiri di depan lemari yang terbuka penuh baju di latar image 3 (kamar kost), selfie dari cermin, pose tangan satu megang hanger baju, ekspresi bingung mikir, ada anting panjang image 4 yang sudah dipakai`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=open+wardrobe+small+room+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=little+black+dress+mini+bodycon+korean",
+                    item: "https://www.pinterest.com/search/pins/?q=long+drop+earrings+gold+aesthetic"
+                }
+            },
+            {
+                time: "17:00",
+                type: "Golden Hour",
+                caption: `Golden hour di rooftop kost. Langit Jakarta kadang bisa cantik banget kalau lagi nggak mendung. Anginnya juga enak. Sebentar lagi gelap dan kota mulai hidup lagi. Ini jam favorit aku sih, antara siang dan malam. Kalian lebih suka siang atau malam?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang bersandar di pagar rooftop saat golden hour di latar image 3 (rooftop kost dengan pemandangan kota Jakarta sore), difotoin teman, cahaya matahari terbenam mengenai wajahnya dari samping, ada kalung tipis image 4 yang berkilau kena cahaya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=rooftop+jakarta+golden+hour+sunset+view",
+                    outfit: "https://www.pinterest.com/search/pins/?q=black+mini+dress+golden+hour+photoshoot",
+                    item: "https://www.pinterest.com/search/pins/?q=dainty+gold+necklace+layered+minimal"
+                }
+            },
+            {
+                time: "18:00",
+                type: "Getting Ready",
+                caption: `Makeup udah on. Rambut udah ditata. Tinggal semprot parfum dan cabut. Ada yang bilang cewek siap-siap lama, tapi hasilnya worth it kan. Aku nggak dandan buat orang lain sih. Dandan buat diri sendiri aja udah bikin mood naik seratus persen.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang duduk di depan meja rias kecil di latar image 3 (kamar kost dengan lampu warm), selfie close up setengah badan, makeup sudah jadi rapi, senyum tipis percaya diri, ada parfum bottle aesthetic image 4 di meja riasnya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=vanity+table+small+room+warm+light+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=black+dress+getting+ready+makeup+look",
+                    item: "https://www.pinterest.com/search/pins/?q=perfume+bottle+aesthetic+vanity+display"
+                }
+            },
+            {
+                time: "19:00",
+                type: "Night Out Start",
+                caption: `Keluar kost dan langit udah gelap. Jakarta malam beda vibes-nya. Lampu-lampu mulai nyala, jalanan rame, dan energi orang-orang berubah. Aku suka suasana ini. Kayak kota punya dua kepribadian, dan yang malam ini jauh lebih menarik.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang jalan di trotoar malam hari di latar image 3 (jalan Jakarta malam dengan lampu neon dan warung), difotoin teman dari depan agak bawah, Suzan jalan percaya diri, ada orang-orang Indonesia di sekitar tidak sadar kamera, ada clutch bag kecil image 4 di tangannya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=jakarta+street+night+neon+lights+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=black+mini+dress+night+out+street+style",
+                    item: "https://www.pinterest.com/search/pins/?q=mini+clutch+bag+evening+aesthetic"
+                }
+            },
+            {
+                time: "20:00",
+                type: "Hangout Spot",
+                caption: `Nongkrong di cafe favorit bareng geng. Tempatnya nggak terlalu rame tapi vibes-nya pas. Musik di sini selalu enak dan lampunya redup. Suka banget tempat yang bikin kita bisa ngobrol santai tanpa harus teriak-teriak. Kalian punya tempat nongkrong favorit yang kayak gini?`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang duduk di sofa cafe dengan lampu redup di latar image 3 (cafe aesthetic Jakarta malam), candid difotoin teman dari samping, Suzan tertawa natural sambil pegang gelas minuman, ada gelang tangan berlapis image 4 yang terlihat di pergelangan tangannya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=cafe+jakarta+malam+dim+light+aesthetic+cozy",
+                    outfit: "https://www.pinterest.com/search/pins/?q=black+dress+cafe+night+casual+chic",
+                    item: "https://www.pinterest.com/search/pins/?q=stacked+bracelets+gold+women+aesthetic"
+                }
+            },
+            {
+                time: "21:00",
+                type: "Fun Moment",
+                caption: `Lagi seru-serunya ngobrol dan tiba-tiba temen ngeluarin kamera. Candid terbaik emang yang nggak disengaja. Yang dipaksa pose malah keliatan kaku. Momen kayak gini yang bakal kangen kalau nanti udah sibuk masing-masing. Nikmatin aja dulu.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang tertawa lepas bareng teman-teman di latar image 3 (dalam cafe malam, meja penuh gelas dan piring), candid banget dari sudut meja, ekspresi ketawa lebar, beberapa teman Indonesia di frame juga tertawa, ada hair clip berkilau image 4 di rambutnya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=friends+hangout+cafe+night+candid+jakarta",
+                    outfit: "https://www.pinterest.com/search/pins/?q=night+out+black+dress+friend+group",
+                    item: "https://www.pinterest.com/search/pins/?q=sparkle+hair+clip+aesthetic+gold"
+                }
+            },
+            {
+                time: "22:00",
+                type: "Late Night Vibes",
+                caption: `Keluar cafe dan jalan kaki sebentar. Udara malam Jakarta ternyata lumayan adem. Sepatu udah mulai nggak nyaman tapi males naik ojol. Kadang jalan kaki malam-malam gini bikin pikiran lebih tenang. Semua yang tadi berisik di kepala jadi hening.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat), sedang jalan kaki di pedestrian malam hari di latar image 3 (jalan kota Jakarta malam sepi dengan lampu jalan), difotoin teman dari belakang, Suzan noleh sedikit ke kamera, rambut tertiup angin, ada heels di tangan dan kaki telanjang image 4 menambah kesan candid spontan`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=walking+city+street+night+aesthetic+alone",
+                    outfit: "https://www.pinterest.com/search/pins/?q=black+dress+walking+night+city+vibe",
+                    item: "https://www.pinterest.com/search/pins/?q=holding+heels+barefoot+night+aesthetic"
+                }
+            },
+            {
+                time: "23:00",
+                type: "Wind Down",
+                caption: `Udah balik ke kost. Baju udah diganti, muka udah dibersihin. Sekarang rebahan sambil dengerin playlist malam. Hari ini seru sih. Nggak ada yang spesial banget tapi justru itu yang bikin nyaman. Hidup nggak harus dramatis setiap hari kan.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (dress mini hitam ketat diganti jadi tanktop + celana pendek tidur tapi tetap terlihat cute), sedang rebahan di kasur dengan earphone di latar image 3 (kamar kost malam dengan lampu tidur warm), selfie dari atas, ekspresi tenang dan puas, ada lilin aromaterapi kecil image 4 menyala di meja samping kasur`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=cozy+bedroom+night+warm+lamp+aesthetic",
+                    outfit: "https://www.pinterest.com/search/pins/?q=cute+sleepwear+tanktop+shorts+aesthetic",
+                    item: "https://www.pinterest.com/search/pins/?q=scented+candle+small+aesthetic+bedroom"
+                }
+            },
+            {
+                time: "00:00",
+                type: "Midnight Thoughts",
+                caption: `Belum ngantuk padahal mata udah berat. Scroll timeline nggak ada yang menarik. Pikiran mulai kemana-mana. Besok mau ngapain ya. Atau nggak usah direncanain aja, biar mengalir. Tidur dulu deh. Atau belum. Entahlah. Selamat malam buat yang masih melek kayak aku.`,
+                imagePrompt: `Suzan Kim pakai outfit image 2 (tanktop + celana pendek tidur), sedang tiduran miring di kasur dengan mata setengah terpejam di latar image 3 (kamar kost gelap hanya cahaya handphone), selfie close up wajah di bantal, ekspresi ngantuk tapi belum tidur, ada boneka kecil image 4 di samping bantalnya`,
+                pinterest: {
+                    latar: "https://www.pinterest.com/search/pins/?q=dark+bedroom+phone+light+only+aesthetic+night",
+                    outfit: "https://www.pinterest.com/search/pins/?q=sleepy+girl+bed+aesthetic+minimal",
+                    item: "https://www.pinterest.com/search/pins/?q=small+plushie+stuffed+animal+bed+aesthetic"
+                }
+            }
+        ];
+
+        const STATE_KEY = 'fb_suzankim_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(24, 119, 242, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Caption';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Go To Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">${post.time}</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                let pinterestHTML = '';
+                if (post.pinterest) {
+                    pinterestHTML = `
+                    <div class="pinterest-links">
+                        <span class="pinterest-label">Pinterest Reference</span>
+                        <a href="${post.pinterest.latar}" target="_blank">Latar / Background</a>
+                        <a href="${post.pinterest.outfit}" target="_blank">Outfit</a>
+                        <a href="${post.pinterest.item}" target="_blank">Item Pendukung</a>
+                    </div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt</span>${post.imagePrompt}</div>
+                    ${pinterestHTML}
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy Caption</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">1-Click Copy Prompt</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
