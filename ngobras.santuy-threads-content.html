@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threads Content Plan - @ngobras.santuy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1a1206 0%, #2d1b08 50%, #3d2410 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #ff9a00, #ffcd38);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #a08060;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #ffcd38;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,200,50,0.08);
+            border: 1px solid rgba(255,200,50,0.2);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #ffcd38;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ff9a00, #ffcd38);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #a08060;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        /* Top Navigation */
+        .nav-container {
+            margin-bottom: 24px;
+            background: rgba(255,200,50,0.05);
+            border: 1px solid rgba(255,200,50,0.15);
+            border-radius: 16px;
+            padding: 16px;
+        }
+
+        .nav-title {
+            font-size: 0.85rem;
+            color: #a08060;
+            margin-bottom: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .nav-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 8px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .nav-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .nav-scroll::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+
+        .nav-scroll::-webkit-scrollbar-thumb {
+            background: rgba(255,154,0,0.4);
+            border-radius: 4px;
+        }
+
+        .nav-btn {
+            flex-shrink: 0;
+            background: rgba(255,154,0,0.1);
+            border: 1px solid rgba(255,154,0,0.3);
+            color: #ffcd38;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,154,0,0.25);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.nav-done {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .nav-btn.nav-hidden {
+            display: none;
+        }
+
+        /* Post Cards */
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 200, 50, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #ff9a00, #ffcd38);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #ff9a00, #ffcd38);
+            color: #1a1206;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #a08060;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(255, 205, 56, 0.1);
+            color: #ffcd38;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #e0d0b8;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 10px;
+            border: 1px solid rgba(255,200,50,0.08);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #ff9a00, #ffcd38);
+            color: #1a1206;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255, 154, 0, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: #fff;
+        }
+
+        .btn-done {
+            background: rgba(255, 205, 56, 0.1);
+            color: #ffcd38;
+            border: 1px solid rgba(255, 205, 56, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(255, 205, 56, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #a08060;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #ff9a00, #ffcd38);
+            color: #1a1206;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(255, 154, 0, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-container {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Threads Content Plan</h1>
+        <p class="account">@ngobras.santuy</p>
+        <p>Full Day Schedule - Leads Asuransi (Santuy Mode)</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <!-- Top Navigation -->
+    <div class="nav-container">
+        <div class="nav-title">Navigasi Task (scroll ke samping)</div>
+        <div class="nav-scroll" id="navScroll"></div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Morning Vibes",
+                caption: `Pagi-pagi buka mata, langsung cek HP...
+
+Notif debt collector? Tagihan BPJS? Cicilan motor?
+
+Bro, hidup tuh harusnya ga se-stressful ini.
+
+Coba deh bayangin kalo lo punya backup plan yang bener. Yang kalo tiba-tiba sakit, ga perlu ngutang ke sana-sini.
+
+Penasaran? Cek link di bio, santuy aja dulu bacanya.
+
+#PagiPagi #RealTalk #HidupTenang`
+            },
+            {
+                time: "06:30",
+                type: "Relatable Story",
+                caption: `"Gue sehat kok, ngapain mikirin asuransi?"
+
+Itu kata temen gue 2 tahun lalu.
+
+Bulan kemarin dia masuk RS. Biaya 45 juta. Semua tabungan ludes. Padahal baru aja nikah.
+
+Gue ga nakut-nakutin. Tapi ini REAL LIFE, bukan sinetron.
+
+Mending siapin sekarang selagi bisa.
+
+Info lengkap: https://projectcuan.petrusjakub.workers.dev/
+
+#CeritaNyata #JanganNungguSakit #Proteksi`
+            },
+            {
+                time: "07:00",
+                type: "Hook Emosional",
+                caption: `Coba jawab jujur:
+
+Kalo lo besok tiba-tiba ga bisa kerja, siapa yang nanggung keluarga lo?
+
+Ortu yang udah tua?
+Pasangan yang juga lagi struggle?
+Anak yang masih kecil?
+
+Berat kan mikirnya?
+
+Makanya, proteksi itu bukan LUXURY. Itu KEBUTUHAN.
+
+Yuk mulai dari yang ringan. Klik link di bio.
+
+#MikirKeluarga #Proteksi #DewasaItuBerat`
+            },
+            {
+                time: "07:30",
+                type: "Edukasi Santuy",
+                caption: `FAKTA yang bikin geleng-geleng:
+
+Biaya kamar RS per malam: 1-5 juta
+Operasi ringan: 20-50 juta
+Operasi besar: 100-500 juta
+
+Dan tiap tahun NAIK 10-15%.
+
+Lo yakin tabungan lo cukup? Gue sih ga yakin kalo cuma mengandalkan tabungan doang.
+
+Solusinya? Ada. Dan ga semahal yang lo pikir.
+
+Cek: https://projectcuan.petrusjakub.workers.dev/
+
+#FaktaRS #BiayaKesehatan #SolusiProteksi`
+            },
+            {
+                time: "08:00",
+                type: "Meme Style",
+                caption: `POV: Lo nolak asuransi karena "masih muda sehat"
+
+Terus 5 tahun kemudian:
+- Asam lambung kambuh tiap minggu
+- Lutut bunyi krek krek
+- Badan encok semua
+- Tagihan RS numpuk
+
+Plot twist: premi pas muda itu JAUH lebih murah, bro.
+
+Jangan sampe nyesel. Info? Link di bio.
+
+#POV #AnakMuda #NyeselKemudian`
+            },
+            {
+                time: "08:30",
+                type: "Daily Life",
+                caption: `Checklist orang dewasa di Indonesia:
+
+- Kerja banting tulang (check)
+- Bayar kos/kontrakan (check)
+- Makan hemat (check)
+- Proteksi diri & keluarga (???)
+
+Yang terakhir sering banget di-skip. Padahal itu yang paling penting.
+
+Ga perlu mahal. Mulai dari 300rb/bulan udah bisa dapet proteksi lengkap.
+
+Info: https://projectcuan.petrusjakub.workers.dev/
+
+#ChecklistDewasa #Prioritas #ProteksiDulu`
+            },
+            {
+                time: "09:00",
+                type: "Storytelling",
+                caption: `Cerita dari temen kantor gue:
+
+Dia kena DBD, masuk RS 5 hari. Total biaya 28 juta.
+
+Untungnya dia punya asuransi. CASHLESS. Ga keluar sepeser pun dari kantong.
+
+Sementara temen sebelah bed-nya? Bayar cash. Harus jual motor buat nutupin biaya.
+
+Bedanya cuma 1: PERSIAPAN.
+
+Mau yang mana?
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#CeritaRS #Cashless #Persiapan`
+            },
+            {
+                time: "09:30",
+                type: "Mitos vs Fakta",
+                caption: `MITOS: "Asuransi itu ribet, banyak yang ga dibayar klaimnya"
+
+FAKTA: Klaim ditolak biasanya karena:
+1. Ga jujur waktu daftar
+2. Ga paham polis-nya
+3. Salah pilih produk
+
+Kalo dari awal dikasih tau yang bener sama agen yang paham? AMAN.
+
+Dan gue di sini buat bantu lo paham dari A-Z.
+
+Chat atau klik: link di bio
+
+#MitosAsuransi #Fakta #AgenYangBener`
+            },
+            {
+                time: "10:00",
+                type: "Hook Kontroversial",
+                caption: `Hot take: Lo lebih rela bayar 50rb/hari buat kopi & rokok, tapi ga rela sisihkan 10rb/hari buat proteksi hidup lo?
+
+Ga ada yang salah sama ngopi. Tapi coba pikir:
+
+Kopi = nikmat 5 menit
+Proteksi = tenang SEUMUR HIDUP
+
+Prioritas, bro. Cuma itu bedanya.
+
+Mau mulai? Santuy aja dulu:
+https://projectcuan.petrusjakub.workers.dev/
+
+#Prioritas #KopiVsProteksi #MikirLagi`
+            },
+            {
+                time: "10:30",
+                type: "Engagement",
+                caption: `Kuis cepet:
+
+Penghasilan lo sebulan berapa persen yang lo sisihkan buat proteksi?
+
+A. 0% (belum ada)
+B. 1-5%
+C. 5-10%
+D. Ga kepikiran sama sekali
+
+Kalo jawab A atau D, lo HARUS baca ini.
+
+Ga perlu banyak. 5% dari gaji udah cukup buat proteksi lengkap.
+
+Info detail: link di bio
+
+#KuisCepet #ProteksiGaji #MulaiDari5Persen`
+            },
+            {
+                time: "11:00",
+                type: "Fear of Missing Out",
+                caption: `Lo tau ga? Premi asuransi itu makin TUA makin MAHAL.
+
+Umur 25: premi 300rb/bulan
+Umur 35: premi 600rb/bulan
+Umur 45: premi 1.2jt/bulan (atau malah DITOLAK karena riwayat penyakit)
+
+Jadi kalo lo masih muda & sehat sekarang, ini literally waktu TERBAIK buat daftar.
+
+Jangan nunggu sampe ditolak.
+
+Cek: https://projectcuan.petrusjakub.workers.dev/
+
+#MakinMudaMakinMurah #JanganNunggu #WaktunyaSekarang`
+            },
+            {
+                time: "11:30",
+                type: "Social Proof",
+                caption: `DM yang gue terima minggu ini:
+
+"Makasih bro, gue baru klaim asuransi 15jt buat operasi usus buntu. Untung dulu lo saranin daftar."
+
+"Alhamdulillah istri lahiran CASHLESS. Ga perlu pusing mikir biaya."
+
+"Gue nyesel ga denger lo dari dulu, sekarang premi gue mahal banget."
+
+Real stories. Real people. Real protection.
+
+Mau jadi yang berterima kasih atau yang nyesel?
+
+Link di bio.
+
+#Testimoni #RealStory #Terlindungi`
+            },
+            {
+                time: "12:00",
+                type: "Lunch Break Vibes",
+                caption: `Lagi istirahat makan siang?
+
+Sambil ngunyah nasi, coba pikirin:
+
+Kalo besok lo kecelakaan di jalan...
+- Siapa yang bayar RS?
+- Gimana nasib cicilan?
+- Keluarga makan dari mana?
+
+Dark? Emang. Tapi ini realita.
+
+Dan solusinya ga serumit yang lo pikir.
+
+Baca santuy: https://projectcuan.petrusjakub.workers.dev/
+
+#LunchThoughts #RealitaHidup #SolusiAda`
+            },
+            {
+                time: "12:30",
+                type: "Comparison",
+                caption: `Pengeluaran yang orang rela bayar:
+- Netflix 186rb/bulan
+- Spotify 55rb/bulan
+- Kopi 1.5jt/bulan
+- Skincare 500rb/bulan
+
+Pengeluaran yang orang ogah bayar:
+- Asuransi kesehatan 300rb/bulan
+
+Padahal yang terakhir itu yang bakal NYELAMATIN lo pas darurat.
+
+Ironis ya?
+
+Yuk atur ulang prioritas. Info: link di bio
+
+#IronisAja #PrioritasHidup #AturUlang`
+            },
+            {
+                time: "13:00",
+                type: "Q&A Santuy",
+                caption: `FAQ dari kalian yang nanya ke DM:
+
+"Mahal ga?"
+- Mulai 300rb/bulan bisa dapet proteksi lengkap
+
+"Ribet ga klaimnya?"
+- Cashless, tinggal gesek kartu
+
+"Bisa online?"
+- Bisa, semua proses dari HP
+
+"Worth it ga?"
+- Lo tanya orang yang pernah klaim, pasti bilang SANGAT worth it
+
+Masih ada pertanyaan? Gas aja DM atau klik link di bio.
+
+#FAQ #TanyaJawab #GaRibet`
+            },
+            {
+                time: "13:30",
+                type: "Emotional Hook",
+                caption: `Bayangin skenario ini:
+
+Lo sakit keras. Butuh operasi. Biaya 200 juta.
+
+Opsi 1 (tanpa asuransi):
+- Jual rumah/motor
+- Ngutang ke saudara
+- Galang dana online
+- Stress + sakit makin parah
+
+Opsi 2 (punya asuransi):
+- Telepon klaim
+- Operasi jalan
+- Fokus sembuh
+- Keluarga tenang
+
+Lo pilih yang mana?
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#Skenario #PilihYangMana #ProteksiItuPenting`
+            },
+            {
+                time: "14:00",
+                type: "Tips Finansial",
+                caption: `Formula finansial anti bokek:
+
+50% - Kebutuhan pokok
+30% - Keinginan (lifestyle)
+20% - Simpanan & PROTEKSI
+
+Dari 20% itu, MINIMAL 5% harusnya buat asuransi.
+
+Gaji 5 juta? Berarti 250rb/bulan buat proteksi.
+
+Kecil? IYA.
+Tapi impactnya? GEDE BANGET pas lo butuh.
+
+Mau tau produk yang cocok buat budget lo?
+
+Klik: https://projectcuan.petrusjakub.workers.dev/
+
+#FormulaFinansial #BudgetProteksi #SmartMoney`
+            },
+            {
+                time: "14:30",
+                type: "Mindset Shift",
+                caption: `Ganti mindset lo tentang asuransi:
+
+LAMA: "Bayar tiap bulan tapi ga dipake, rugi dong"
+BARU: "Bayar tiap bulan supaya kalo dipake, ga bangkrut"
+
+LAMA: "Gue masih muda, nanti aja"
+BARU: "Gue masih muda, preminya masih murah, sekarang aja"
+
+LAMA: "Duit gue abis buat kebutuhan"
+BARU: "Proteksi ITU kebutuhan"
+
+Mindset berubah, hidup berubah.
+
+Info: link di bio
+
+#MindsetShift #GantiCara Pikir #Proteksi`
+            },
+            {
+                time: "15:00",
+                type: "Relatable Content",
+                caption: `Hal yang bikin orang Indonesia panik:
+
+1. Anggota keluarga masuk RS
+2. Cek tagihan RS
+3. Tabungan ga cukup
+4. Terpaksa ngutang
+
+Semua kepanikan ini bisa DIHINDARI dengan 1 keputusan yang lo buat HARI INI.
+
+Bukan besok. Bukan nanti. HARI INI.
+
+Karena sakit ga pernah bikin janji dulu.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#PanikRS #KeputusanHariIni #SakitGaBikinJanji`
+            },
+            {
+                time: "15:30",
+                type: "Behind The Scenes",
+                caption: `Day in my life sebagai orang yang punya proteksi:
+
+- Naik motor ke kantor? Tenang, ada proteksi kecelakaan.
+- Anak demam? Tenang, tinggal ke RS, cashless.
+- Mikirin masa depan? Tenang, ada dana pensiun.
+
+Hidup tuh emang ga bisa 100% aman. Tapi lo bisa bikin diri lo 90% lebih SIAP.
+
+Mau hidup lebih tenang? Mulai dari sini:
+
+Link di bio.
+
+#DayInMyLife #HidupTenang #SiapSedia`
+            },
+            {
+                time: "16:00",
+                type: "Wake Up Call",
+                caption: `Data dari OJK:
+
+Penetrasi asuransi di Indonesia baru 3.18%.
+
+Artinya dari 100 orang, cuma 3 yang TERLINDUNGI.
+
+97 sisanya? Gambling sama hidup.
+
+Jangan jadi bagian dari 97%. Jadilah yang 3% yang SIAP.
+
+Ga perlu langsung yang mahal. Yang penting MULAI.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#DataOJK #97Persen #MulaiSekarang`
+            },
+            {
+                time: "16:30",
+                type: "Story Time",
+                caption: `Bapak gue dulu bilang: "Asuransi mah buang-buang duit."
+
+Sampe akhirnya beliau stroke. Biaya perawatan 150 juta dalam 3 bulan.
+
+Tabungan pensiun? Habis.
+Rumah? Hampir dijual.
+Keluarga? Stress semua.
+
+Dari situ gue belajar: proteksi itu bukan buat yang KAYA. Justru buat yang GA MAU JATUH MISKIN.
+
+Jangan ulangi kesalahan yang sama.
+
+Info: link di bio
+
+#PelajaranHidup #CeritaBapak #JanganUlangi`
+            },
+            {
+                time: "17:00",
+                type: "After Work Content",
+                caption: `Baru pulang kerja? Capek?
+
+Gue kasih tantangan ringan:
+
+HARI INI, sisihkan 15 menit aja buat baca soal proteksi.
+
+Ga perlu langsung beli. Baca dulu. Pahami dulu.
+
+Karena keputusan besar dimulai dari INFORMASI yang bener.
+
+Dan gue udah siapin semua info-nya buat lo:
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#TantanganHariIni #15Menit #InformasiDulu`
+            },
+            {
+                time: "17:30",
+                type: "Future Pacing",
+                caption: `5 tahun dari sekarang, lo mau jadi yang mana?
+
+Versi A:
+- Sakit dikit langsung panik soal biaya
+- Ga punya dana darurat
+- Keluarga was-was terus
+
+Versi B:
+- Sakit? Tinggal klaim, tenang
+- Dana darurat aman
+- Keluarga terlindungi
+
+Bedanya bukan di gaji. Bedanya di KEPUTUSAN yang lo ambil HARI INI.
+
+Mulai: https://projectcuan.petrusjakub.workers.dev/
+
+#5TahunLagi #VersiMana #KeputusanHariIni`
+            },
+            {
+                time: "18:00",
+                type: "Soft CTA",
+                caption: `Gue ga mau maksa lo beli asuransi.
+
+Tapi gue mau lo PAHAM kenapa ini penting.
+
+Karena kalo lo paham, lo pasti mau.
+
+Fakta:
+- 1 dari 3 orang bakal kena penyakit kritis sebelum umur 60
+- Biaya pengobatan kanker: 500jt - 2M
+- 70% keluarga jatuh miskin karena biaya kesehatan
+
+Ini bukan jualan. Ini EDUKASI.
+
+Baca lebih lanjut: link di bio
+
+#BukanJualan #Edukasi #FaktaKesehatan`
+            },
+            {
+                time: "18:30",
+                type: "Humor + Hook",
+                caption: `Orang Indonesia be like:
+
+Helm: "Ah males, deket doang"
+Asuransi: "Ah ga butuh, masih sehat"
+Sunscreen: "Ah ga panas juga"
+Tabungan: "Nanti aja kalo gaji naik"
+
+Terus kalo kenapa-napa:
+"Kenapa gue ga siapin dari dulu ya..."
+
+JANGAN JADI ORANG ITU.
+
+Siapin sekarang. Santuy aja. Ga ribet kok.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#OrangIndonesiaBeLike #JanganJadiOrangItu #SiapinSekarang`
+            },
+            {
+                time: "19:00",
+                type: "Trust Building",
+                caption: `Kenapa lo harus konsultasi sama gue?
+
+1. Gue BUKAN robot yang cuma nawarin produk
+2. Gue dengerin KEBUTUHAN lo dulu
+3. Gue kasih rekomendasi yang COCOK sama budget lo
+4. Ga ada paksaan, ga ada tekanan
+5. Kalo emang ga cocok, gue bilang jujur
+
+Gue di sini buat bantu lo PAHAM, bukan buat MAKSA.
+
+Chat kapan aja, atau mulai dari sini:
+
+Link di bio.
+
+#KonsultasiGratis #TanpaPaksaan #AgenJujur`
+            },
+            {
+                time: "19:30",
+                type: "Scarcity",
+                caption: `INFO PENTING:
+
+Beberapa produk proteksi lagi ada PROMO khusus bulan ini:
+- Diskon premi 20% untuk pendaftar baru
+- Gratis medical check up
+- Bonus coverage tambahan
+
+Dan ini GA SETIAP BULAN ada.
+
+Kalo emang lagi ada niat, sekarang timing TERBAIK.
+
+Cek info lengkap: https://projectcuan.petrusjakub.workers.dev/
+
+#PromoBulanIni #LimitedTime #JanganKelewat`
+            },
+            {
+                time: "20:00",
+                type: "Evening Reflection",
+                caption: `Malam ini, sebelum tidur...
+
+Tanya ke diri sendiri:
+
+"Kalo besok terjadi sesuatu sama gue, apakah keluarga gue baik-baik aja?"
+
+Kalo jawabannya ragu, lo tau apa yang harus dilakukan.
+
+Ga perlu overthinking. Ga perlu nunggu perfect moment.
+
+Mulai aja. Pelan-pelan. Santuy.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#RefleksiMalam #KeluargaDulu #MulaiPelan`
+            },
+            {
+                time: "20:30",
+                type: "Night Closer",
+                caption: `Last post hari ini.
+
+Makasih udah baca sampe sini. Lo jelas orang yang PEDULI sama masa depan lo.
+
+Ringkasan hari ini:
+- Proteksi itu KEBUTUHAN, bukan kemewahan
+- Makin muda = makin murah
+- Ga perlu mahal, yang penting PUNYA
+- Cashless = ga ribet
+
+Besok kita lanjut lagi ya. Tapi kalo lo udah mau mulai HARI INI:
+
+https://projectcuan.petrusjakub.workers.dev/
+
+Tidur nyenyak, gaes. Besok kita gas lagi.
+
+#GoodNight #LastPost #SampeBesoK`
+            }
+        ];
+
+        const STATE_KEY = 'ngobras_santuy_threads_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin! 🔥');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin! 🔥');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            const navBtn = document.getElementById('nav-btn-' + index);
+            if (navBtn) navBtn.classList.add('nav-done');
+            updateStats();
+            showToast('Mantap! Task selesai! ✅');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            const navBtn = document.getElementById('nav-btn-' + index);
+            if (navBtn) navBtn.classList.add('nav-hidden');
+            updateStats();
+            showToast('Task disembunyikan! 👋');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden bakal dihapus semua nih.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task udah direset! 🔄');
+            }
+        }
+
+        function scrollToPost(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(255, 154, 0, 0.4)';
+                setTimeout(() => {
+                    card.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+
+        function renderNav() {
+            const navScroll = document.getElementById('navScroll');
+            const state = getState();
+            navScroll.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn' + (status === 'done' ? ' nav-done' : '') + (status === 'hidden' ? ' nav-hidden' : '');
+                btn.id = 'nav-btn-' + index;
+                btn.textContent = post.time + ' - ' + post.type;
+                btn.onclick = () => scrollToPost(index);
+                navScroll.appendChild(btn);
+            });
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Sembunyikan</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNav();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
