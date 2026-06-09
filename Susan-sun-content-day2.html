@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Content Plan - Susan Sun (Day 2)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #898F9C);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8892b0;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #1877F2;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #1877F2;
+            font-weight: 700;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+        }
+
+        .nav-buttons .nav-title {
+            width: 100%;
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        .nav-btn {
+            background: rgba(24, 119, 242, 0.15);
+            border: 1px solid rgba(24, 119, 242, 0.3);
+            color: #1877F2;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(24, 119, 242, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8892b0;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(24, 119, 242, 0.1);
+            color: #1877F2;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #ccd6f6;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-image-prompt {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            white-space: pre-wrap;
+            margin-bottom: 12px;
+            padding: 12px;
+            background: rgba(24, 119, 242, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(24, 119, 242, 0.2);
+        }
+
+        .post-image-prompt .prompt-label {
+            display: block;
+            color: #1877F2;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #a8b2d1;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(230, 0, 35, 0.05);
+            border-radius: 10px;
+            border: 1px solid rgba(230, 0, 35, 0.2);
+        }
+
+        .pinterest-links .pinterest-label {
+            display: block;
+            color: #E60023;
+            font-weight: 700;
+            font-size: 0.8rem;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+
+        .pinterest-links a {
+            color: #E60023;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 4px;
+            font-size: 0.82rem;
+        }
+
+        .pinterest-links a:hover {
+            text-decoration: underline;
+            opacity: 0.8;
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #1877F2, #4267B2);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-copy-prompt {
+            background: linear-gradient(135deg, #7c3aed, #a855f7);
+            color: #fff;
+        }
+
+        .btn-copy-prompt:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+        }
+
+        .btn-copy-prompt.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(100, 255, 218, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.4);
+            font-weight: 700;
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8892b0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00c853;
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1877F2, #4267B2, #5B7BD5);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8892b0;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Facebook Content Plan - Day 2</h1>
+        <p class="account">Susan Sun</p>
+        <p>Full Day Schedule - Active & Adventurous Lifestyle</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-buttons" id="navButtons">
+        <div class="nav-title">Go To Task:</div>
+    </div>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Yoga Morning",
+                caption: `Jam 6 pagi Susan udah di matras yoga.
+
+Bukan karena rajin. Tapi karena kemarin makan kebanyakan dan badan protes keras.
+
+Pose pertama: downward dog.
+Realita: lebih mirip anjing yang lagi males bangun.
+
+Tapi gapapa, yang penting gerak dulu.
+Badan sehat, pikiran fresh, dan yang paling penting...
+bisa posting foto yoga buat flexing.
+
+Siapa yang pernah yoga terus pose-nya fail total? Cerita dong!
+
+#SusanSun #YogaMorning #FlexibleAtauFleksibel #OlahragaPagi #GayaHidupSehat`,
+                imagePrompt: `Susan pakai outfit image 2, sedang melakukan pose yoga warrior di latar image 3. Ada matras yoga image 4 warna pastel di lantai kayu. Susan dalam pose warrior II menghadap samping kamera dengan ekspresi fokus tapi santai. Morning soft light masuk dari jendela besar, peaceful calm atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Yoga Wear Women", url: "https://www.pinterest.com/search/pins/?q=yoga%20outfit%20women%20pastel%20aesthetic" },
+                    { label: "Latar - Home Yoga Space Natural Light", url: "https://www.pinterest.com/search/pins/?q=home%20yoga%20space%20natural%20light%20wooden%20floor" },
+                    { label: "Props - Pastel Yoga Mat", url: "https://www.pinterest.com/search/pins/?q=pastel%20yoga%20mat%20aesthetic%20minimal" }
+                ]
+            },
+            {
+                time: "07:00",
+                type: "Smoothie Bowl Art",
+                caption: `Post-yoga fuel!
+
+Susan bikin smoothie bowl hari ini.
+Topping-nya ditata rapi kayak karya seni.
+Butuh waktu 20 menit buat arrange buah-buahan.
+Dimakan habis dalam 3 menit.
+
+Ini namanya dedication.
+Atau kebodohan. Tergantung perspektif.
+
+Yang jelas, Susan nggak akan bikin ini lagi besok.
+...mungkin.
+
+Drop resep smoothie favorit kalian! Susan mau coba yang gampang aja ya.
+
+#SusanSun #SmoothieBowl #HealthyEating #FoodArt #3MenitHabis`,
+                imagePrompt: `Susan pakai outfit image 2, sedang menyusun topping smoothie bowl di latar image 3. Ada smoothie bowl image 4 warna ungu cantik dengan topping buah-buahan tersusun rapi di atas meja. Susan difotoin dari atas sedang menaruh potongan kiwi dengan pinset, ekspresi serius konsentrasi lucu. Bright morning kitchen light, overhead food styling angle.`,
+                pinterestLinks: [
+                    { label: "Outfit - Casual Morning Loungewear", url: "https://www.pinterest.com/search/pins/?q=casual%20loungewear%20women%20morning%20aesthetic" },
+                    { label: "Latar - Bright Kitchen Counter Morning", url: "https://www.pinterest.com/search/pins/?q=bright%20kitchen%20counter%20morning%20light%20minimal" },
+                    { label: "Props - Smoothie Bowl Aesthetic Topping", url: "https://www.pinterest.com/search/pins/?q=smoothie%20bowl%20aesthetic%20topping%20fruit%20art" }
+                ]
+            },
+            {
+                time: "08:00",
+                type: "Gym Time",
+                caption: `HARI INI SUSAN KE GYM!
+
+Sebelum kalian tepuk tangan, dengerin dulu:
+
+Rencana: angkat beban 1 jam, cardio 30 menit.
+Realita: foto mirror selfie 15 menit, jalan di treadmill 10 menit, duduk-duduk 20 menit sambil scroll HP.
+
+Tapi technically Susan SUDAH di gym.
+Dan itu lebih baik dari di kasur kan?
+
+Yang penting konsisten.
+Konsisten datang. Bukan konsisten ngangkat.
+
+Gym buddies mana suaranya?!
+
+#SusanSun #GymDay #MirrorSelfie #KonsistenDatang #FitnessJourney`,
+                imagePrompt: `Susan pakai outfit image 2, sedang ngegym di latar image 3. Ada dumbbell image 4 warna pink di tangan Susan. Susan mirror selfie di cermin gym besar, pose percaya diri dengan satu tangan angkat dumbbell ringan. Bright gym lighting, motivational energetic mood, clean modern gym interior.`,
+                pinterestLinks: [
+                    { label: "Outfit - Gym Wear Women Stylish", url: "https://www.pinterest.com/search/pins/?q=gym%20outfit%20women%20stylish%20mirror%20selfie" },
+                    { label: "Latar - Modern Clean Gym Interior", url: "https://www.pinterest.com/search/pins/?q=modern%20clean%20gym%20interior%20mirror%20bright" },
+                    { label: "Props - Pink Dumbbell Aesthetic", url: "https://www.pinterest.com/search/pins/?q=pink%20dumbbell%20women%20gym%20aesthetic" }
+                ]
+            },
+            {
+                time: "09:00",
+                type: "Swimming Vibes",
+                caption: `Abis gym, lanjut renang!
+
+Susan hari ini jadi atlet dadakan.
+Dari yoga, gym, sekarang renang.
+Besok mungkin triathlon. Atau mungkin rebahan seharian sebagai recovery.
+
+Renang itu olahraga paling jujur.
+Nggak bisa bohong soal stamina.
+Satu lap aja Susan udah ngos-ngosan.
+
+Tapi pemandangannya worth it.
+Air biru, langit cerah, dan nggak ada yang ganggu.
+
+Surga dunia itu pool kosong di pagi hari. Change my mind.
+
+#SusanSun #SwimmingVibes #PoolDay #AtletDadakan #AirBiru`,
+                imagePrompt: `Susan pakai outfit image 2, sedang duduk santai di pinggir kolam renang di latar image 3. Ada handuk image 4 di samping dan minuman infused water. Susan duduk di pinggir pool dengan kaki di air, menoleh ke kamera sambil senyum ceria. Bright blue pool water reflection, tropical resort vibe, clear morning sky.`,
+                pinterestLinks: [
+                    { label: "Outfit - Swimwear Cover Up Stylish", url: "https://www.pinterest.com/search/pins/?q=swimwear%20cover%20up%20stylish%20women%20pool" },
+                    { label: "Latar - Aesthetic Swimming Pool Morning", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20swimming%20pool%20morning%20clear%20water" },
+                    { label: "Props - Pool Towel Infused Water", url: "https://www.pinterest.com/search/pins/?q=pool%20towel%20infused%20water%20aesthetic%20summer" }
+                ]
+            },
+            {
+                time: "10:00",
+                type: "Cooking Class",
+                caption: `Kejutan hari ini: Susan ikut cooking class!
+
+Menu yang dipelajari: Pasta Carbonara authentic ala Italia.
+Ekspektasi: jadi chef Gordon Ramsay.
+Realita: hampir bakar dapur orang.
+
+Tapi chef-nya sabar banget ngajarin.
+Dan hasilnya? Actually enak!
+
+Plot twist: ternyata kalau dikasih tau step by step, Susan BISA masak yang bener.
+Selama ini yang salah bukan orangnya. Tapi resep YouTube yang skip 17 langkah.
+
+Siapa yang mau Susan share resepnya?
+
+#SusanSun #CookingClass #PastaCarbonara #BelajarMasak #ChefSusan`,
+                imagePrompt: `Susan pakai outfit image 2, sedang memasak pasta di latar image 3. Ada panci dan bahan-bahan image 4 tersusun rapi di meja dapur profesional. Susan difotoin candid sedang mengaduk pasta dengan spatula kayu, ekspresi fokus dan senang. Professional kitchen lighting, cooking class atmosphere with stainless steel equipment.`,
+                pinterestLinks: [
+                    { label: "Outfit - Cooking Class Apron Chic", url: "https://www.pinterest.com/search/pins/?q=cooking%20class%20apron%20women%20chic%20style" },
+                    { label: "Latar - Professional Cooking Class Kitchen", url: "https://www.pinterest.com/search/pins/?q=professional%20cooking%20class%20kitchen%20interior" },
+                    { label: "Props - Pasta Making Ingredients Aesthetic", url: "https://www.pinterest.com/search/pins/?q=pasta%20making%20ingredients%20aesthetic%20kitchen" }
+                ]
+            },
+            {
+                time: "11:00",
+                type: "Museum Visit",
+                caption: `Setelah olahraga dan masak, sekarang giliran otak yang diajak jalan.
+
+Susan ke museum hari ini!
+Bukan museum yang boring ya. Yang artsy dan instagramable.
+
+Jujur, Susan nggak ngerti semua karya seninya.
+Ada lukisan kotak-kotak dikasih harga 2 miliar.
+Susan cuma bisa bilang: "...oke."
+
+Tapi ada satu yang Susan suka banget.
+Lukisan perempuan yang lagi melamun di jendela.
+Rasanya kayak ngeliat diri sendiri tiap Senin pagi.
+
+Yang suka museum, ajak Susan kapan-kapan!
+
+#SusanSun #MuseumDay #SeniItuRelatif #ArtLover #JalanJalanBudaya`,
+                imagePrompt: `Susan pakai outfit image 2, sedang berdiri memandangi lukisan besar di latar image 3. Ada lukisan abstrak berwarna-warni image 4 di dinding putih museum. Susan difotoin dari belakang agak samping, sedang memiringkan kepala melihat karya seni. Museum gallery lighting, minimal white walls, contemplative artistic atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Museum Visit Smart Casual", url: "https://www.pinterest.com/search/pins/?q=museum%20visit%20outfit%20women%20smart%20casual%20chic" },
+                    { label: "Latar - Modern Art Museum Gallery White", url: "https://www.pinterest.com/search/pins/?q=modern%20art%20museum%20gallery%20white%20walls" },
+                    { label: "Props - Abstract Colorful Painting", url: "https://www.pinterest.com/search/pins/?q=abstract%20colorful%20painting%20museum%20gallery" }
+                ]
+            },
+            {
+                time: "12:00",
+                type: "Brunch Aesthetic",
+                caption: `Makan siang hari ini upgraded jadi brunch!
+
+Susan nemuin cafe baru yang aesthetic-nya kebangetan.
+Makanannya juga enak, bukan cuma cantik doang.
+
+Menu pesanan:
+- Eggs Benedict yang kuning telurnya meleleh sempurna
+- Fresh orange juice yang beneran diperes di depan mata
+- Croissant yang flaky-nya bikin meja berantakan
+
+Total damage: lumayan.
+Tapi stomach happiness: 100%.
+
+Kadang perut yang senang itu investasi terbaik.
+
+Rekomen cafe aesthetic kalian dong!
+
+#SusanSun #BrunchTime #CafeAesthetic #EggsBenedict #MakanCantik`,
+                imagePrompt: `Susan pakai outfit image 2, sedang makan brunch cantik di latar image 3. Ada piring eggs benedict image 4 dengan kuning telur meleleh di meja marble. Susan selfie dari depan dengan makanan cantik di meja, ekspresi happy dan excited. Bright cafe natural light, aesthetic brunch table setting, warm inviting atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Brunch Outfit Women Casual Chic", url: "https://www.pinterest.com/search/pins/?q=brunch%20outfit%20women%20casual%20chic%20cafe" },
+                    { label: "Latar - Aesthetic Brunch Cafe Interior", url: "https://www.pinterest.com/search/pins/?q=aesthetic%20brunch%20cafe%20interior%20bright%20minimal" },
+                    { label: "Props - Eggs Benedict Brunch Aesthetic", url: "https://www.pinterest.com/search/pins/?q=eggs%20benedict%20brunch%20aesthetic%20food%20photography" }
+                ]
+            },
+            {
+                time: "13:00",
+                type: "Painting Class",
+                caption: `Susan sekarang lagi belajar MELUKIS!
+
+Yap. Ibu rumah tangga sekaligus calon pelukis terkenal.
+Resume makin panjang: insurance pro, housewife, chef, atlet, seniman.
+
+Lukisan pertama Susan: bunga matahari.
+Versi Van Gogh? Nggak.
+Versi TK? ...mendekati.
+
+Tapi yang bikin senang itu prosesnya.
+Cat di tangan, musik di telinga, dan nggak ada deadline.
+
+Ini namanya healing tanpa harus ke Bali.
+
+Siapa yang pengen coba painting class juga?
+
+#SusanSun #PaintingClass #SeniRupa #HealingActivity #BungaMatahari`,
+                imagePrompt: `Susan pakai outfit image 2, sedang melukis di kanvas di latar image 3. Ada palet cat warna-warni image 4 di tangan kiri dan kuas di tangan kanan. Susan difotoin dari samping, sedang menggoreskan kuas ke kanvas dengan ekspresi konsentrasi tenang. Art studio with natural light from skylight, creative colorful atmosphere, paint splashes on apron.`,
+                pinterestLinks: [
+                    { label: "Outfit - Art Class Casual Paint Splatter", url: "https://www.pinterest.com/search/pins/?q=art%20class%20outfit%20women%20casual%20painting" },
+                    { label: "Latar - Art Studio Natural Light Skylight", url: "https://www.pinterest.com/search/pins/?q=art%20studio%20natural%20light%20skylight%20canvas" },
+                    { label: "Props - Paint Palette Colorful Brushes", url: "https://www.pinterest.com/search/pins/?q=paint%20palette%20colorful%20brushes%20art%20aesthetic" }
+                ]
+            },
+            {
+                time: "14:00",
+                type: "Cycling Adventure",
+                caption: `Sore ini Susan nyewa sepeda dan keliling kota!
+
+Terakhir kali Susan naik sepeda itu... entah kapan.
+Mungkin jaman masih percaya Sinterklas.
+
+Awalnya takut jatuh.
+5 menit kemudian: WUUUSH ngebut kayak pembalap Tour de France.
+
+Anginnya enak. Pemandangannya cantik.
+Dan yang paling penting: GRATIS. Nggak pake macet.
+
+Kenapa ya kita berhenti naik sepeda waktu dewasa?
+Padahal ini seru banget!
+
+Cycling gang, where you at?
+
+#SusanSun #CyclingAdventure #SepedasAja #AnginSore #KelilingKota`,
+                imagePrompt: `Susan pakai outfit image 2, sedang bersepeda santai di latar image 3. Ada sepeda vintage image 4 warna krem dengan keranjang bunga di depan. Susan difotoin dari samping sedang mengayuh sepeda dengan rambut tertiup angin, ekspresi bebas dan ceria. Tree-lined cycling path, afternoon golden light filtering through leaves, joyful freedom vibes.`,
+                pinterestLinks: [
+                    { label: "Outfit - Cycling Casual Outfit Women", url: "https://www.pinterest.com/search/pins/?q=cycling%20casual%20outfit%20women%20stylish%20city" },
+                    { label: "Latar - Tree Lined Cycling Path Afternoon", url: "https://www.pinterest.com/search/pins/?q=tree%20lined%20cycling%20path%20afternoon%20golden%20light" },
+                    { label: "Props - Vintage Bike Basket Flowers", url: "https://www.pinterest.com/search/pins/?q=vintage%20bike%20basket%20flowers%20aesthetic" }
+                ]
+            },
+            {
+                time: "15:00",
+                type: "Spa Relaxation",
+                caption: `Setelah seharian aktif, badan butuh dimanja.
+
+Susan sekarang di SPA!
+Treatment hari ini: full body massage + facial.
+
+Status: sudah berubah jadi jelly.
+Tulang? Nggak kenal. Otot? Sudah pulang kampung.
+Yang tersisa cuma jiwa yang melayang-layang.
+
+Ini bukan self reward.
+Ini KEBUTUHAN. Badan yang capek itu butuh service kayak mobil.
+
+Kalian kapan terakhir treat yourself? Jangan lupa sayang diri sendiri ya.
+
+#SusanSun #SpaDay #SelfCare #TreatYourself #RelaxationMode`,
+                imagePrompt: `Susan pakai outfit image 2, sedang berbaring santai di latar image 3. Ada handuk putih image 4 terlipat rapi dan bunga frangipani di samping. Susan difotoin dari samping dengan mata terpejam dan senyum damai di spa bed. Soft ambient spa lighting, candles and orchids in background, serene peaceful wellness atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Spa Robe Towel Wrap", url: "https://www.pinterest.com/search/pins/?q=spa%20robe%20towel%20wrap%20women%20relaxing" },
+                    { label: "Latar - Luxury Spa Treatment Room", url: "https://www.pinterest.com/search/pins/?q=luxury%20spa%20treatment%20room%20candles%20orchid" },
+                    { label: "Props - Frangipani Towel Spa", url: "https://www.pinterest.com/search/pins/?q=frangipani%20flower%20towel%20spa%20aesthetic" }
+                ]
+            },
+            {
+                time: "16:00",
+                type: "Shopping Spree",
+                caption: `Habis spa, kaki malah jadi lincah lagi.
+Dan membawa Susan ke... MALL.
+
+Niatnya: window shopping aja.
+30 menit kemudian: 4 paper bag di tangan.
+
+Susan punya teori: diskon itu bukan penghematan.
+Itu jebakan. Jebakan yang sangat indah.
+
+Tapi serius, Susan nemu dress yang udah lama dicari!
+Kadang rezeki emang nyasar ke fitting room.
+
+Siapa yang juga tipe "cuma mau lihat-lihat" tapi pulang bawa setengah toko?
+
+#SusanSun #ShoppingSpree #WindowShoppingGagal #DiskonJebakan #RetailTherapy`,
+                imagePrompt: `Susan pakai outfit image 2, sedang berjalan keluar toko di latar image 3. Ada paper bag belanjaan image 4 warna-warni di kedua tangan. Susan difotoin candid dari depan sedang melangkah percaya diri dengan banyak tas belanja, ekspresi puas dan bangga. Bright mall interior lighting, luxury shopping district, happy retail therapy mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Shopping Outfit Women Chic", url: "https://www.pinterest.com/search/pins/?q=shopping%20outfit%20women%20chic%20casual%20street" },
+                    { label: "Latar - Luxury Mall Interior Bright", url: "https://www.pinterest.com/search/pins/?q=luxury%20mall%20interior%20bright%20shopping%20district" },
+                    { label: "Props - Shopping Bags Colorful Paper Bag", url: "https://www.pinterest.com/search/pins/?q=shopping%20bags%20colorful%20paper%20bag%20women" }
+                ]
+            },
+            {
+                time: "17:00",
+                type: "Karaoke Queen",
+                caption: `Plot twist sore ini: KARAOKE!
+
+Susan nyanyi dari dangdut sampai K-pop.
+Dari Rhoma Irama sampai BTS.
+Range vokal? Unlimited. Kualitas? Debatable.
+
+Lagu andalan Susan: "Separuh Aku" Noah.
+Tapi versi Susan judulnya: "Separuh Fals."
+
+Yang penting PUAS.
+Suara serak besok itu urusan besok.
+
+Karaoke itu terapi jiwa paling murah.
+Siapa setuju? Dan lagu wajib kalian apa?
+
+#SusanSun #KaraokeQueen #NyanyiLepas #SeparuhFals #TerapiJiwa`,
+                imagePrompt: `Susan pakai outfit image 2, sedang bernyanyi di ruang karaoke di latar image 3. Ada microphone image 4 di tangan dan layar TV lirik di background. Susan difotoin dari depan sedang bernyanyi dengan penuh penghayatan, mata terpejam dan tangan terangkat dramatis. Colorful neon karaoke room lighting, disco ball reflections, fun party atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Karaoke Night Out Outfit", url: "https://www.pinterest.com/search/pins/?q=karaoke%20night%20outfit%20women%20fun%20party" },
+                    { label: "Latar - Karaoke Room Neon Lights", url: "https://www.pinterest.com/search/pins/?q=karaoke%20room%20neon%20lights%20colorful%20interior" },
+                    { label: "Props - Microphone Singing Aesthetic", url: "https://www.pinterest.com/search/pins/?q=microphone%20singing%20aesthetic%20neon%20light" }
+                ]
+            },
+            {
+                time: "18:00",
+                type: "Sunset Hiking",
+                caption: `Penutup petualangan hari ini: hiking ringan di bukit!
+
+Susan naik bukit buat lihat sunset.
+Napas ngos-ngosan. Kaki gemetar. Keringat banjir.
+Tapi pas sampai atas...
+
+WORTH. EVERY. STEP.
+
+Pemandangannya bikin lupa semua capek.
+Langit oren keungu-unguan, kota kecil di bawah, angin sepoi.
+
+Kadang hal terbaik dalam hidup itu butuh usaha.
+Kayak sunset ini. Kayak karir. Kayak bikin anak tidur tepat waktu.
+
+Pemandangan favorit kalian apa?
+
+#SusanSun #SunsetHiking #WorthTheClimb #GoldenHour #ViewFromTop`,
+                imagePrompt: `Susan pakai outfit image 2, sedang berdiri di puncak bukit di latar image 3. Ada topi hiking image 4 di tangan dan backpack kecil di punggung. Susan difotoin dari belakang dengan tangan terentang lebar menghadap sunset, siluet dramatis. Dramatic sunset golden hour from hilltop, panoramic city view below, orange purple sky, cinematic epic atmosphere.`,
+                pinterestLinks: [
+                    { label: "Outfit - Hiking Outfit Women Casual", url: "https://www.pinterest.com/search/pins/?q=hiking%20outfit%20women%20casual%20stylish" },
+                    { label: "Latar - Hilltop Sunset View Panoramic", url: "https://www.pinterest.com/search/pins/?q=hilltop%20sunset%20view%20panoramic%20city%20golden" },
+                    { label: "Props - Hiking Hat Backpack", url: "https://www.pinterest.com/search/pins/?q=hiking%20hat%20small%20backpack%20women%20outdoor" }
+                ]
+            },
+            {
+                time: "19:00",
+                type: "Street Food Tour",
+                caption: `Turun dari bukit, perut langsung konser.
+
+Malam ini Susan jalan-jalan ke area street food!
+Makan apa aja yang ketemu. No filter. No diet. No regret.
+
+Menu malam ini:
+- Martabak manis keju coklat (separuh dimakan di tempat)
+- Sate padang yang bumbunya nampol
+- Es cendol yang bikin jiwa adem
+- Tahu gejrot yang pedesnya ngagetin
+
+Total kalori: Susan nggak mau hitung.
+Total kebahagiaan: OVER 9000.
+
+Street food favorit kalian apa? Susan butuh rekomendasi buat besok!
+
+#SusanSun #StreetFoodTour #MakanMalam #KulinerMalam #NoRegret`,
+                imagePrompt: `Susan pakai outfit image 2, sedang jalan-jalan di area street food di latar image 3. Ada martabak image 4 di tangan yang baru dipotong. Susan difotoin candid sedang gigit makanan dengan ekspresi bahagia, di sekitar ada gerobak-gerobak makanan dengan lampu kuning. Warm street food night market lighting, vibrant Indonesian night market atmosphere, colorful food stalls.`,
+                pinterestLinks: [
+                    { label: "Outfit - Night Market Casual Outfit", url: "https://www.pinterest.com/search/pins/?q=night%20market%20casual%20outfit%20women%20asian" },
+                    { label: "Latar - Indonesian Street Food Night Market", url: "https://www.pinterest.com/search/pins/?q=indonesian%20street%20food%20night%20market%20lights" },
+                    { label: "Props - Martabak Indonesian Street Food", url: "https://www.pinterest.com/search/pins/?q=martabak%20manis%20indonesian%20street%20food" }
+                ]
+            },
+            {
+                time: "20:00",
+                type: "Journaling Night",
+                caption: `Malam ini Susan nulis jurnal.
+
+Bukan jurnal yang serius ya.
+Lebih kayak curhat ke kertas yang nggak akan nge-judge.
+
+Hari ini Susan tulis:
+"Hari ini aku olahraga 3 jenis, belajar masak pasta, melukis bunga matahari yang lebih mirip pizza, naik sepeda, karaoke sampai serak, dan hiking. Besok mungkin nggak bisa gerak. Tapi hari ini aku HIDUP."
+
+Journaling itu kayak bersihin cache di otak.
+Setelahnya, pikiran jadi lebih ringan.
+
+Kalian punya kebiasaan malam sebelum tidur apa?
+
+#SusanSun #Journaling #MeTime #TulisHati #NightRoutine`,
+                imagePrompt: `Susan pakai outfit image 2, sedang menulis di jurnal di latar image 3. Ada notebook cantik image 4 terbuka dengan tulisan tangan dan pena di atas meja. Susan difotoin dari atas samping, sedang menulis dengan serius di meja kecil samping jendela. Soft warm desk lamp lighting, cozy night atmosphere, rain on window glass, intimate thoughtful mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Cozy Night In Loungewear", url: "https://www.pinterest.com/search/pins/?q=cozy%20night%20loungewear%20women%20soft%20aesthetic" },
+                    { label: "Latar - Cozy Desk Night Window Rain", url: "https://www.pinterest.com/search/pins/?q=cozy%20desk%20night%20window%20rain%20lamp" },
+                    { label: "Props - Pretty Journal Notebook Pen", url: "https://www.pinterest.com/search/pins/?q=pretty%20journal%20notebook%20pen%20aesthetic%20writing" }
+                ]
+            },
+            {
+                time: "21:00",
+                type: "Goodnight Gratitude",
+                caption: `Day 2 selesai.
+
+Dan ini mungkin hari paling penuh yang pernah Susan jalani.
+Dari yoga jam 6 pagi sampai journaling jam 9 malam.
+
+Apa yang Susan pelajari hari ini:
+1. Tubuh kita bisa lebih dari yang kita kira.
+2. Belajar hal baru itu bikin muda.
+3. Makan enak itu hak asasi manusia.
+4. Sunset dari atas bukit itu obat segala lelah.
+5. Hidup itu seru kalau kita mau keluar dari zona nyaman.
+
+Besok? Entah. Mungkin rebahan total. Mungkin petualangan baru.
+Yang pasti, Susan tidur dengan hati penuh.
+
+Selamat malam semuanya.
+Kamu juga sudah luar biasa hari ini.
+
+#SusanSun #GoodnightPost #GratefulHeart #Day2Done #SampaiJumpaBesok`,
+                imagePrompt: `Susan pakai outfit image 2, sedang duduk di tepi tempat tidur di latar image 3. Ada lilin aromaterapi image 4 menyala di nakas dan foto-foto polaroid hari ini tersebar di kasur. Susan difotoin dari samping, duduk dengan kaki ditekuk, senyum puas sambil melihat polaroid-polaroid. Very soft dim warm lighting, bedroom night cozy atmosphere, satisfied peaceful end-of-day mood.`,
+                pinterestLinks: [
+                    { label: "Outfit - Sleepwear Cozy Bedtime", url: "https://www.pinterest.com/search/pins/?q=sleepwear%20cozy%20bedtime%20women%20soft" },
+                    { label: "Latar - Cozy Bedroom Night Candle", url: "https://www.pinterest.com/search/pins/?q=cozy%20bedroom%20night%20candle%20warm%20light" },
+                    { label: "Props - Polaroid Photos Scattered Bed", url: "https://www.pinterest.com/search/pins/?q=polaroid%20photos%20scattered%20bed%20memories%20aesthetic" }
+                ]
+            }
+        ];
+
+        const STATE_KEY = 'fb_susansun_day2_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            posts.forEach((post, index) => {
+                const navBtn = document.getElementById('nav-btn-' + index);
+                if (navBtn) {
+                    const status = state[index] || '';
+                    if (status === 'hidden') {
+                        navBtn.classList.add('nav-hidden');
+                    } else {
+                        navBtn.classList.remove('nav-hidden');
+                    }
+                }
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function scrollToTask(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(24, 119, 242, 0.5)';
+                setTimeout(() => { card.style.boxShadow = ''; }, 2000);
+            }
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Caption';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function copyImagePrompt(index) {
+            const text = posts[index].imagePrompt;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-prompt-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Image prompt berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy Prompt';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Image prompt berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function renderNavButtons() {
+            const nav = document.getElementById('navButtons');
+            const state = getState();
+            let buttonsHTML = '<div class="nav-title">Go To Task:</div>';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const hiddenClass = status === 'hidden' ? ' nav-hidden' : '';
+                buttonsHTML += `<button class="nav-btn${hiddenClass}" id="nav-btn-${index}" onclick="scrollToTask(${index})">Task ${index + 1} (${post.time})</button>`;
+            });
+
+            nav.innerHTML = buttonsHTML;
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                let pinterestHTML = '';
+                if (post.pinterestLinks && post.pinterestLinks.length > 0) {
+                    pinterestHTML = `<div class="pinterest-links"><span class="pinterest-label">Pinterest References</span>`;
+                    post.pinterestLinks.forEach(link => {
+                        pinterestHTML += `<a href="${link.url}" target="_blank">${link.label}</a>`;
+                    });
+                    pinterestHTML += `</div>`;
+                }
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-image-prompt"><span class="prompt-label">Image Prompt</span>${post.imagePrompt}</div>
+                    ${pinterestHTML}
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy Caption</button>
+                        <button class="btn btn-copy-prompt" id="copy-prompt-btn-${index}" onclick="copyImagePrompt(${index})">1-Click Copy Prompt</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            renderNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
