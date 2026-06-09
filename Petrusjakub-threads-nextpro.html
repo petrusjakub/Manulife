@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threads NEXTPRO Content - @petrusjakub | Sharp Hooks</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0f2027 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 16px;
+        }
+
+        .header {
+            text-align: center;
+            padding: 24px 16px;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(90deg, #f093fb, #f5576c, #fda085);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #8b949e;
+            font-size: 0.95rem;
+        }
+
+        .header .account {
+            color: #58a6ff;
+            font-weight: 600;
+            font-size: 1.1rem;
+            margin-top: 4px;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 16px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+
+        .stat-item span {
+            color: #58a6ff;
+            font-weight: 700;
+        }
+
+        .progress-bar {
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            height: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #f093fb, #f5576c);
+            border-radius: 20px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            color: #8b949e;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+
+        /* Navigation Section */
+        .nav-section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 16px;
+            margin-bottom: 24px;
+        }
+
+        .nav-section h3 {
+            color: #58a6ff;
+            font-size: 0.9rem;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .nav-btn {
+            background: rgba(88, 166, 255, 0.1);
+            border: 1px solid rgba(88, 166, 255, 0.3);
+            color: #58a6ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .nav-btn:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        .nav-btn.nav-done {
+            opacity: 0.4;
+            text-decoration: line-through;
+        }
+
+        .nav-btn.nav-hidden {
+            opacity: 0.3;
+            background: rgba(255, 82, 82, 0.1);
+            border-color: rgba(255, 82, 82, 0.3);
+            color: #ff5252;
+            text-decoration: line-through;
+        }
+
+        /* Post Cards */
+        .post-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, #f093fb, #f5576c);
+            border-radius: 4px 0 0 4px;
+        }
+
+        .post-card.done {
+            opacity: 0.3;
+            transform: scale(0.98);
+        }
+
+        .post-card.hidden {
+            display: none;
+        }
+
+        .post-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-number {
+            color: #8b949e;
+            font-size: 0.8rem;
+        }
+
+        .post-type {
+            display: inline-block;
+            background: rgba(88, 166, 255, 0.1);
+            color: #58a6ff;
+            padding: 2px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .post-caption {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #c9d1d9;
+            white-space: pre-wrap;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .post-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            border: none;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-copy {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: #fff;
+        }
+
+        .btn-copy:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(240, 147, 251, 0.3);
+        }
+
+        .btn-copy.copied {
+            background: linear-gradient(135deg, #00c853, #64dd17);
+        }
+
+        .btn-done {
+            background: rgba(88, 166, 255, 0.1);
+            color: #58a6ff;
+            border: 1px solid rgba(88, 166, 255, 0.3);
+        }
+
+        .btn-done:hover {
+            background: rgba(88, 166, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-hide {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff5252;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .btn-hide:hover {
+            background: rgba(255, 82, 82, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.05);
+            color: #8b949e;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 24px auto;
+            display: block;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-show-all {
+            background: rgba(100, 255, 218, 0.1);
+            color: #64ffda;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            margin: 16px auto;
+            display: block;
+        }
+
+        .btn-show-all:hover {
+            background: rgba(100, 255, 218, 0.2);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: linear-gradient(135deg, #00c853, #64dd17);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            z-index: 1000;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 200, 83, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 12px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+            .btn {
+                padding: 8px 14px;
+                font-size: 0.8rem;
+            }
+            .nav-btn {
+                padding: 5px 9px;
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>NEXTPRO Sharp Hooks</h1>
+        <p class="account">@petrusjakub</p>
+        <p>Full Day Schedule (06:00 - 22:00 WIB) - Pertanyaan Tajam Rekrut Agen NEXTPRO</p>
+        <div class="stats-bar">
+            <div class="stat-item">Total: <span id="totalPosts">0</span> Posts</div>
+            <div class="stat-item">Selesai: <span id="donePosts">0</span></div>
+            <div class="stat-item">Sisa: <span id="remainingPosts">0</span></div>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="progress-text" id="progressText">0% selesai</div>
+    </div>
+
+    <div class="nav-section">
+        <h3>Navigasi Cepat ke Task</h3>
+        <div class="nav-buttons" id="navButtons"></div>
+    </div>
+
+    <button class="btn btn-show-all" onclick="showAllTasks()">Tampilkan Semua Task</button>
+
+    <div id="postsContainer"></div>
+
+    <button class="btn btn-reset" onclick="resetAll()">Reset Semua Task</button>
+
+    <div class="toast" id="toast">Tersalin!</div>
+
+    <script>
+        const posts = [
+            {
+                time: "06:00",
+                type: "Hook PHK",
+                caption: `Pertanyaan serius buat kamu yang masih kerja kantoran:
+
+Kalau BESOK kamu kena PHK, kamu siap?
+
+Tabungan cukup buat berapa bulan?
+3 bulan? 6 bulan? Atau bahkan nggak sampai 1 bulan?
+
+Di 2024 aja, ratusan ribu orang kena PHK. Dan 2025 belum tentu lebih aman.
+
+Pertanyaannya bukan "kalau" kena PHK. Tapi "KAPAN."
+
+Kamu punya plan B nggak?
+
+Program NEXTPRO kasih kamu gaji up to 12 juta/bulan DI LUAR komisi. Tanpa resign.
+
+Klik link di bio.
+
+#PHK #PlanB #NEXTPRO #GajiTambahan`
+            },
+            {
+                time: "06:30",
+                type: "Hook 1 Income",
+                caption: `Kamu masih bergantung pada SATU sumber penghasilan?
+
+Coba jawab jujur:
+
+Kalau gaji bulan ini TELAT 1 minggu aja, kamu panik nggak?
+Kalau perusahaan kamu tiba-tiba tutup, kamu bisa bertahan berapa lama?
+Kalau cicilan tetap jalan tapi income BERHENTI, gimana?
+
+1 income itu bukan aman. Itu BAHAYA.
+
+Kamu cuma selangkah dari krisis.
+
+Program NEXTPRO: gaji up to 12 juta/bulan di luar komisi. Tanpa harus resign.
+
+Info: https://projectcuan.petrusjakub.workers.dev/
+
+#SingleIncome #BahayaFinansial #NEXTPRO #IncomeKedua`
+            },
+            {
+                time: "07:00",
+                type: "Hook Gaji Kecil",
+                caption: `Gaji kamu naik berapa persen tahun ini?
+
+5%? 10%? Atau malah NGGAK NAIK sama sekali?
+
+Sekarang cek harga-harga:
+- Beras naik 20%
+- Listrik naik
+- Bensin naik
+- Kos/kontrakan naik
+
+Gaji naik 5%, pengeluaran naik 20%.
+
+Kamu nggak makin kaya. Kamu makin MISKIN pelan-pelan.
+
+Sampai kapan mau kayak gini?
+
+NEXTPRO kasih kamu gaji up to 12 juta/bulan DI LUAR komisi. Sambil tetap kerja.
+
+Cek: https://projectcuan.petrusjakub.workers.dev/
+
+#GajiKecil #Inflasi #RealitaKaryawan #NEXTPRO`
+            },
+            {
+                time: "07:30",
+                type: "Hook Lembur",
+                caption: `Jam 6 pagi berangkat. Jam 9 malam baru sampai rumah.
+
+Lembur tiap hari. Weekend masih buka laptop.
+
+Pertanyaannya:
+
+Kamu dibayar berapa per JAM sebenarnya? Udah hitung belum?
+
+Kalau gaji 5 juta, kerja 250 jam sebulan, itu cuma 20 ribu per jam.
+
+Tukang parkir aja bisa lebih.
+
+Masih bangga sama "kerja keras" yang hasilnya segitu?
+
+NEXTPRO: gaji up to 12 juta/bulan. Di luar komisi. Jam kerja fleksibel.
+
+Klik link di bio.
+
+#Lembur #KerjaKeras #WaktuVsUang #NEXTPRO`
+            },
+            {
+                time: "08:00",
+                type: "Hook PHK Gelombang",
+                caption: `Berita hari ini: PHK massal lagi.
+
+Perusahaan besar aja bisa PHK ribuan orang dalam 1 hari.
+
+Kamu pikir perusahaan kamu KEBAL?
+
+Kamu pikir karena udah kerja 5 tahun, 10 tahun, kamu AMAN?
+
+Nggak ada yang aman. Yang aman cuma orang yang punya MULTIPLE INCOME.
+
+Bangun income kedua SEKARANG sebelum terlambat.
+
+NEXTPRO: gaji up to 12 juta/bulan di luar komisi. Join tanpa resign.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#PHKMassal #NggakAdaYangAman #NEXTPRO #MultipleIncome`
+            },
+            {
+                time: "08:30",
+                type: "Hook Realita Gaji",
+                caption: `Aku mau tanya satu hal yang mungkin bikin kamu nggak nyaman:
+
+Gaji kamu sekarang... cukup buat APA?
+
+Cukup buat bayar kos? Ya.
+Cukup buat makan? Ya.
+Cukup buat nabung? Hmm...
+Cukup buat beli rumah? NGGAK.
+Cukup buat nikah? NGGAK.
+Cukup buat pensiun? JAUH.
+
+Jadi sebenernya gaji kamu cuma cukup buat SURVIVE. Bukan buat HIDUP.
+
+NEXTPRO ngasih kamu gaji tambahan up to 12 juta/bulan di luar komisi.
+
+Itu bisa jadi down payment rumah kamu dalam setahun.
+
+Info: klik link di bio
+
+#GajiCukupBuatApa #SurviveVsHidup #NEXTPRO`
+            },
+            {
+                time: "09:00",
+                type: "Hook Capek Kerja",
+                caption: `Bangun pagi, macet, kerja, lembur, macet lagi, tidur. Ulang.
+
+Senin sampe Jumat kayak zombie.
+Sabtu Minggu cuma buat recovery badan yang udah hancur.
+
+Kamu nggak punya WAKTU buat keluarga.
+Kamu nggak punya ENERGI buat passion.
+Kamu nggak punya UANG buat liburan.
+
+Terus buat APA kamu kerja?
+
+Buat bikin ORANG LAIN kaya dari tenaga kamu.
+
+Kapan kamu mau kerja buat DIRI SENDIRI?
+
+NEXTPRO: gaji up to 12 juta + komisi unlimited. Jam kerja kamu yang tentukan.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#9to5Trap #CapekKerja #NEXTPRO #KerjaBuatDiriSendiri`
+            },
+            {
+                time: "09:30",
+                type: "Hook Agen Asuransi",
+                caption: `Buat kamu yang SUDAH jadi agen asuransi:
+
+Jujur, penghasilan kamu stabil?
+
+Bulan ini closing, bulan depan KOSONG. Pernah?
+
+Nggak ada gaji tetap. Nggak ada safety net. Kalau sakit, income BERHENTI.
+
+Itu bukan bisnis. Itu GAMBLING.
+
+NEXTPRO beda. Kamu dapat GAJI up to 12 juta/bulan yang TETAP jalan. Komisi tetap kamu dapatkan di atasnya.
+
+Jadi nggak perlu panik kalau bulan ini belum closing.
+
+Mau stabil? https://projectcuan.petrusjakub.workers.dev/
+
+#AgenAsuransi #NEXTPRO #GajiTetap #StabilDulu`
+            },
+            {
+                time: "10:00",
+                type: "Hook PHK Tanpa Persiapan",
+                caption: `Cerita nyata yang aku lihat sendiri:
+
+Teman kerja, loyal 8 tahun. Rajin. Nggak pernah bolos.
+
+Hari Senin masuk kantor, dapat surat: TERIMA KASIH ATAS PENGABDIAN ANDA.
+
+PHK. Efektif akhir bulan.
+
+8 tahun loyalitas. Dihargai dengan pesangon 2 bulan gaji.
+
+Sekarang dia mau bayar cicilan gimana? Biaya anak sekolah gimana?
+
+Jangan tunggu itu terjadi ke KAMU.
+
+Bangun income kedua SEKARANG.
+
+NEXTPRO: gaji up to 12 juta/bulan di luar komisi. Tanpa resign dari kerjaan sekarang.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#PHKNyata #Loyalitas #NEXTPRO #JanganTunggu`
+            },
+            {
+                time: "10:30",
+                type: "Hook Single Income Bahaya",
+                caption: `Kamu tau nggak, 76% keluarga Indonesia BANGKRUT dalam 3 bulan kalau pencari nafkah utama kehilangan pekerjaan?
+
+3 BULAN. Itu aja.
+
+Artinya kalau kamu satu-satunya yang kerja di keluarga, dan tiba-tiba kena PHK atau sakit...
+
+Keluarga kamu HANCUR dalam 90 hari.
+
+Masih mau bilang "1 income cukup"?
+
+NEXTPRO kasih kamu gaji up to 12 juta/bulan di luar komisi. Bisa jadi PENYELAMAT keluarga kamu.
+
+Daftar: https://projectcuan.petrusjakub.workers.dev/
+
+#1IncomeBahaya #DataNyata #NEXTPRO #ProteksiKeluarga`
+            },
+            {
+                time: "11:00",
+                type: "Hook Gaji UMR",
+                caption: `UMR Jakarta 2025: sekitar 5.3 juta.
+
+Coba hitung:
+- Kos/kontrakan: 2 juta
+- Makan: 1.5 juta
+- Transport: 500 ribu
+- Pulsa + internet: 200 ribu
+- Kirim ortu: 500 ribu
+
+Total: 4.7 juta.
+
+SISA: 600 ribu.
+
+Dari 600 ribu itu mau nabung buat rumah? Buat nikah? Buat pensiun?
+
+KAPAN?
+
+NEXTPRO: gaji up to 12 juta/bulan. DI LUAR komisi. Sambil tetap kerja.
+
+Hitung sendiri bedanya.
+
+Klik link di bio.
+
+#UMR #HitungSendiri #NEXTPRO #GajiTambahan`
+            },
+            {
+                time: "11:30",
+                type: "Hook Weekend = Recovery",
+                caption: `Weekend harusnya buat HIDUP.
+
+Tapi kenyataannya? Kamu cuma tidur seharian karena badan udah nggak kuat.
+
+Atau lebih parah: MASIH KERJA di weekend.
+
+Kamu tukar 5 hari untuk kerja, 2 hari untuk recovery.
+
+Dimana waktu untuk MENIKMATI hidup?
+
+Jawaban jujurnya: NGGAK ADA. Karena semua energi kamu udah diambil perusahaan.
+
+Mau hidup kayak gini sampai pensiun?
+
+NEXTPRO: jam kerja fleksibel, gaji up to 12 juta + komisi tanpa batas.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#WeekendZombie #KerjaTerus #NEXTPRO #FleksibelKerja`
+            },
+            {
+                time: "12:00",
+                type: "Hook Makan Siang",
+                caption: `Lagi makan siang?
+
+Coba hitung: berapa uang makan kamu per hari?
+
+15 ribu? 20 ribu? 25 ribu?
+
+Sekarang liat temen kamu yang penghasilannya 3x lipat. Dia makan dimana?
+
+Bukan soal makanannya. Tapi soal PILIHAN.
+
+Kamu nggak punya pilihan karena gaji cuma cukup buat survive.
+
+Mau punya pilihan? Tambahin income kamu.
+
+NEXTPRO: gaji up to 12 juta/bulan di luar komisi.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#MakanSiang #Pilihan #NEXTPRO #TambahIncome`
+            },
+            {
+                time: "12:30",
+                type: "Hook PHK Generasi Muda",
+                caption: `Gen Z dan Milenial paling banyak kena PHK di 2024.
+
+Kenapa? Karena perusahaan potong biaya mulai dari yang paling "mudah diganti."
+
+Kamu pikir skill kamu nggak tergantikan?
+
+AI bisa replace banyak pekerjaan. Otomasi makin banyak. Efisiensi = kurangi orang.
+
+Yang AMAN itu yang punya penghasilan SENDIRI. Yang nggak bergantung pada keputusan 1 orang (bos kamu).
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Kamu yang kontrol income kamu.
+
+Info: https://projectcuan.petrusjakub.workers.dev/
+
+#GenZ #Milenial #PHK2024 #NEXTPRO #IncomeControl`
+            },
+            {
+                time: "13:00",
+                type: "Hook Overtime Nggak Dibayar",
+                caption: `Pertanyaan pedas:
+
+Lembur kamu dibayar nggak?
+
+Banyak perusahaan yang "expect" kamu lembur tapi bayarnya TETAP sama.
+
+Reply chat bos jam 10 malam? Nggak dibayar.
+Sabtu dipanggil meeting? "Kan cuma bentar."
+Deadline mepet? "Ya memang tanggung jawab."
+
+Kamu kerja 10-12 jam sehari tapi DIBAYAR untuk 8 jam.
+
+Sisanya? GRATIS. Kamu kasih CUMA-CUMA.
+
+Kapan kamu mau dihargai sesuai waktu dan tenaga yang kamu keluarkan?
+
+NEXTPRO: gaji up to 12 juta + komisi. Setiap usaha kamu DIHARGAI.
+
+Klik link di bio.
+
+#LemburGratis #NggakDihargai #NEXTPRO #DihargaiLayak`
+            },
+            {
+                time: "13:30",
+                type: "Hook Agen Tanpa Gaji",
+                caption: `Buat agen asuransi yang baca ini:
+
+Bulan lalu berapa penghasilan kamu?
+
+Kalau jawabannya "nggak tentu"... itu masalah besar.
+
+Gimana mau plan hidup kalau income aja nggak bisa diprediksi?
+
+Gimana mau ambil cicilan kalau nggak tau bulan depan dapat berapa?
+
+Agen lain udah pada pindah ke NEXTPRO.
+
+Kenapa? Karena NEXTPRO kasih GAJI TETAP up to 12 juta/bulan. Komisi tetap jalan di atasnya.
+
+Stabil + unlimited. Itulah NEXTPRO.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#AgenAsuransi #NEXTPRO #GajiTetap #Stabil #KomisiTetapAda`
+            },
+            {
+                time: "14:00",
+                type: "Hook Pensiun",
+                caption: `Hitung cepat:
+
+Umur kamu sekarang berapa? 25? 30? 35?
+
+Pensiun di umur 55. Artinya kamu masih harus kerja 20-30 tahun lagi.
+
+20-30 TAHUN di tempat yang sama. Dengan gaji yang naik tipis-tipis.
+
+Dan pas pensiun nanti? Uang pensiun kamu cukup buat hidup berapa tahun?
+
+Jawabannya bikin kamu nggak bisa tidur kalau dihitung beneran.
+
+Mulai SEKARANG bangun income kedua.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi + passive income dari renewal.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#Pensiun #HitungSendiri #NEXTPRO #MasaDepan`
+            },
+            {
+                time: "14:30",
+                type: "Hook Gaji Nggak Nambah",
+                caption: `Kamu udah kerja di perusahaan itu berapa lama?
+
+2 tahun? 5 tahun? 10 tahun?
+
+Sekarang cek: gaji kamu naik berapa kali lipat dari awal masuk?
+
+Kemungkinan besar: NGGAK SAMPAI 2X LIPAT.
+
+Tapi workload kamu? Tanggung jawab kamu? Tekanan kamu?
+
+NAIK 5-10X LIPAT.
+
+Kamu dibayar sama, tapi beban makin berat.
+
+Itu namanya EKSPLOITASI halus.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi tanpa batas. Semakin effort, semakin besar hasilnya.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#EksploitasiHalus #GajiSegitu #NEXTPRO #FairIncome`
+            },
+            {
+                time: "15:00",
+                type: "Hook Ketakutan Tengah Malam",
+                caption: `Jam 2 pagi. Nggak bisa tidur.
+
+Yang ada di kepala kamu:
+
+"Gimana kalau perusahaan tutup?"
+"Gimana kalau aku sakit dan nggak bisa kerja?"
+"Gimana kalau harga rumah makin nggak terjangkau?"
+"Gimana kalau anak nanti nggak bisa sekolah bagus?"
+
+Ketakutan itu NYATA. Dan satu-satunya obatnya: PUNYA PLAN B.
+
+Jangan tunggu krisis datang baru panik.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Plan B yang bisa kamu mulai SEKARANG.
+
+Klik link di bio.
+
+#InsomniaPikiran #PlanB #NEXTPRO #MulaiSekarang`
+            },
+            {
+                time: "15:30",
+                type: "Hook Buat Agen Stuck",
+                caption: `Buat agen asuransi yang ngerasa STUCK:
+
+Udah ikut banyak training. Udah coba berbagai strategi. Tapi income masih naik turun.
+
+Tau kenapa?
+
+Karena SISTEM-nya yang salah. Bukan kamu.
+
+Di kebanyakan agency, kamu cuma dapat KOMISI. Nggak closing = nggak makan.
+
+NEXTPRO beda. Kamu dapat GAJI up to 12 juta/bulan TETAP. Closing atau nggak.
+
+Komisi? Itu BONUS di atas gaji.
+
+Jadi kamu bisa fokus building tanpa tekanan "makan bulan ini dari mana."
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#AgenStuck #SistemSalah #NEXTPRO #GajiTetapAda`
+            },
+            {
+                time: "16:00",
+                type: "Hook Harga Rumah",
+                caption: `Harga rumah di pinggiran Jakarta: 500 juta ke atas.
+
+DP 20%: 100 juta.
+
+Dengan gaji 5-7 juta per bulan, kamu butuh BERAPA TAHUN buat kumpulin DP doang?
+
+Belum cicilan 20-30 tahun.
+Belum biaya hidup.
+Belum kalau ada emergency.
+
+Dengan gaji segitu, rumah NGGAK AKAN PERNAH kejangkau.
+
+Kecuali kamu TAMBAH income.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. DP rumah bisa terkumpul 1 tahun.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#HargaRumah #GajiNggakCukup #NEXTPRO #BikinMungkin`
+            },
+            {
+                time: "16:30",
+                type: "Hook Bos vs Diri Sendiri",
+                caption: `Coba pikir:
+
+Kamu bangun pagi buat siapa?
+Kamu lembur buat siapa?
+Kamu stres buat siapa?
+
+Jawabnya: buat BOS kamu. Buat perusahaan kamu.
+
+Kamu bikin mereka makin kaya, sementara kamu tetap di posisi yang SAMA.
+
+Pertanyaannya: kapan kamu mau bangun sesuatu buat DIRI SENDIRI?
+
+NEXTPRO bukan cuma soal uang. Tapi soal KEBEBASAN.
+
+Gaji up to 12 juta/bulan + komisi. Dan kamu yang tentukan arah karir kamu.
+
+Klik link di bio.
+
+#KerjaBuatSiapa #Kebebasan #NEXTPRO #KarirSendiri`
+            },
+            {
+                time: "17:00",
+                type: "Hook Pulang Kerja Capek",
+                caption: `Baru pulang kerja?
+
+Badan remuk. Pikiran penuh. Yang diinginkan cuma rebahan.
+
+Tapi besok... harus ulang lagi.
+
+Dan lusa. Dan seterusnya. Sampai 20-30 tahun ke depan.
+
+Kamu tahan?
+
+Aku dulu ngerasain itu. Dan aku bilang: CUKUP.
+
+Sekarang aku tentukan sendiri kapan kerja, kapan istirahat, dan berapa yang aku hasilkan.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi unlimited. Tanpa harus resign langsung.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#PulangKerja #Capek #NEXTPRO #CukupSudah`
+            },
+            {
+                time: "17:30",
+                type: "Hook Cicilan vs Gaji",
+                caption: `Cicilan kamu berapa per bulan?
+
+Motor: 800 ribu - 1.5 juta
+HP: 500 ribu
+KPR: 2-3 juta (kalau punya)
+Kartu kredit: terserah nasib
+
+Total cicilan bisa 50-70% dari gaji.
+
+SISA buat hidup berapa?
+
+Dan kalau gaji BERHENTI? Cicilan TETAP JALAN.
+
+Itu bom waktu yang kamu duduki setiap hari.
+
+Defuse-nya? TAMBAH INCOME.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Cicilan jadi ringan, hidup jadi tenang.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#CicilanMenumpuk #BomWaktu #NEXTPRO #TambahIncome`
+            },
+            {
+                time: "18:00",
+                type: "Hook Agen vs NEXTPRO",
+                caption: `Perbandingan jujur:
+
+AGEN BIASA:
+- Nggak ada gaji tetap
+- Income murni komisi
+- Bulan kosong = nggak makan
+- Tekanan mental tinggi
+- Nggak ada safety net
+
+AGEN NEXTPRO:
+- Gaji up to 12 juta/bulan TETAP
+- Komisi tetap jalan di atas gaji
+- Ada support sistem lengkap
+- Mental lebih tenang
+- Bisa fokus long-term
+
+Kalau kamu agen yang capek naik turun income, NEXTPRO jawabannya.
+
+Daftar: https://projectcuan.petrusjakub.workers.dev/
+
+#AgenBiasaVsNEXTPRO #Perbandingan #StabilDanUnlimited`
+            },
+            {
+                time: "18:30",
+                type: "Hook Resign Tapi Takut",
+                caption: `Berapa kali kamu mikir "pengen resign" tapi nggak jadi?
+
+10 kali? 50 kali? 100 kali?
+
+Yang nahan selalu sama: TAKUT.
+
+Takut nggak punya income.
+Takut nggak bisa bayar cicilan.
+Takut dihakimi keluarga.
+
+Tapi gimana kalau ada cara BANGUN income baru TANPA harus resign dulu?
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Kamu tetap kerja, tapi udah punya PLAN B yang jalan.
+
+Kalau plan B udah lebih gede dari gaji, baru putuskan.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#PengenResign #TapiTakut #NEXTPRO #PlanBDulu`
+            },
+            {
+                time: "19:00",
+                type: "Hook Kenaikan Gaji Tahunan",
+                caption: `Kenaikan gaji tahunan kamu berapa?
+
+Rata-rata perusahaan: 5-8%.
+
+Gaji 5 juta naik 8% = tambah 400 ribu.
+
+400 RIBU. Setahun nunggu. Perform bagus. Nggak pernah telat. Lembur terus.
+
+Hasilnya? Tambah 400 ribu.
+
+Itu nggak bisa ngejar inflasi. Nggak bisa ngejar kenaikan harga. Kamu makin MISKIN.
+
+NEXTPRO kasih kamu gaji up to 12 juta/bulan + komisi. Kenaikan tergantung EFFORT kamu. Bukan keputusan HRD.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#KenaikanGaji #400Ribu #NEXTPRO #EffortBerbicara`
+            },
+            {
+                time: "19:30",
+                type: "Hook PHK Tiba-tiba",
+                caption: `Kamu tau nggak, PHK itu nggak pernah datang dengan WARNING?
+
+Nggak ada email "Bulan depan kamu bakal di-PHK ya, siapin diri."
+
+Yang ada: tiba-tiba dipanggil HRD. Hari itu juga efektif.
+
+Dan setelahnya? Kamu SENDIRI.
+
+CV disebar kemana-mana. Nggak ada panggilan. Tabungan menipis. Cicilan tetap jalan.
+
+Jangan biarkan itu jadi cerita KAMU.
+
+Mulai sekarang, bangun income kedua.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Tanpa resign. Mulai hari ini.
+
+Klik link di bio.
+
+#PHKTibaTiba #TanpaWarning #NEXTPRO #MulaiHariIni`
+            },
+            {
+                time: "20:00",
+                type: "Hook Malu Sama Umur",
+                caption: `Umur udah 30+.
+
+Tapi rekening masih di bawah 10 juta.
+Masih ngontrak.
+Masih naik motor.
+Masih mikir 2 kali buat beli kopi 30 ribu.
+
+Bukan males. Bukan bodoh. Tapi GAJI NGGAK CUKUP.
+
+Dan yang bikin sakit: orang seumur kamu yang ambil PELUANG duluan, sekarang udah jauh di depan.
+
+Masih mau nunda sampai kapan?
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi unlimited. Nggak perlu resign.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#Umur30 #RealitaHidup #NEXTPRO #JanganNunda`
+            },
+            {
+                time: "20:30",
+                type: "Hook Kerja Tapi Nggak Cukup",
+                caption: `Yang paling menyakitkan bukan NGGAK KERJA.
+
+Yang paling menyakitkan itu UDAH KERJA KERAS tapi tetap NGGAK CUKUP.
+
+Udah begadang. Udah lembur. Udah loyal. Udah ngikutin semua aturan.
+
+Tapi akhir bulan tetap ngos-ngosan.
+
+Kamu nggak salah. SISTEMNYA yang nggak adil.
+
+Tapi kamu bisa KELUAR dari sistem itu.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Di sini, effort kamu DIHARGAI dengan layak.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#KerjaKerasTapiKurang #SistemNggakAdil #NEXTPRO #KeluarDariSistem`
+            },
+            {
+                time: "21:00",
+                type: "Hook Tanggungan Keluarga",
+                caption: `Kamu satu-satunya yang kerja di keluarga?
+
+Nanggung ortu? Adik? Atau bahkan keluarga besar?
+
+Dengan 1 gaji, kamu harus bagi ke banyak orang.
+
+Untuk diri sendiri? Yang TERAKHIR. Atau malah NGGAK DAPAT.
+
+Sampai kapan mau jadi TUMBAL keluarga dengan penghasilan yang nggak pernah cukup?
+
+Bukan berarti kamu berhenti tanggung jawab. Tapi kamu harus NAMBAH income biar nggak kehabisan.
+
+NEXTPRO: gaji up to 12 juta/bulan + komisi. Biar kamu bisa kasih yang TERBAIK tanpa tersiksa.
+
+Klik link di bio.
+
+#Tanggungan #1GajiBuatSemua #NEXTPRO #NambahIncome`
+            },
+            {
+                time: "21:30",
+                type: "Hook Terakhir Malam Ini",
+                caption: `Pertanyaan terakhir buat malam ini:
+
+Kalau kamu terus di posisi sekarang...
+Dengan gaji yang sama...
+Dengan tekanan yang sama...
+Dengan ketakutan yang sama...
+
+5 tahun lagi kamu bakal DIMANA?
+
+Jawabannya: DI TEMPAT YANG SAMA.
+
+Kecuali kamu ambil langkah yang BERBEDA.
+
+NEXTPRO bisa jadi langkah itu.
+
+Gaji up to 12 juta/bulan + komisi unlimited. Tanpa resign.
+
+Tidur malam ini, besok bangun dan DAFTAR.
+
+https://projectcuan.petrusjakub.workers.dev/
+
+#5TahunLagi #LangkahBerbeda #NEXTPRO #BesokDaftar`
+            },
+            {
+                time: "22:00",
+                type: "Night Closer",
+                caption: `Sebelum tidur, aku rangkum buat kamu:
+
+- Risiko PHK makin tinggi setiap tahun
+- 1 income nggak cukup di zaman sekarang
+- Gaji UMR nggak bisa ngejar inflasi
+- Kerja 9 to 5 (+ lembur) makin nyiksa badan dan pikiran
+
+SOLUSINYA?
+
+Program NEXTPRO:
+- Gaji up to 12 juta/bulan
+- Di luar komisi
+- Tanpa resign
+- Bisa part-time
+- Legal, terdaftar OJK
+- Support dan training lengkap
+
+Ini bukan mimpi. Ini PROGRAM NYATA yang bisa kamu mulai besok.
+
+Daftar sekarang: https://projectcuan.petrusjakub.workers.dev/
+
+Selamat malam. Semoga besok jadi hari pertama perubahan kamu.
+
+#NEXTPRO #SelamatMalam #BesokHariPertama #PerubahanDimulai`
+            }
+        ];
+
+        const STATE_KEY = 'petrusjakub_nextpro_content_state';
+
+        function getState() {
+            const saved = localStorage.getItem(STATE_KEY);
+            return saved ? JSON.parse(saved) : {};
+        }
+
+        function saveState(state) {
+            localStorage.setItem(STATE_KEY, JSON.stringify(state));
+        }
+
+        function updateStats() {
+            const state = getState();
+            const total = posts.length;
+            const done = Object.values(state).filter(s => s === 'done' || s === 'hidden').length;
+            const remaining = total - done;
+            const percent = Math.round((done / total) * 100);
+
+            document.getElementById('totalPosts').textContent = total;
+            document.getElementById('donePosts').textContent = done;
+            document.getElementById('remainingPosts').textContent = remaining;
+            document.getElementById('progressFill').style.width = percent + '%';
+            document.getElementById('progressText').textContent = percent + '% selesai';
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 2000);
+        }
+
+        function copyCaption(index) {
+            const text = posts[index].caption;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.getElementById('copy-btn-' + index);
+                btn.textContent = 'Tersalin!';
+                btn.classList.add('copied');
+                showToast('Caption berhasil disalin!');
+                setTimeout(() => {
+                    btn.textContent = '1-Click Copy';
+                    btn.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                showToast('Caption berhasil disalin!');
+            });
+        }
+
+        function markDone(index) {
+            const state = getState();
+            state[index] = 'done';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('done');
+            updateNavButtons();
+            updateStats();
+            showToast('Ditandai selesai!');
+        }
+
+        function hideTask(index) {
+            const state = getState();
+            state[index] = 'hidden';
+            saveState(state);
+            const card = document.getElementById('post-' + index);
+            card.classList.add('hidden');
+            updateNavButtons();
+            updateStats();
+            showToast('Task disembunyikan!');
+        }
+
+        function showAllTasks() {
+            localStorage.removeItem(STATE_KEY);
+            renderPosts();
+            showToast('Semua task ditampilkan!');
+        }
+
+        function resetAll() {
+            if (confirm('Reset semua task? Status selesai dan hidden akan dihapus.')) {
+                localStorage.removeItem(STATE_KEY);
+                renderPosts();
+                showToast('Semua task direset!');
+            }
+        }
+
+        function scrollToPost(index) {
+            const card = document.getElementById('post-' + index);
+            if (card) {
+                card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                card.style.boxShadow = '0 0 20px rgba(240, 147, 251, 0.4)';
+                setTimeout(() => {
+                    card.style.boxShadow = '';
+                }, 2000);
+            }
+        }
+
+        function updateNavButtons() {
+            const state = getState();
+            const navContainer = document.getElementById('navButtons');
+            navContainer.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const btn = document.createElement('button');
+                btn.className = 'nav-btn';
+                btn.textContent = post.time;
+                btn.onclick = () => scrollToPost(index);
+
+                const status = state[index] || '';
+                if (status === 'done') {
+                    btn.classList.add('nav-done');
+                } else if (status === 'hidden') {
+                    btn.classList.add('nav-hidden');
+                }
+
+                navContainer.appendChild(btn);
+            });
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('postsContainer');
+            const state = getState();
+            container.innerHTML = '';
+
+            posts.forEach((post, index) => {
+                const status = state[index] || '';
+                const card = document.createElement('div');
+                card.className = 'post-card' + (status === 'done' ? ' done' : '') + (status === 'hidden' ? ' hidden' : '');
+                card.id = 'post-' + index;
+
+                card.innerHTML = `
+                    <div class="post-header">
+                        <span class="post-time">${post.time} WIB</span>
+                        <span class="post-number">#${index + 1} / ${posts.length}</span>
+                    </div>
+                    <span class="post-type">${post.type}</span>
+                    <div class="post-caption">${post.caption}</div>
+                    <div class="post-actions">
+                        <button class="btn btn-copy" id="copy-btn-${index}" onclick="copyCaption(${index})">1-Click Copy</button>
+                        <button class="btn btn-done" onclick="markDone(${index})">Selesai</button>
+                        <button class="btn btn-hide" onclick="hideTask(${index})">Hide Task</button>
+                    </div>
+                `;
+
+                container.appendChild(card);
+            });
+
+            updateNavButtons();
+            updateStats();
+        }
+
+        // Initialize
+        renderPosts();
+    </script>
+</body>
+</html>
