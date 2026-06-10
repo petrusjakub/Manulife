@@ -1112,8 +1112,9 @@ https://projectcuan.petrusjakub.workers.dev/
 
         function copyCaption(index) {
             const text = posts[index].caption;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = document.querySelector(`#post-${index} .btn-copy`);
+            const btn = document.querySelector(`#post-${index} .btn-copy`);
+
+            function onSuccess() {
                 btn.classList.add('copied');
                 btn.innerHTML = '&#10003; Tersalin';
                 showToast('Caption tersalin!');
@@ -1121,7 +1122,31 @@ https://projectcuan.petrusjakub.workers.dev/
                     btn.classList.remove('copied');
                     btn.innerHTML = '&#128203; Copy';
                 }, 2000);
-            });
+            }
+
+            function fallbackCopy() {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.left = '-9999px';
+                textarea.style.top = '-9999px';
+                document.body.appendChild(textarea);
+                textarea.focus();
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    onSuccess();
+                } catch (err) {
+                    showToast('Gagal menyalin, coba lagi');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(onSuccess).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
         }
 
         function markDone(index) {
