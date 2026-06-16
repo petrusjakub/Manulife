@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anindita - AI Influencer Prompts (Saturday)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .profile-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 20px;
+            margin-top: 12px;
+            font-size: 0.9em;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .time-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95em;
+            white-space: nowrap;
+        }
+
+        .outfit-tag {
+            background: #f0f0f0;
+            color: #555;
+            padding: 5px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+        }
+
+        .outfit-tag.daytime {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .outfit-tag.evening {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .section-label {
+            font-weight: 600;
+            color: #764ba2;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            margin-top: 14px;
+        }
+
+        .prompt-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.8em;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 3px 10px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn.copied {
+            background: #28a745;
+        }
+
+        .caption-box {
+            background: #f0e6ff;
+            border: 1px solid #d4b8ff;
+            border-radius: 10px;
+            padding: 14px;
+            margin-bottom: 10px;
+            position: relative;
+            font-size: 0.92em;
+            line-height: 1.6;
+            color: #333;
+            font-style: italic;
+        }
+
+        .pinterest-links {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 6px;
+        }
+
+        .pinterest-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: #e60023;
+            color: white;
+            text-decoration: none;
+            padding: 5px 12px;
+            border-radius: 16px;
+            font-size: 0.8em;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .pinterest-link:hover {
+            opacity: 0.85;
+        }
+
+        .divider {
+            text-align: center;
+            color: white;
+            font-size: 1.2em;
+            margin: 10px 0;
+            opacity: 0.7;
+        }
+
+        .outfit-section {
+            background: rgba(255,255,255,0.15);
+            border-radius: 14px;
+            padding: 16px 20px;
+            margin: 20px 0;
+            color: white;
+            text-align: center;
+        }
+
+        .outfit-section h3 {
+            margin-bottom: 6px;
+        }
+
+        .outfit-section p {
+            opacity: 0.85;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 { font-size: 1.6em; }
+            .card { padding: 16px; }
+            .card-header { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Anindita - AI Influencer</h1>
+            <p>20 tahun | Mahasiswi & Freelancer | Kos di Jakarta | Happy Vibes</p>
+            <div class="profile-badge">Sabtu - Hari Libur | Full Day Content Plan</div>
+        </div>
+
+        <div class="outfit-section">
+            <h3>Outfit Pagi - Sore (09:00 - 17:00)</h3>
+            <p>Oversized cream knit cardigan, white crop tank top, high-waisted light blue mom jeans, white sneakers, minimal gold jewelry, natural makeup</p>
+        </div>
+
+        <!-- 07:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">07:00 WIB</span>
+                <span class="outfit-tag">Baru Bangun</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, just woke up in her small cozy kos room in Jakarta. She is sitting on her single bed stretching her arms with a happy sleepy smile, wearing an oversized soft pink t-shirt and grey cotton shorts. Morning golden light streaming through sheer white curtains. Messy bun hair, no makeup, natural dewy skin. Cozy aesthetic bedroom with fairy lights, small desk with laptop, plants on windowsill. Shot from slightly above angle. Warm, soft, dreamy morning atmosphere. Photorealistic, high quality, natural lighting.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=aesthetic+kos+room+jakarta+morning+light" class="pinterest-link" target="_blank">Kos Room Morning</a>
+                <a href="https://pinterest.com/search/pins/?q=korean+girl+morning+routine+aesthetic" class="pinterest-link" target="_blank">Morning Routine Inspo</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Good morning Saturday! Bangun pagi tanpa alarm itu healing banget. Hari ini mau santai-santai aja di kos. Who else loves lazy Saturday mornings? <br><br>#SaturdayMorning #KosLife #JakartaLife #MorningVibes #AestheticRoom #CollegeLife #WeekendMood
+            </div>
+        </div>
+
+        <!-- 09:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">09:00 WIB</span>
+                <span class="outfit-tag daytime">Outfit Siang</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, sitting at a cute minimalist cafe near her kos in Jakarta, having breakfast. She is wearing an oversized cream knit cardigan over a white crop tank top, high-waisted light blue mom jeans, and white sneakers. Minimal gold necklace and small hoop earrings. She is holding a cup of iced coffee and smiling naturally at the camera. Bright natural daylight, aesthetic cafe interior with wooden furniture, green plants, warm tones. Half body shot, slightly candid angle. Fresh natural makeup, straight black hair slightly wavy at ends. Photorealistic, lifestyle photography, warm color grading.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=cream+cardigan+outfit+casual+korean+style" class="pinterest-link" target="_blank">Cream Cardigan Outfit</a>
+                <a href="https://pinterest.com/search/pins/?q=aesthetic+cafe+jakarta+minimalist" class="pinterest-link" target="_blank">Cafe Jakarta Aesthetic</a>
+                <a href="https://pinterest.com/search/pins/?q=casual+korean+outfit+mom+jeans" class="pinterest-link" target="_blank">Mom Jeans Style</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Saturday brunch essentials: iced coffee + good vibes. Cafe hopping sendirian itu me time terbaik sih. Kalian tim brunch di cafe atau masak sendiri? <br><br>#CafeHopping #SaturdayBrunch #JakartaCafe #OOTD #CasualStyle #WeekendVibes #CollegeGirl
+            </div>
+        </div>
+
+        <!-- 11:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">11:00 WIB</span>
+                <span class="outfit-tag daytime">Outfit Siang</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, walking through a colorful street market in Jakarta on a Saturday morning. She is wearing an oversized cream knit cardigan over a white crop tank top, high-waisted light blue mom jeans, and white sneakers. Minimal gold jewelry. She is looking at a street vendor stall selling plants and smiling happily. Bright outdoor natural sunlight, vibrant market atmosphere with colorful stalls in background. Full body shot from medium distance, candid walking pose. Straight black hair slightly wavy, natural fresh makeup. Photorealistic, street photography style, vivid colors, happy energetic mood.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=jakarta+street+market+aesthetic+colorful" class="pinterest-link" target="_blank">Street Market Vibe</a>
+                <a href="https://pinterest.com/search/pins/?q=plant+shopping+aesthetic+girl" class="pinterest-link" target="_blank">Plant Shopping</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Weekend ritual: jalan-jalan ke pasar tanaman. Akhirnya nambah koleksi monstera baru buat kamar kos! Siapa yang relate kalau weekend malah belanja tanaman? <br><br>#PlantMom #WeekendMarket #JakartaWeekend #PlantShopping #StreetPhotography #HappyVibes #SaturdayMood
+            </div>
+        </div>
+
+        <!-- 13:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">13:00 WIB</span>
+                <span class="outfit-tag daytime">Outfit Siang</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, sitting cross-legged on a cozy floor cushion in her small kos room, working on her laptop as a freelancer. She is wearing an oversized cream knit cardigan over a white crop tank top, high-waisted light blue mom jeans (cardigan draped on shoulders). Minimal gold jewelry. Laptop open on a low wooden table, iced coffee beside it, notebooks scattered around. Warm afternoon sunlight coming from the window. Aesthetic cozy room with fairy lights, posters on wall, small bookshelf. Medium shot from front angle, focused expression with slight smile. Natural makeup, straight black hair tucked behind ear. Photorealistic, warm indoor lighting, productive cozy atmosphere.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=aesthetic+work+from+home+cozy+room+laptop" class="pinterest-link" target="_blank">WFH Aesthetic</a>
+                <a href="https://pinterest.com/search/pins/?q=freelancer+workspace+small+room+cozy" class="pinterest-link" target="_blank">Freelancer Setup</a>
+                <a href="https://pinterest.com/search/pins/?q=kos+room+decoration+aesthetic+jakarta" class="pinterest-link" target="_blank">Kos Room Decor</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Weekend tapi tetap productive! Freelance life means setiap hari bisa jadi hari kerja, tapi at least bisa kerja dari kamar sendiri sambil ditemani iced coffee. Balance is key! <br><br>#FreelancerLife #WorkFromKos #ProductiveSaturday #LaptopLife #CollegeFreelancer #HustleMode #JakartaFreelancer
+            </div>
+        </div>
+
+        <!-- 15:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">15:00 WIB</span>
+                <span class="outfit-tag daytime">Outfit Siang</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, taking a mirror selfie in her kos room. She is wearing an oversized cream knit cardigan over a white crop tank top, high-waisted light blue mom jeans, and white sneakers. Minimal gold necklace and small hoop earrings. Posing with one hand holding phone, other hand adjusting hair, confident happy smile. Full length mirror with fairy lights around the frame, aesthetic kos room visible in reflection. Bright afternoon light, clean aesthetic background. Full body mirror selfie shot. Natural makeup, straight black hair slightly wavy. Photorealistic, influencer style mirror selfie, bright and airy.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=mirror+selfie+outfit+aesthetic+full+body" class="pinterest-link" target="_blank">Mirror Selfie Pose</a>
+                <a href="https://pinterest.com/search/pins/?q=aesthetic+mirror+fairy+lights+room" class="pinterest-link" target="_blank">Aesthetic Mirror Setup</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Today's fit check! Cardigan oversized is always a good idea. Simple tapi tetap put together. Rate outfit hari ini dong 1-10! <br><br>#OOTD #MirrorSelfie #CasualOutfit #FitCheck #DailyOutfit #FashionInspo #SimpleStyle #KoreanCasual
+            </div>
+        </div>
+
+        <div class="outfit-section">
+            <h3>Outfit Sore - Malam (17:00 - 00:00)</h3>
+            <p>Oversized vintage band t-shirt (slightly cropped), soft black wide-leg lounge pants, fuzzy slippers, hair in messy bun/claw clip, no makeup/skin care glow</p>
+        </div>
+
+        <!-- 17:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">17:00 WIB</span>
+                <span class="outfit-tag evening">Outfit Rumah</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, sitting on the rooftop terrace of her kos building in Jakarta during golden hour sunset. She has changed into a cozy oversized vintage band t-shirt (slightly cropped) and soft black wide-leg lounge pants, wearing fuzzy slippers. Hair in a messy bun with claw clip. No makeup, natural glowing skin. She is sitting on a plastic chair holding a warm cup of tea, looking at the Jakarta skyline with a peaceful happy smile. Golden sunset light illuminating her face, warm orange and pink sky. Rooftop with some potted plants, string lights, city buildings in background. Medium shot from side angle. Photorealistic, golden hour photography, warm dreamy atmosphere, peaceful mood.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=rooftop+golden+hour+girl+aesthetic" class="pinterest-link" target="_blank">Rooftop Golden Hour</a>
+                <a href="https://pinterest.com/search/pins/?q=oversized+band+tee+lounge+outfit+aesthetic" class="pinterest-link" target="_blank">Band Tee Lounge</a>
+                <a href="https://pinterest.com/search/pins/?q=jakarta+sunset+skyline+aesthetic" class="pinterest-link" target="_blank">Jakarta Sunset</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Golden hour di rooftop kos hits different. Ganti baju cozy, bikin teh anget, terus nikmatin sunset Jakarta yang cantik banget hari ini. Simple happiness. <br><br>#GoldenHour #RooftopVibes #SunsetJakarta #CozyEvening #SimpleLife #KosLife #PeacefulMoment #WeekendEvening
+            </div>
+        </div>
+
+        <!-- 19:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">19:00 WIB</span>
+                <span class="outfit-tag evening">Outfit Rumah</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, in her small kos room kitchen corner, cooking dinner. She is wearing an oversized vintage band t-shirt (slightly cropped) and soft black wide-leg lounge pants, fuzzy slippers. Hair in messy bun with claw clip. No makeup, natural skin. She is stirring a pot on a small portable stove, smiling and looking down at the food. Small kitchen counter with ingredients, cutting board, spices. Warm indoor lighting from overhead lamp and small LED strip. Cozy small kitchen space with some hanging utensils. Medium shot from side angle. Photorealistic, warm homey lighting, cozy cooking atmosphere, happy domestic scene.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=aesthetic+cooking+alone+small+kitchen+cozy" class="pinterest-link" target="_blank">Cozy Cooking Aesthetic</a>
+                <a href="https://pinterest.com/search/pins/?q=small+kitchen+kos+apartment+aesthetic" class="pinterest-link" target="_blank">Small Kitchen Inspo</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Masak malam sendiri itu therapeutic banget. Hari ini menu simpel: indomie goreng + telur ceplok + sayur. Mahasiswi masak level: yang penting kenyang dan enak! <br><br>#CookingAlone #KosLifeJakarta #HomeCooking #SimpleFood #IndependentWoman #SaturdayNight #DomesticLife
+            </div>
+        </div>
+
+        <!-- 21:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">21:00 WIB</span>
+                <span class="outfit-tag evening">Outfit Rumah</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, doing her evening skincare routine in front of a small vanity mirror in her kos room bathroom. She is wearing an oversized vintage band t-shirt (slightly cropped) and soft black wide-leg lounge pants. Hair pushed back with a fluffy headband. No makeup, dewy fresh skin with sheet mask packaging nearby. She is applying serum with a happy relaxed expression, looking at herself in the mirror. Small bathroom with skincare products neatly arranged on shelf, warm soft lighting from vanity mirror lights. Close-up to medium shot from slightly side angle. Photorealistic, soft warm lighting, self-care aesthetic, relaxing evening mood.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=skincare+routine+aesthetic+girl+evening" class="pinterest-link" target="_blank">Skincare Routine</a>
+                <a href="https://pinterest.com/search/pins/?q=vanity+mirror+small+room+aesthetic+setup" class="pinterest-link" target="_blank">Vanity Setup</a>
+                <a href="https://pinterest.com/search/pins/?q=self+care+night+routine+aesthetic" class="pinterest-link" target="_blank">Self Care Night</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Self care Saturday night! Skincare routine is my non-negotiable. Sheet mask + serum + moisturizer = kulit happy. Invest di skincare sekarang, thankyou later. Drop skincare fav kalian dong! <br><br>#SkincareRoutine #SelfCareSaturday #NightRoutine #GlowingSkin #SkincareJunkie #KBeauty #MeTime
+            </div>
+        </div>
+
+        <!-- 23:00 -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">23:00 WIB</span>
+                <span class="outfit-tag evening">Outfit Rumah</span>
+            </div>
+            <div class="section-label">Prompt (Banana Style)</div>
+            <div class="prompt-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                A young Indonesian woman, 20 years old, lying on her bed in her cozy kos room at night, scrolling on her phone and watching a movie on her laptop. She is wearing an oversized vintage band t-shirt (slightly cropped) and soft black wide-leg lounge pants. Hair loose and spread on pillow. No makeup, clean dewy skin post-skincare. Laptop open beside her showing a movie, phone in hand, soft warm blanket partially covering her legs. Dim cozy room lighting from fairy lights and laptop screen glow. Small bedroom with aesthetic decorations, polaroid photos on wall. Shot from above slightly angled. Photorealistic, warm dim cozy lighting, relaxed late night atmosphere, comfortable and peaceful.
+            </div>
+            <div class="section-label">Pinterest Reference</div>
+            <div class="pinterest-links">
+                <a href="https://pinterest.com/search/pins/?q=cozy+bed+night+aesthetic+fairy+lights+laptop" class="pinterest-link" target="_blank">Cozy Night Bed</a>
+                <a href="https://pinterest.com/search/pins/?q=movie+night+alone+aesthetic+bedroom" class="pinterest-link" target="_blank">Movie Night Aesthetic</a>
+            </div>
+            <div class="section-label">Caption Instagram</div>
+            <div class="caption-box">
+                <button class="copy-btn" onclick="copyPrompt(this)">Copy</button>
+                Perfect way to end Saturday: di kasur, nonton film, scrolling TikTok. Introvert recharge mode: ON. Besok Minggu masih libur, jadi bisa tidur tanpa alarm lagi. Life is good. Goodnight everyone! <br><br>#SaturdayNight #MovieNight #CozyBed #IntrovertLife #NightVibes #WeekendMood #GoodNight #LazyNight
+            </div>
+        </div>
+
+        <div class="header" style="margin-top: 20px;">
+            <h2>Tips Penggunaan</h2>
+            <p style="text-align: left; max-width: 600px; margin: 10px auto;">
+                1. Klik tombol <strong>Copy</strong> untuk menyalin prompt<br>
+                2. Paste prompt ke AI Image Generator (Banana/Midjourney/DALL-E)<br>
+                3. Upload foto wajah Anindita sebagai reference face<br>
+                4. Gunakan link Pinterest untuk referensi visual tambahan<br>
+                5. Copy caption untuk posting di Instagram
+            </p>
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt(button) {
+            const box = button.parentElement;
+            const text = box.innerText.replace('Copy', '').trim();
+            navigator.clipboard.writeText(text).then(() => {
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                button.textContent = 'Copied!';
+                button.classList.add('copied');
+                setTimeout(() => {
+                    button.textContent = 'Copy';
+                    button.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
