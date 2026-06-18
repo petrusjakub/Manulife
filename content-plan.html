@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1-Day Content Plan - @ngobras.santuy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6C63FF;
+            --primary-dark: #5A52D5;
+            --secondary: #FF6584;
+            --accent: #43E97B;
+            --bg: #0F0F1A;
+            --card-bg: #1A1A2E;
+            --card-border: #2A2A4A;
+            --text: #E8E8F0;
+            --text-muted: #9999B3;
+            --success: #43E97B;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+            animation: pulse 4s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+        }
+
+        header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            position: relative;
+        }
+
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .meta-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+        }
+
+        .meta-card .label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .meta-card .value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .post-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(108, 99, 255, 0.15);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .post-time {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+        }
+
+        .post-number {
+            background: var(--card-border);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .post-theme {
+            font-size: 0.85rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .content-section {
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .section-label .icon {
+            font-size: 1.2rem;
+        }
+
+        .section-label h3 {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .copy-wrapper {
+            position: relative;
+            background: #12121F;
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 16px;
+            padding-right: 50px;
+        }
+
+        .copy-wrapper p,
+        .copy-wrapper .content-text {
+            font-size: 0.92rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary-dark);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: var(--success);
+            color: #000;
+        }
+
+        .divider {
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--card-border), transparent);
+            margin: 20px 0;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .tips-card {
+            background: linear-gradient(135deg, rgba(108,99,255,0.1), rgba(255,101,132,0.1));
+            border: 1px solid var(--primary);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 30px;
+        }
+
+        .tips-card h2 {
+            color: var(--primary);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .tips-card ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-card li {
+            padding: 6px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.9rem;
+        }
+
+        .tips-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: bold;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 12px;
+            }
+
+            header {
+                padding: 30px 16px;
+            }
+
+            header h1 {
+                font-size: 1.5rem;
+            }
+
+            .post-card {
+                padding: 16px;
+            }
+
+            .copy-wrapper {
+                padding: 12px;
+                padding-right: 12px;
+            }
+
+            .copy-btn {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin-top: 10px;
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: #000;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            box-shadow: 0 4px 20px rgba(67, 233, 123, 0.3);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📱 1-Day Content Plan</h1>
+            <p>@ngobras.santuy - TikTok & Instagram</p>
+        </header>
+
+        <div class="meta-info">
+            <div class="meta-card">
+                <div class="label">Akun</div>
+                <div class="value">@ngobras.santuy</div>
+            </div>
+            <div class="meta-card">
+                <div class="label">Target</div>
+                <div class="value">Leads Asuransi</div>
+            </div>
+            <div class="meta-card">
+                <div class="label">Jadwal</div>
+                <div class="value">6 Post / Hari</div>
+            </div>
+            <div class="meta-card">
+                <div class="label">Jeda Posting</div>
+                <div class="value">Setiap 2 Jam</div>
+            </div>
+        </div>
+
+        <div class="tips-card">
+            <h2>📌 Tips Posting Hari Ini</h2>
+            <ul>
+                <li>Posting pertama pagi hari saat audience baru bangun</li>
+                <li>Gunakan storytelling, jangan hard-selling</li>
+                <li>CTA mengarahkan ke link bio / DM</li>
+                <li>Hashtag mix: trending + niche asuransi + lifestyle</li>
+                <li>Reply semua komentar dalam 1 jam pertama</li>
+                <li>Semua konten aman, tidak menyinggung, tidak clickbait berlebihan</li>
+            </ul>
+        </div>
+
+        <!-- POST 1 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">07:00 WIB</span>
+                <span class="post-number">Post #1</span>
+                <span class="post-theme">Tema: Morning Story - Realita Hidup</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Gue pernah ngerasa hidup udah aman...
+
+Gaji lancar, keluarga sehat, semua under control.
+
+Sampe suatu hari, temen kantor gue masuk RS. 3 minggu.
+Biaya? 87 juta.
+Tabungan? Ludes.
+Cicilan rumah? Nunggak.
+
+Itu bukan cerita orang miskin.
+Itu cerita orang yang "ngerasa cukup" tapi gak punya proteksi.
+
+Lo ngerasa relate? Coba tanya ke diri sendiri:
+"Kalo besok gue sakit, siapa yang nanggung?"
+
+Gak harus langsung beli apa-apa.
+Tapi mulai SADAR itu penting.
+
+Link di bio buat lo yang mau mulai ngitung.
+
+#ngobrassantuy #finansial #asuransi #proteksidiri #viral #fypシ #hiduptenang #ceritahidup</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A cinematic 9:16 vertical image of a young Indonesian man in his late 20s sitting alone on a hospital waiting room bench, looking worried while holding his phone. The scene is dimly lit with soft fluorescent lighting. He wears a casual polo shirt. The mood is contemplative and emotional. Modern Indonesian hospital interior in the background. Subtle warm color grading. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font. Photorealistic style, shallow depth of field.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, casual style, friendly expression.
+Background: Minimalist room with soft lighting, slightly blurred.
+Tone: Conversational, like talking to a close friend. Calm but serious.
+
+Script:
+"Halo semuanya... Gue mau cerita sesuatu yang bikin gue mikir keras.
+
+Jadi, temen kantor gue, bulan lalu dia masuk RS. Sakitnya lumayan serius. Tiga minggu dia dirawat.
+
+Yang bikin gue kaget itu bukan penyakitnya... tapi biayanya. 87 juta, bro. Dan dia gak punya asuransi.
+
+Tabungan dia yang udah dikumpulin bertahun-tahun, habis. Cicilan rumahnya nunggak.
+
+Dan gue jadi mikir... kalo itu terjadi ke gue gimana?
+
+Gue bukan mau jualan ya. Tapi gue cuma mau bilang, proteksi itu penting.
+
+Lo bisa mulai dari ngitung dulu, ngerti kebutuhan lo apa. Link-nya ada di bio gue.
+
+Stay smart, stay santuy."</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 2 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">09:00 WIB</span>
+                <span class="post-number">Post #2</span>
+                <span class="post-theme">Tema: Edukasi Ringan - Fakta Mengejutkan</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">FAKTA: 70% orang Indonesia GAK PUNYA asuransi kesehatan yang cukup.
+
+Bukan karena gak mampu.
+Tapi karena ngerasa "belum perlu."
+
+Coba pikir gini:
+- Biaya rawat inap 1 hari: Rp 1-3 juta
+- Operasi ringan: Rp 15-50 juta
+- Penyakit kritis: Rp 100-500 juta
+
+Lo yakin tabungan lo kuat nanggung itu semua?
+
+Gue dulu juga mikir "ah ntar aja."
+Sampe gue sadar, "ntar" itu bisa telat.
+
+Yuk mulai aware. Gak harus langsung action, tapi minimal ngerti dulu.
+
+Cek link di bio gue, free konsultasi.
+
+#fakta #asuransi #edukasi #financialliteracy #ngobrassantuy #proteksi #fypシ #viral</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A bold infographic-style 9:16 vertical image with dark navy background. Large text "70%" in gradient neon purple-to-pink color at the center. Below it, smaller white text reads "Orang Indonesia TANPA proteksi cukup". Clean modern design with geometric abstract shapes in the background. Subtle medical icons (heart, shield, hospital) floating around. Professional and eye-catching. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, smart casual outfit, confident but approachable.
+Background: Clean white/light gray studio with subtle blue accent lighting.
+Tone: Educational, like explaining something interesting to a friend. Energetic.
+
+Script:
+"Tau gak sih, 70 persen orang Indonesia itu gak punya proteksi kesehatan yang cukup?
+
+Bukan karena mereka miskin, bukan karena mereka gak peduli. Tapi karena mereka ngerasa... belum butuh.
+
+Padahal coba bayangin. Biaya rawat inap satu hari aja bisa satu sampe tiga juta. Operasi? Lima belas sampe lima puluh juta. Penyakit kritis? Bisa ratusan juta.
+
+Pertanyaannya simpel: tabungan lo kuat gak nanggung semua itu sendiri?
+
+Gue bukan mau nakut-nakutin ya. Gue cuma mau lo aware.
+
+Kalo lo pengen mulai ngitung kebutuhan proteksi lo, link-nya ada di bio. Gratis konsultasinya.
+
+Stay smart, stay santuy!"</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 3 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">11:00 WIB</span>
+                <span class="post-number">Post #3</span>
+                <span class="post-theme">Tema: Storytelling - Perspektif Keluarga</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Bokap gue kerja keras 30 tahun.
+Gak pernah libur, gak pernah ngeluh.
+
+Tapi waktu beliau sakit...
+Gue dan keluarga harus patungan bayar RS.
+Tabungan bokap gak cukup.
+
+Bukan salah beliau.
+Dulu emang gak ada yang ngajarin soal proteksi.
+
+Tapi sekarang? Lo punya akses ke informasi.
+Lo punya kesempatan yang generasi sebelum lo gak punya.
+
+Jangan sampe cerita ini keulang di keluarga lo.
+
+Mulai dari ngobrol, mulai dari ngerti.
+Link di bio, buat lo yang mau diskusi santai.
+
+#family #keluarga #ceritabokap #proteksi #ngobrassantuy #asuransi #motivasi #fypシ</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A warm emotional 9:16 vertical photograph of an Indonesian middle-aged father and his adult son sitting together on a simple wooden bench in front of a modest Indonesian house. The father looks tired but content, wearing a simple batik shirt. The son has his hand on his father's shoulder with a caring expression. Golden hour lighting, warm tones. The mood is nostalgic and touching. Slightly desaturated color palette. Photorealistic style. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, wearing simple t-shirt, sincere expression.
+Background: Living room setting, warm ambient lighting, slightly blurred family photos on wall.
+Tone: Emotional, slow-paced, heartfelt. Like sharing a personal story.
+
+Script:
+"Gue mau cerita soal bokap gue.
+
+Beliau kerja keras 30 tahun. Gak pernah libur, gak pernah ngeluh. Semua buat keluarga.
+
+Tapi waktu beliau sakit, semuanya berubah. Biaya RS gede banget. Tabungan beliau gak cukup. Akhirnya kita sekeluarga harus patungan.
+
+Dan itu bikin gue sadar satu hal... Ini bukan soal kaya atau miskin. Ini soal siap atau engga.
+
+Generasi bokap gue mungkin gak punya akses informasi kayak kita sekarang. Tapi lo... lo punya.
+
+Jadi jangan ulangin cerita yang sama. Mulai dari ngerti dulu kebutuhan lo apa.
+
+Kalo mau ngobrol santai soal ini, link ada di bio gue. Gak ada paksaan, gak ada jualan. Cuma sharing.
+
+Stay smart, stay santuy."</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 4 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">13:00 WIB</span>
+                <span class="post-number">Post #4</span>
+                <span class="post-theme">Tema: Myth Buster - Asuransi Itu Mahal?</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">"Asuransi mahal ah."
+
+Oke, gue challenge lo.
+
+Lo habis berapa per bulan buat:
+☕ Kopi: Rp 500rb
+🎮 Game top-up: Rp 300rb
+📱 Langganan streaming: Rp 150rb
+
+Total: hampir Rp 1 juta/bulan buat hiburan.
+
+Sekarang... proteksi yang bisa cover lo sampe ratusan juta kalo sakit?
+
+Mulai dari Rp 300rb/bulan.
+
+Mana yang lebih penting?
+
+Gue gak bilang lo harus stop ngopi atau main game. Gue cuma minta lo PRIORITASIN.
+
+Pengen tau detailnya? Link di bio.
+
+#mythbusting #asuransimurah #finansial #ngobrassantuy #budgeting #fypシ #edukasi #smart</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A creative 9:16 vertical split-screen comparison image. Left side shows lifestyle items (coffee cup, gaming controller, streaming app icons) with a red-ish tint and price tags. Right side shows a glowing shield/protection icon with a green-ish tint and a much lower price tag. Dark modern background with neon accents. Bold text overlay "Mahal? Coba bandingin..." at the top. Clean infographic style with modern flat design elements. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, casual hoodie, playful but smart vibe.
+Background: Modern cafe setting with warm bokeh lights.
+Tone: Fun, slightly challenging, like debating with a friend. Energetic delivery.
+
+Script:
+"Asuransi mahal? Hmm, oke. Gue challenge lo nih.
+
+Coba itung, lo habis berapa per bulan buat ngopi? Lima ratus ribu? Buat top-up game? Tiga ratus ribu? Streaming? Seratus lima puluh ribu?
+
+Itu hampir satu juta per bulan buat hiburan doang.
+
+Sekarang tau gak, proteksi yang bisa cover ratusan juta kalo lo sakit itu mulai dari berapa? Tiga ratus ribu per bulan.
+
+Kurang dari budget ngopi lo.
+
+Gue gak bilang lo harus stop hiburan ya. Gue cuma bilang, coba bandingin. Mana yang lebih urgent?
+
+Kalo pengen tau lebih detail, gue udah siapin info lengkapnya. Cek link di bio.
+
+Stay smart, stay santuy!"</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 5 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">15:00 WIB</span>
+                <span class="post-number">Post #5</span>
+                <span class="post-theme">Tema: Social Proof - Testimoni Ringan</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">DM dari follower minggu lalu:
+
+"Bro, gue akhirnya daftar asuransi setelah nonton konten lo. Kemarin istri gue masuk RS buat operasi caesar. Biaya 45 juta. Gue gak keluar sepeser pun. Semua di-cover. Thank you udah bikin gue aware."
+
+Ini yang bikin gue semangat sharing.
+
+Bukan soal jualan.
+Bukan soal komisi.
+Tapi soal SATU ORANG yang hidupnya lebih tenang karena dia mau aware.
+
+Lo bisa jadi orang berikutnya.
+Atau lo bisa tunggu sampe kejadian dulu.
+
+Pilihan di tangan lo.
+
+Mau mulai? Link di bio. Kita ngobrol santai.
+
+#testimoni #proteksi #asuransi #ngobrassantuy #realstory #fypシ #insurance #financialfreedom</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A 9:16 vertical image showing a smartphone screen displaying a chat/DM conversation with a blurred profile picture. The message bubble shows a grateful testimonial message (text slightly blurred for privacy). The phone is held by a hand against a soft gradient background (dark purple to deep blue). Warm glow emanating from the phone screen. The overall mood is positive and authentic. Modern and clean aesthetic. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, clean casual style, warm genuine smile.
+Background: Simple home office setup, natural daylight from window.
+Tone: Grateful, authentic, sharing good news with excitement.
+
+Script:
+"Guys, gue dapet DM minggu lalu yang bikin gue terharu.
+
+Ada follower yang bilang, dia akhirnya daftar asuransi setelah nonton konten gue. Dan kemarin, istrinya harus operasi caesar. Biayanya empat puluh lima juta.
+
+Tapi dia gak keluar uang sepeser pun. Semua di-cover.
+
+Bayangin kalo dia gak punya proteksi. Empat puluh lima juta. Dari mana?
+
+Ini yang bikin gue semangat terus sharing. Bukan soal jualan. Bukan soal komisi. Tapi soal satu orang yang hidupnya jadi lebih tenang.
+
+Lo bisa jadi orang berikutnya. Atau lo bisa tunggu sampe kejadian dulu. Pilihan ada di lo.
+
+Kalo mau mulai, link ada di bio. Kita ngobrol santai aja.
+
+Stay smart, stay santuy."</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 6 -->
+        <div class="post-card">
+            <div class="post-header">
+                <span class="post-time">17:00 WIB</span>
+                <span class="post-number">Post #6</span>
+                <span class="post-theme">Tema: Soft CTA - Penutup Hari</span>
+            </div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">📝</span>
+                    <h3>Caption IG / TikTok</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Sebelum lo scroll lagi...
+
+Jawab jujur:
+
+Kalo besok lo tiba-tiba gak bisa kerja 3 bulan,
+lo punya backup plan gak?
+
+❌ Gak punya tabungan 6 bulan gaji
+❌ Gak punya asuransi kesehatan yang cukup
+❌ Gak punya income protection
+
+Kalo 3-3nya ❌... lo harus mulai mikir sekarang.
+
+Gue bukan financial advisor.
+Gue cuma orang biasa yang mau share awareness.
+
+Tapi kalo lo mau ngobrol, mau tanya-tanya, mau ngitung bareng...
+
+Gue ada. Link di bio.
+Atau WA langsung: 087781896087
+
+Santai aja, gak ada pressure. Yang penting lo mulai.
+
+#awareness #financialplanning #proteksi #ngobrassantuy #asuransi #closingday #fypシ #viral #insurance</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🖼️</span>
+                    <h3>Prompt Image (9:16)</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">A powerful 9:16 vertical image of a young Indonesian man standing at a crossroads/fork in the road during golden sunset hour. One path leads to a bright, well-lit future (symbolizing preparedness), the other path is dark and uncertain. The man stands in the middle, looking toward the bright path. Cinematic composition, dramatic lighting. The silhouette style with vibrant orange-purple sunset sky. Inspirational and thought-provoking mood. Add watermark text "@ngobras.santuy" at the top-center in white semi-transparent modern font, and watermark text "WA 087781896087" at the bottom-center in white semi-transparent font.</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div class="content-section">
+                <div class="section-label">
+                    <span class="icon">🎬</span>
+                    <h3>HeyGen Script-to-Video Prompt</h3>
+                </div>
+                <div class="copy-wrapper">
+                    <div class="content-text">Avatar: Young Indonesian male, relaxed outfit, calm and wise expression.
+Background: Sunset/golden hour outdoor setting, warm and peaceful atmosphere.
+Tone: Calm, reflective, like a wise friend giving a gentle reminder at the end of the day.
+
+Script:
+"Oke, sebelum lo lanjut scroll, gue mau tanya satu hal.
+
+Kalo besok, tiba-tiba lo gak bisa kerja selama tiga bulan... lo punya backup plan gak?
+
+Tabungan enam bulan gaji? Ada gak?
+Asuransi kesehatan yang cukup? Ada gak?
+Income protection? Ada gak?
+
+Kalo jawabannya belum ada... gak apa-apa. Tapi artinya lo harus mulai mikir sekarang.
+
+Gue bukan expert ya. Gue orang biasa aja. Tapi gue udah aware duluan, dan gue mau sharing ke lo.
+
+Kalo lo mau ngobrol santai, mau tanya-tanya, atau mau ngitung bareng kebutuhan lo... gue ada.
+
+Link di bio. Atau WA gue langsung di nol delapan tujuh tujuh delapan satu delapan sembilan enam nol delapan tujuh.
+
+Gak ada pressure. Gak ada paksaan. Yang penting lo mulai.
+
+Stay smart, stay santuy. Sampai ketemu di post berikutnya."</div>
+                    <button class="copy-btn" onclick="copyText(this)">📋 Copy</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="tips-card">
+            <h2>🔗 Link untuk Bio</h2>
+            <div class="copy-wrapper" style="background: transparent; border: none; padding: 8px 0; padding-right: 0;">
+                <div class="content-text">https://projectcuan.petrusjakub.workers.dev/</div>
+                <button class="copy-btn" onclick="copyText(this)" style="position: relative; top: auto; right: auto; margin-top: 10px;">📋 Copy Link</button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Content Plan by <strong>@ngobras.santuy</strong></p>
+            <p>Target: Leads Asuransi | CTA: <a href="https://projectcuan.petrusjakub.workers.dev/" target="_blank">projectcuan.petrusjakub.workers.dev</a></p>
+            <p style="margin-top: 8px;">WA: 087781896087</p>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied!</div>
+
+    <script>
+        function copyText(button) {
+            const wrapper = button.closest('.copy-wrapper');
+            const textEl = wrapper.querySelector('.content-text');
+            const text = textEl.innerText || textEl.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast();
+                button.classList.add('copied');
+                button.innerHTML = '✅ Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '📋 Copy';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast();
+                    button.classList.add('copied');
+                    button.innerHTML = '✅ Copied!';
+                    setTimeout(() => {
+                        button.classList.remove('copied');
+                        button.innerHTML = '📋 Copy';
+                    }, 2000);
+                } catch (e) {
+                    alert('Gagal copy. Coba manual select & copy.');
+                }
+                document.body.removeChild(textarea);
+            });
+        }
+
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
