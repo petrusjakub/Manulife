@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IG Content Planner - @petrusjakub | 1 Day Full Schedule</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 680px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+        }
+
+        .header h1 {
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .header .account {
+            display: inline-block;
+            margin-top: 10px;
+            background: #f0f0f0;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85rem;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #eee;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .num {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #764ba2;
+        }
+
+        .stat-item .label {
+            font-size: 0.7rem;
+            color: #999;
+            text-transform: uppercase;
+        }
+
+        .post-card {
+            background: rgba(255,255,255,0.95);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transition: transform 0.2s, opacity 0.3s, max-height 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .post-card:hover {
+            transform: translateY(-2px);
+        }
+
+        .post-card.hiding {
+            opacity: 0;
+            transform: translateX(100px);
+            max-height: 0 !important;
+            margin-bottom: 0;
+            padding: 0 20px;
+            transition: opacity 0.3s, transform 0.3s, max-height 0.4s 0.2s, margin-bottom 0.4s 0.2s, padding 0.4s 0.2s;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border: none;
+            border-radius: 50%;
+            background: rgba(118, 75, 162, 0.1);
+            color: #764ba2;
+            font-size: 1rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            z-index: 10;
+        }
+
+        .delete-btn:hover {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: scale(1.1);
+            box-shadow: 0 3px 10px rgba(118, 75, 162, 0.3);
+        }
+
+        .delete-btn:active {
+            transform: scale(0.9);
+        }
+
+        .post-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            padding-right: 36px;
+        }
+
+        .time-badge {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .format-badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .format-carousel {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .format-comic {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .format-video {
+            background: #fce4ec;
+            color: #c62828;
+        }
+
+        .format-reel {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .format-story {
+            background: #f3e5f5;
+            color: #6a1b9a;
+        }
+
+        .type-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .type-leads {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .type-recruit {
+            background: #fff8e1;
+            color: #f57f17;
+        }
+
+        .caption-section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+
+        .caption-section h4 {
+            font-size: 0.75rem;
+            color: #764ba2;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .caption-text {
+            font-size: 0.88rem;
+            line-height: 1.5;
+            color: #333;
+            white-space: pre-wrap;
+        }
+
+        .prompt-section {
+            background: #f0f4ff;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 12px;
+            border-left: 3px solid #667eea;
+        }
+
+        .prompt-section h4 {
+            font-size: 0.75rem;
+            color: #667eea;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-text {
+            font-size: 0.82rem;
+            line-height: 1.5;
+            color: #444;
+            font-style: italic;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 8px;
+            margin-top: 8px;
+        }
+
+        .copy-caption-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .copy-prompt-btn {
+            background: #f0f4ff;
+            color: #667eea;
+            border: 1px solid #667eea;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            opacity: 0.9;
+        }
+
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+
+        .copy-btn.copied {
+            background: #4caf50 !important;
+            color: white !important;
+            border-color: #4caf50 !important;
+        }
+
+        .divider {
+            height: 1px;
+            background: #eee;
+            margin: 12px 0;
+        }
+
+        .cta-link {
+            display: block;
+            text-align: center;
+            margin-top: 16px;
+            padding: 12px;
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.8);
+            font-size: 0.8rem;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: underline;
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 1.2rem;
+            }
+            .post-card {
+                padding: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>1-Day IG Content Planner</h1>
+            <p class="subtitle">Full Schedule Konten Instagram Harian</p>
+            <span class="account">@petrusjakub</span>
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="num">12</div>
+                    <div class="label">Total Post</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">7</div>
+                    <div class="label">Leads Nasabah</div>
+                </div>
+                <div class="stat-item">
+                    <div class="num">5</div>
+                    <div class="label">Rekrut Agen</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- POST 1 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">06:30</span>
+                <div>
+                    <span class="format-badge format-carousel">Carousel</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-1">Bangun pagi, cek saldo tabungan...
+
+Tapi kalo besok kamu kena sakit kritis, tabungan itu cukup nggak? 🤔
+
+Fakta: 1 dari 3 orang Indonesia berisiko kena penyakit kritis sebelum usia 60.
+
+Yang bikin tenang bukan cuma nabung, tapi punya PROTEKSI yang cover 150 penyakit kritis sampai usia 85 tahun.
+
+Mau tau caranya? Klik link di bio atau chat langsung 👇
+
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#asuransikesehatan #proteksidiri #penyakitkritis #manulife #financialplanning #hiduptenang #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-1">A young Indonesian professional waking up in the morning looking worried while checking phone, split scene showing hospital bills on one side and a golden shield protecting a happy family on the other side, with subtle embossed text '@petrusjakub' on the coffee mug on the nightstand, warm morning light, comic panel layout, vibrant colors, Instagram square format 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-1', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-1', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 2 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">07:45</span>
+                <div>
+                    <span class="format-badge format-reel">Reel/Video</span>
+                    <span class="type-badge type-recruit">Rekrut Agen</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-2">Gaji UMR tapi pengen income 50 juta/bulan?
+
+Bukan MLM. Bukan jualan skincare.
+
+Ini KARIR di perusahaan Fortune 500 yang bisa kamu mulai TANPA modal, TANPA ijazah S1.
+
+Yang kamu butuhkan cuma:
+✅ HP & internet
+✅ Kemauan belajar
+✅ Mental pemenang
+
+Aku udah buktiin. Sekarang giliran kamu.
+
+Klik link ini buat tau lebih lanjut 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#lowongankerja #peluangbisnis #karir2025 #financialadvisor #manulife #incometambahan #workfromhome #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-2">A confident young Indonesian man in smart casual outfit standing on top of ascending bar chart made of golden coins, holding a briefcase, city skyline background with sunrise, with '@petrusjakub' subtly written on the side of the briefcase, dynamic angle, motivational energy, vibrant orange and gold tones, Instagram 9:16 vertical format for Reels cover</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-2', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-2', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 3 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">09:00</span>
+                <div>
+                    <span class="format-badge format-comic">Comic</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-3">"Ah, masih muda, ngapain mikirin asuransi?"
+
+6 bulan kemudian: divonis kanker stadium 2.
+Biaya pengobatan: 800 JUTA.
+Tabungan: 15 juta.
+
+Ini bukan cerita fiksi. Ini NYATA terjadi di Indonesia setiap hari.
+
+MCCP dari Manulife:
+🛡️ Cover 150 penyakit kritis
+🛡️ Proteksi sampai usia 85
+🛡️ TANPA masa survival
+🛡️ Klaim langsung cair
+
+Jangan tunggu sampai terlambat.
+
+Info lengkap 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#asuransijiwa #manulife #mccp #penyakitkritis #kanker #proteksidini #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-3">4-panel comic strip, panel 1: young Indonesian man laughing and dismissing insurance brochure, panel 2: same man in hospital bed looking shocked at diagnosis paper, panel 3: huge hospital bill showing 800 million rupiah, panel 4: split - sad version without insurance vs happy version with golden shield protection, with '@petrusjakub' subtly visible on the spine of a book on the hospital bedside table, bold outlines, expressive faces, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-3', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-3', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 4 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">10:15</span>
+                <div>
+                    <span class="format-badge format-carousel">Carousel</span>
+                    <span class="type-badge type-recruit">Rekrut Agen</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-4">STOP scroll dulu! 🛑
+
+Kamu yang:
+- Capek kerja 9-to-5 tapi gaji segitu-gitu aja
+- Pengen punya penghasilan tanpa batas
+- Mau kerja flexible dari mana aja
+- Pengen bantu orang sekaligus cuan
+
+Ada 1 karir yang kasih semua itu: Financial Advisor di Manulife.
+
+Slide 👉 untuk tau kenapa ini BUKAN kerja biasa:
+1️⃣ Income UNLIMITED (bukan gaji tetap)
+2️⃣ Bonus jalan-jalan ke luar negeri
+3️⃣ Jenjang karir jelas
+4️⃣ Training GRATIS dari perusahaan
+5️⃣ Bisa mulai SAMBIL kerja lain
+
+DM "JOIN" atau klik link 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#loker #financialadvisor #kerjaremote #unlimitedincome #manulife #karirimpian #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-4">Carousel cover slide: a split image showing exhausted office worker on left side (grey, dull) transforming into a successful financial advisor on right side (colorful, confident, holding trophy), arrow transition in the middle, text overlay space at top, with '@petrusjakub' subtly engraved on the trophy being held, clean modern look, Instagram square 1:1, slide 1 of 5 indicator</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-4', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-4', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 5 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">11:30</span>
+                <div>
+                    <span class="format-badge format-reel">Reel/Video</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-5">POV: Kamu baru aja didiagnosis penyakit kritis...
+
+Tapi kamu TENANG karena punya proteksi yang langsung cair tanpa ribet. 💪
+
+Sementara yang lain panik cari pinjaman, jual aset, atau galang dana...
+
+Kamu fokus SEMBUH karena biaya udah ditanggung.
+
+Ini bukan privilege orang kaya.
+Ini HAK semua orang yang SIAP dari sekarang.
+
+Proteksi mulai dari 300rb/bulan.
+
+Mau tau detail? 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+WA: 087781896087
+
+#asuransimurah #proteksikesehatan #mccp #manulife #hiduptenang #sakitkritis #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-5">POV style video thumbnail: Indonesian person sitting calmly in hospital room with a peaceful smile, golden protective aura around them, medical documents with "APPROVED" stamp on the table, contrast with chaotic worried people in background, with '@petrusjakub' subtly printed on the hospital ID wristband, cinematic lighting, warm reassuring tones, Instagram 9:16 Reels format</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-5', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-5', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 6 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">12:45</span>
+                <div>
+                    <span class="format-badge format-carousel">Carousel</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-6">5 Penyakit Kritis yang SERING menyerang usia 30-50 tahun:
+
+1️⃣ Kanker (segala jenis)
+2️⃣ Jantung koroner
+3️⃣ Stroke
+4️⃣ Gagal ginjal
+5️⃣ Diabetes komplikasi
+
+Biaya rata-rata pengobatan: 500 JUTA - 2 MILIAR 💸
+
+Pertanyaannya:
+Kamu udah punya backup plan belum?
+
+MCCP Manulife cover SEMUA ini + 145 penyakit kritis lainnya.
+
+Jangan tunggu diagnosis datang baru panik.
+
+Info lengkap? Klik 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#penyakitkritis #kanker #jantung #stroke #asuransikesehatan #manulife #mccp #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-6">Infographic carousel cover: 5 medical icons (cancer ribbon, heart, brain, kidney, blood sugar) arranged in a circle around a worried Indonesian family, big text "5 PENYAKIT KRITIS" at top, dark moody background transitioning to bright protected area with shield, with '@petrusjakub' subtly embossed into the surface of the protective shield, clean infographic layout, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-6', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-6', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 7 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">14:00</span>
+                <div>
+                    <span class="format-badge format-comic">Comic</span>
+                    <span class="type-badge type-recruit">Rekrut Agen</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-7">Cerita aku 2 tahun lalu:
+- Kerja kantoran gaji 5 juta
+- Nggak punya tabungan
+- Stress tiap akhir bulan
+
+Sekarang:
+- Income 8 digit/bulan
+- Kerja dari mana aja
+- Bantu puluhan keluarga punya proteksi
+- Punya tim yang terus growing
+
+Apa yang berubah? Aku AMBIL KEPUTUSAN untuk join jadi Financial Advisor Manulife.
+
+Bukan langsung sukses. Tapi prosesnya WORTH IT banget.
+
+Kamu mau mulai journey yang sama?
+
+Klik link ini 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#successstory #financialadvisor #manulife #karirsukses #testimonial #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-7">Before-after comic strip: Left panel shows stressed young Indonesian man at small desk in grey cubicle with empty wallet, arrow transition, Right panel shows same man confident in premium suit at luxury cafe with laptop, team members around him celebrating, golden light and success symbols, with '@petrusjakub' subtly written on the laptop screen wallpaper in the right panel, dramatic contrast between panels, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-7', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-7', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 8 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">15:15</span>
+                <div>
+                    <span class="format-badge format-story">Story</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-8">QUICK POLL 📊
+
+Kalau besok kamu didiagnosis penyakit kritis, kamu punya dana darurat berapa?
+
+A. Di bawah 50 juta
+B. 50 - 200 juta
+C. Di atas 200 juta
+D. Belum punya sama sekali 😅
+
+Apapun jawaban kamu, proteksi itu WAJIB.
+
+Karena biaya pengobatan penyakit kritis di Indonesia bisa tembus 1-2 MILIAR.
+
+Konsultasi GRATIS, klik 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#pollinstagram #danadarurat #asuransi #proteksi #manulife #mccp #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-8">Instagram Story poll design: colorful poll graphic with 4 options A B C D, worried emoji faces, Indonesian rupiah money symbols flying away, hospital building in background, interactive poll UI mockup overlay, with '@petrusjakub' subtly visible on the hospital building sign in the background, vertical 9:16 format, eye-catching bright colors, swipe-up arrow at bottom</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-8', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-8', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 9 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">16:30</span>
+                <div>
+                    <span class="format-badge format-carousel">Carousel</span>
+                    <span class="type-badge type-recruit">Rekrut Agen</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-9">Agen asuransi = sales door-to-door?
+
+❌ ITU DULU.
+
+Sekarang, Financial Advisor Manulife itu:
+✅ Konsultan keuangan profesional
+✅ Digital marketing expert
+✅ Entrepreneur dengan tim sendiri
+✅ Income puluhan sampai ratusan juta/bulan
+
+Yang kami cari:
+🔹 Fresh graduate yang ambisius
+🔹 Ibu rumah tangga yang mau income tambahan
+🔹 Karyawan yang mau side hustle
+🔹 Siapa aja yang MAU BERUBAH
+
+Training? GRATIS.
+Modal? NOL.
+Potensi? UNLIMITED.
+
+Swipe untuk tau benefit lengkapnya 👉
+
+Link pendaftaran 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#agensuransi #financialadvisor #peluangkarir #sidehustle #manulife #jointeam #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-9">Modern carousel slide showing transformation of insurance agent stereotype: old style door-to-door salesman crossed out, replaced by modern young Indonesian professional with laptop at trendy cafe, digital devices around, social media icons floating, team of diverse people behind, with '@petrusjakub' subtly printed on the cafe menu board in the background, fresh modern colors teal and coral, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-9', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-9', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 10 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">18:00</span>
+                <div>
+                    <span class="format-badge format-reel">Reel/Video</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-10">Yang bilang "asuransi nggak penting" biasanya yang paling nyesel pas butuh. 💯
+
+Real talk:
+- BPJS antri berminggu-minggu
+- Tabungan habis dalam hitungan hari
+- Harus jual rumah/mobil buat bayar RS
+
+Atau...
+
+Kamu bisa punya proteksi yang:
+💰 Langsung cair saat diagnosis
+🏥 Cover 150 penyakit kritis
+⏰ Proteksi sampai 85 tahun
+✅ Tanpa masa tunggu (survival period)
+
+Pilihan ada di tangan kamu.
+
+Konsultasi gratis, tanpa commitment 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+WA: 087781896087
+
+#realtalk #asuransi #bpjs #proteksi #manulife #mccp #finansial #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-10">Dramatic Reels thumbnail: two doors side by side, left door dark and scary with hospital bills and crying family behind it, right door golden and bright with happy protected family and shield symbol, Indonesian young couple standing at the crossroads deciding, with '@petrusjakub' subtly carved into the doorframe of the golden door, dramatic lighting, high contrast, Instagram 9:16 vertical Reels format</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-10', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-10', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 11 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">19:30</span>
+                <div>
+                    <span class="format-badge format-comic">Comic</span>
+                    <span class="type-badge type-recruit">Rekrut Agen</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-11">Boss: "Lembur ya hari ini, nggak ada uang lembur."
+
+Me (dulu): "Siap, bos..." 😞
+
+Me (sekarang): *kirim foto lagi di cafe sambil closing deal online* 😎
+
+Perbedaannya? Aku pilih jadi PEMILIK waktu sendiri.
+
+Sebagai Financial Advisor Manulife:
+🕐 Atur jam kerja sendiri
+💻 Kerja dari mana aja
+💰 Income sesuai usaha (bukan jam kerja)
+🏆 Career path sampai Director level
+
+Kamu mau terus disuruh-suruh atau mau jadi BOS buat diri sendiri?
+
+JOIN sekarang 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+#quitmyjob #bossbabe #entrepreneurlife #financialfreedom #manulife #jointeam #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-11">3-panel comic: Panel 1 - tired Indonesian office worker being yelled at by angry boss at night (dark, sad colors), Panel 2 - same person discovering Financial Advisor opportunity on phone (lightbulb moment), Panel 3 - same person now relaxed at beach cafe with laptop, phone showing big commission notification, big smile, with '@petrusjakub' subtly written on the character's cap/hat in panel 3, expressive cartoon faces, bold colors, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-11', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-11', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <!-- POST 12 -->
+        <div class="post-card">
+            <button class="delete-btn" onclick="hidePost(this)" title="Hapus post">&#x2715;</button>
+            <div class="post-header">
+                <span class="time-badge">21:00</span>
+                <div>
+                    <span class="format-badge format-carousel">Carousel</span>
+                    <span class="type-badge type-leads">Leads Nasabah</span>
+                </div>
+            </div>
+            <div class="caption-section">
+                <h4>Caption</h4>
+                <div class="caption-text" id="caption-12">Sebelum tidur, coba tanya diri sendiri:
+
+"Kalau besok aku nggak bisa kerja karena sakit kritis, siapa yang tanggung biaya hidup keluargaku?"
+
+Bukan mau nakut-nakutin.
+Tapi ini REALITA yang harus dihadapi.
+
+MCCP Manulife = jaring pengaman finansial keluargamu.
+
+🛡️ 150 penyakit kritis ter-cover
+🛡️ Proteksi sampai 85 tahun
+🛡️ Tanpa survival period
+🛡️ Premi mulai 300rb/bulan
+
+Tidur lebih tenang malam ini.
+Mulai proteksi besok pagi.
+
+Konsultasi GRATIS 👇
+🔗 https://projectcuan.petrusjakub.workers.dev/
+
+WA: 087781896087
+
+#sebelumtidur #nightthoughts #asuransikeluarga #proteksikesehatan #manulife #mccp #petrusjakub</div>
+            </div>
+            <div class="prompt-section">
+                <h4>Image Prompt (AI Generate)</h4>
+                <div class="prompt-text" id="prompt-12">Emotional nighttime scene: Indonesian father lying in bed at night unable to sleep, thought bubble showing his family (wife and 2 kids) being protected by a glowing golden dome/shield while he worries, moonlight through window, with '@petrusjakub' subtly embossed on the wooden headboard of the bed, warm but slightly melancholic mood transitioning to hopeful, soft night colors with golden protective elements, Instagram square 1:1</div>
+            </div>
+            <button class="copy-btn copy-caption-btn" onclick="copyText('caption-12', this)">📋 Copy Caption</button>
+            <button class="copy-btn copy-prompt-btn" onclick="copyText('prompt-12', this)">🎨 Copy Prompt</button>
+        </div>
+
+        <a href="https://projectcuan.petrusjakub.workers.dev/" target="_blank" class="cta-link">
+            🔗 Buka Link CTA: projectcuan.petrusjakub.workers.dev
+        </a>
+
+        <div class="footer">
+            <p>Content Planner by @petrusjakub</p>
+            <p style="margin-top:6px;">WA: 087781896087 | <a href="https://projectcuan.petrusjakub.workers.dev/" target="_blank">Project Cuan</a></p>
+            <p style="margin-top:10px; font-size:0.7rem;">Tips: Posting dengan jeda 1-1.5 jam. Hindari posting di jam 13:00-13:30 (lunch dip). Engagement tertinggi jam 07:00, 12:00, 18:00, 21:00.</p>
+        </div>
+    </div>
+
+    <script>
+        function copyText(elementId, button) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(function() {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✅ Copied!';
+                button.classList.add('copied');
+                setTimeout(function() {
+                    button.innerHTML = originalText;
+                    button.classList.remove('copied');
+                }, 2000);
+            }).catch(function(err) {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-9999px';
+                document.body.appendChild(textArea);
+                textArea.select();
+                try {
+                    document.execCommand('copy');
+                    const originalText = button.innerHTML;
+                    button.innerHTML = '✅ Copied!';
+                    button.classList.add('copied');
+                    setTimeout(function() {
+                        button.innerHTML = originalText;
+                        button.classList.remove('copied');
+                    }, 2000);
+                } catch (e) {
+                    alert('Gagal copy. Silakan copy manual.');
+                }
+                document.body.removeChild(textArea);
+            });
+        }
+
+        function hidePost(button) {
+            const card = button.closest('.post-card');
+            card.classList.add('hiding');
+            setTimeout(function() {
+                card.style.display = 'none';
+                updateStats();
+            }, 500);
+        }
+
+        function updateStats() {
+            const visibleCards = document.querySelectorAll('.post-card:not([style*="display: none"])');
+            let totalVisible = visibleCards.length;
+            let leadsCount = 0;
+            let recruitCount = 0;
+
+            visibleCards.forEach(function(card) {
+                if (card.querySelector('.type-leads')) {
+                    leadsCount++;
+                } else if (card.querySelector('.type-recruit')) {
+                    recruitCount++;
+                }
+            });
+
+            const statNums = document.querySelectorAll('.stat-item .num');
+            statNums[0].textContent = totalVisible;
+            statNums[1].textContent = leadsCount;
+            statNums[2].textContent = recruitCount;
+        }
+    </script>
+</body>
+</html>
