@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7 Day YouTube Content Plan - @sharingadalahcaring</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+            margin-bottom: 8px;
+        }
+
+        .header .channel-badge {
+            display: inline-block;
+            background: #ff0000;
+            color: white;
+            padding: 8px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+
+        .header .target-link {
+            display: block;
+            margin-top: 12px;
+            color: #48dbfb;
+            font-size: 0.95rem;
+        }
+
+        .schedule-info {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .schedule-info p {
+            color: #feca57;
+            font-size: 1rem;
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .day-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .day-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .day-number {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .day-title {
+            font-size: 1.4rem;
+            color: #ffffff;
+        }
+
+        .day-theme {
+            color: #48dbfb;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+
+        .section {
+            margin-bottom: 20px;
+        }
+
+        .section-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .section-label h3 {
+            font-size: 0.95rem;
+            color: #feca57;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .copy-btn:hover {
+            background: linear-gradient(135deg, #5a4bd1, #8c7ae6);
+            transform: scale(1.05);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #00b894, #55efc4);
+        }
+
+        .copy-btn svg {
+            width: 14px;
+            height: 14px;
+        }
+
+        .content-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 15px;
+            font-size: 0.92rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            color: #d0d0d0;
+        }
+
+        .content-box .hashtags {
+            color: #48dbfb;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #00b894;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            z-index: 9999;
+            transition: transform 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 184, 148, 0.4);
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .day-card {
+                padding: 20px;
+            }
+
+            .day-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .section-label {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>7 Day YouTube Content Plan</h1>
+            <p class="subtitle">Strategi Konten Harian untuk Mendapatkan Leads Nasabah Asuransi</p>
+            <span class="channel-badge">@sharingadalahcaring</span>
+            <a class="target-link" href="https://projectcuan.petrusjakub.workers.dev/" target="_blank">Target: projectcuan.petrusjakub.workers.dev</a>
+        </div>
+
+        <div class="schedule-info">
+            <p>Jadwal Posting: 1 video per hari | Jeda natural antar posting | Total 7 hari konten siap upload</p>
+        </div>
+
+        <!-- DAY 1 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">1</div>
+                <div>
+                    <div class="day-title">Kenapa 80% Orang Indonesia Belum Punya Proteksi?</div>
+                    <div class="day-theme">Tema: Awareness & Problem Statement</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day1-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day1-title">Kenapa 80% Orang Indonesia BELUM Punya Asuransi? Ini Faktanya yang Bikin Kaget!</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day1-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day1-caption">Tau gak sih? Data menunjukkan 80% masyarakat Indonesia belum punya proteksi asuransi yang memadai. Padahal biaya rumah sakit naik 10-15% setiap tahun!
+
+Di video ini, gue bahas fakta mengejutkan tentang kenapa banyak orang masih "nanti aja deh" soal proteksi keuangan. Dan ternyata, alasannya bukan cuma soal uang...
+
+Kalau lo termasuk yang masih mikir "ah gue masih muda, gak perlu asuransi" - WAJIB nonton sampai habis!
+
+Mau tau solusi proteksi yang cocok buat kondisi keuangan lo? Cek langsung di sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+Jangan lupa SUBSCRIBE dan nyalain loncengnya biar gak ketinggalan tips keuangan & proteksi lainnya!
+
+#asuransi #proteksikeuangan #financialplanning #literasikeuangan #asuransijiwa #sharingadalahcaring</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day1-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day1-tags">asuransi indonesia, kenapa butuh asuransi, fakta asuransi indonesia, proteksi keuangan, financial planning indonesia, literasi keuangan, asuransi jiwa, asuransi kesehatan, biaya rumah sakit mahal, sharing adalah caring, tips keuangan, investasi masa depan, perencanaan keuangan keluarga
+
+#asuransi #proteksikeuangan #financialplanning #literasikeuangan #asuransijiwa #asuransikesehatan #tipsfinansial #sharingadalahcaring #youtubeindonesia #kontenedukasi</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day1-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day1-image">Create a YouTube thumbnail style image with a shocked Indonesian young professional man looking at a hospital bill paper, dramatic lighting, bold text overlay "80% BELUM PUNYA!" in red and yellow colors, modern clean design, hospital background slightly blurred, the person wearing smart casual outfit. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, vibrant colors, eye-catching composition.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day1-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day1-script">Halo semuanya! Selamat datang di channel Sharing Adalah Caring.
+
+Gue mau nanya satu hal... Lo udah punya asuransi belum? Kalau jawabannya belum, lo gak sendirian. Data menunjukkan 80 persen masyarakat Indonesia belum punya proteksi yang memadai.
+
+Coba bayangin... biaya rawat inap rumah sakit sekarang bisa jutaan per hari. Dan setiap tahun, biaya kesehatan naik 10 sampai 15 persen. Artinya apa? Artinya kalau hari ini lo belum siap, besok bakal lebih berat lagi.
+
+Nah banyak orang bilang, ah gue masih muda, gak perlu lah. Atau, nanti aja kalau udah mapan. Tapi kenyataannya, risiko gak pernah pilih-pilih umur dan gak pernah tunggu kita siap.
+
+Pertanyaannya sekarang... apa solusinya? Gimana caranya dapet proteksi yang tepat tanpa bikin kantong jebol?
+
+Gue udah siapin informasi lengkapnya di link yang ada di deskripsi. Lo bisa langsung cek dan konsultasi gratis di sana.
+
+Kalau video ini bermanfaat, jangan lupa like, subscribe, dan share ke orang-orang terdekat lo. Karena sharing adalah caring!
+
+Sampai ketemu di video berikutnya!</div>
+            </div>
+        </div>
+
+        <!-- DAY 2 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">2</div>
+                <div>
+                    <div class="day-title">Cerita Nyata: Keluarga Tanpa Asuransi yang Kehilangan Segalanya</div>
+                    <div class="day-theme">Tema: Storytelling & Emotional Trigger</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day2-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day2-title">KISAH NYATA: Tabungan 10 Tahun HABIS dalam 3 Bulan Gara-Gara Ini... (Jangan Sampai Terjadi ke Kamu)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day2-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day2-caption">Ini bukan cerita karangan. Ini NYATA terjadi.
+
+Sebuah keluarga yang sudah menabung selama 10 tahun, tabungannya ludes hanya dalam 3 bulan karena satu musibah yang gak pernah mereka sangka.
+
+Yang bikin sedih? Semua itu sebenarnya bisa dicegah dengan satu langkah sederhana yang sering kita remehkan...
+
+Di video ini gue ceritain kronologinya dari awal. Dan gue harap, setelah nonton ini, lo gak mau ngalamin hal yang sama.
+
+Mau proteksi keluarga lo dari risiko finansial? Konsultasi GRATIS di sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+SUBSCRIBE dan share video ini ke keluarga lo - karena mereka juga perlu tau!
+
+#kisahnyata #asuransi #proteksikeluarga #financialplanning #sharingadalahcaring #literasikeuangan</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day2-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day2-tags">kisah nyata asuransi, cerita tanpa asuransi, tabungan habis karena sakit, pentingnya asuransi, proteksi keluarga, financial planning, biaya rumah sakit, risiko keuangan, asuransi kesehatan penting, sharing adalah caring, edukasi keuangan
+
+#kisahnyata #asuransi #proteksikeluarga #financialplanning #literasikeuangan #biayarumahsakit #sharingadalahcaring #edukasikeuangan #asuransikesehatan #tipsfinansial</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day2-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day2-image">Create a YouTube thumbnail showing a worried Indonesian family (husband, wife, and child) sitting at a table with scattered bills and empty wallet, emotional and dramatic lighting with dark moody tones, bold text overlay "TABUNGAN 10 TAHUN LUDES!" in white and red, cinematic style, the family looking stressed and sad. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, emotional composition, slight vignette effect.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day2-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day2-script">Halo semuanya, welcome back di Sharing Adalah Caring.
+
+Hari ini gue mau ceritain satu kisah nyata yang bikin gue pribadi tersentuh. Dan gue harap, setelah nonton ini, lo bakal ambil satu keputusan penting buat keluarga lo.
+
+Jadi ada satu keluarga... sebut aja Pak Budi. Beliau kerja keras selama 10 tahun, nabung sedikit demi sedikit, sampai akhirnya punya tabungan yang cukup lumayan.
+
+Tapi suatu hari, istrinya jatuh sakit. Diagnosanya berat dan butuh perawatan intensif. Karena gak punya asuransi, semua biaya ditanggung sendiri.
+
+Dalam 3 bulan... tabungan 10 tahun itu habis. Bukan cuma itu, mereka bahkan harus jual rumah dan pindah ke kontrakan.
+
+Ini bukan cerita untuk menakut-nakuti. Ini kenyataan yang terjadi setiap hari di Indonesia.
+
+Pertanyaan gue buat lo... kalau hal ini terjadi besok, apakah lo sudah siap? Apakah keluarga lo sudah terproteksi?
+
+Kalau jawabannya belum... gue udah siapin solusinya. Klik link di deskripsi, lo bisa konsultasi gratis dan cari tau proteksi yang paling cocok buat keluarga lo.
+
+Jangan tunggu sampai terlambat. Share video ini ke orang-orang yang lo sayangi.
+
+Karena sharing... adalah caring. Sampai jumpa di video selanjutnya!</div>
+            </div>
+        </div>
+
+        <!-- DAY 3 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">3</div>
+                <div>
+                    <div class="day-title">Mitos vs Fakta Asuransi yang Bikin Kamu Rugi</div>
+                    <div class="day-theme">Tema: Edukasi & Myth Busting</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day3-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day3-title">5 MITOS Asuransi yang Bikin Kamu RUGI BESAR! (No. 3 Paling Banyak Dipercaya)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day3-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day3-caption">STOP! Sebelum lo bilang "asuransi itu SCAM" - tonton dulu video ini.
+
+Ada 5 mitos tentang asuransi yang masih dipercaya banyak orang Indonesia. Dan mitos-mitos ini justru yang bikin mereka RUGI BESAR di kemudian hari.
+
+Mitos yang gue bahas:
+1. "Asuransi itu buang-buang duit"
+2. "Masih muda gak perlu asuransi"
+3. "BPJS udah cukup kok"
+4. "Asuransi susah klaimnya"
+5. "Nabung aja cukup buat darurat"
+
+Cek FAKTA sebenarnya di video ini dan jangan sampai lo jadi korban miskonsepsi!
+
+Butuh panduan memilih asuransi yang tepat? Klik di sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+Like & Subscribe biar lo makin melek finansial!
+
+#mitosasuransi #faktaasuransi #edukasifinansial #asuransiindonesia #sharingadalahcaring</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day3-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day3-tags">mitos asuransi, fakta asuransi, asuransi scam, asuransi penipuan, kebenaran asuransi, edukasi asuransi, bpjs vs asuransi swasta, cara klaim asuransi, asuransi untuk pemula, sharing adalah caring, tips asuransi, pilih asuransi yang benar
+
+#mitosasuransi #faktaasuransi #edukasifinansial #asuransiindonesia #sharingadalahcaring #literasikeuangan #tipsasuransi #bpjs #asuransikesehatan #financialeducation</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day3-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day3-image">Create a YouTube thumbnail with split design - left side showing "MITOS" in red with X mark and common misconceptions icons (money with wings, young person saying no), right side showing "FAKTA" in green with checkmark and protection shield icon. A confident Indonesian presenter in the center pointing at the viewer. Bold text "5 MITOS BERBAHAYA!" at top. Modern graphic design style with clean lines and vibrant colors. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, infographic style.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day3-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day3-script">Hai semuanya! Balik lagi di Sharing Adalah Caring.
+
+Gue yakin di antara lo pasti ada yang pernah denger... atau mungkin percaya... kalau asuransi itu penipuan, buang-buang duit, atau susah klaimnya. Betul gak?
+
+Nah hari ini, gue mau bongkar 5 mitos paling umum tentang asuransi yang justru bikin banyak orang rugi besar.
+
+Mitos pertama: Asuransi itu buang-buang duit. Faktanya? Asuransi itu bukan pengeluaran, tapi perlindungan. Lo bayar sedikit sekarang supaya gak harus bayar berlipat-lipat nanti.
+
+Mitos kedua: Masih muda gak perlu asuransi. Faktanya? Justru semakin muda lo daftar, preminya semakin murah! Dan risiko sakit itu gak kenal umur.
+
+Mitos ketiga, ini yang paling banyak dipercaya: BPJS udah cukup. Faktanya? BPJS memang bagus, tapi ada banyak keterbatasan. Antrian panjang, kamar penuh, obat terbatas. Asuransi swasta itu pelengkap, bukan pengganti.
+
+Mitos keempat: Asuransi susah klaimnya. Faktanya? Kalau lo pilih produk yang tepat dan jujur waktu daftar, proses klaim itu sebenarnya mudah. Kuncinya ada di pemilihan awal.
+
+Mitos kelima: Nabung aja cukup buat darurat. Faktanya? Rata-rata biaya rawat inap bisa ratusan juta. Tabungan darurat biasanya gak cukup buat itu.
+
+Nah sekarang lo udah tau faktanya. Pertanyaannya, lo mau tetap percaya mitos atau mulai ambil langkah?
+
+Kalau lo mau tau proteksi yang paling cocok buat lo, langsung aja klik link di deskripsi. Konsultasinya gratis!
+
+Jangan lupa subscribe, like, dan share ke temen-temen lo. Sampai ketemu besok!</div>
+            </div>
+        </div>
+
+        <!-- DAY 4 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">4</div>
+                <div>
+                    <div class="day-title">Cara Pilih Asuransi yang Tepat (Panduan Pemula)</div>
+                    <div class="day-theme">Tema: Edukasi Praktis & Value Content</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day4-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day4-title">PANDUAN LENGKAP Pilih Asuransi 2024 - Pemula WAJIB Tau! (Step by Step)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day4-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day4-caption">Bingung pilih asuransi? Banyak banget pilihannya dan gak tau harus mulai dari mana?
+
+Tenang, di video ini gue kasih PANDUAN LENGKAP step by step cara memilih asuransi yang TEPAT sesuai kebutuhan dan budget lo.
+
+Yang gue bahas:
+- Kenali dulu kebutuhan proteksi lo
+- Bedanya asuransi jiwa, kesehatan, dan unit link
+- Cara baca polis biar gak ketipu
+- Red flags yang harus lo waspadai
+- Tips dapetin premi termurah dengan manfaat maksimal
+
+Ini video yang gue wish ada waktu gue pertama kali mau beli asuransi!
+
+Mau langsung konsultasi dengan ahlinya? GRATIS tanpa commitment:
+https://projectcuan.petrusjakub.workers.dev/
+
+Save video ini buat referensi nanti! Like + Subscribe!
+
+#panduanasuransi #carapilihasuransi #asuransiuntukpemula #tipsasuransi #sharingadalahcaring</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day4-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day4-tags">cara pilih asuransi, panduan asuransi pemula, tips beli asuransi, asuransi terbaik 2024, asuransi jiwa vs kesehatan, unit link, cara baca polis asuransi, red flag asuransi, premi murah asuransi, sharing adalah caring, edukasi finansial
+
+#panduanasuransi #carapilihasuransi #asuransiuntukpemula #tipsasuransi #sharingadalahcaring #finansial #asuransi2024 #asuransijiwa #asuransikesehatan #unitlink</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day4-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day4-image">Create a YouTube thumbnail showing a friendly Indonesian financial advisor holding a checklist clipboard with green checkmarks, surrounded by floating icons of shield, heart, family, and money. Clean modern flat design with gradient blue and white background. Bold text "PANDUAN LENGKAP!" at the top in navy blue. The person smiling confidently with thumbs up. Professional but approachable vibe. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, informative and trustworthy design.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day4-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day4-script">Halo! Selamat datang kembali di Sharing Adalah Caring.
+
+Setelah video-video kemarin, banyak yang nanya: "Oke gue udah paham pentingnya asuransi, tapi gimana cara milihnya? Banyak banget pilihannya!"
+
+Nah video hari ini khusus buat lo yang masih pemula dan bingung mau mulai dari mana.
+
+Step pertama: Kenali kebutuhan lo. Apakah lo butuh proteksi kesehatan? Proteksi jiwa? Atau keduanya? Ini bergantung pada kondisi lo sekarang. Single, sudah menikah, punya anak, atau sandwich generation.
+
+Step kedua: Pahami jenis-jenisnya. Ada asuransi kesehatan murni yang khusus cover biaya rumah sakit. Ada asuransi jiwa yang memberikan santunan ke keluarga. Dan ada unit link yang kombinasi asuransi plus investasi. Masing-masing punya kelebihan dan kekurangan.
+
+Step ketiga: Baca polisnya! Ini penting banget. Perhatikan apa yang ditanggung dan apa yang dikecualikan. Berapa masa tunggu klaimnya. Dan bagaimana prosedur klaimnya.
+
+Step keempat: Waspadai red flags. Kalau ada agen yang janji return tinggi, atau yang push lo untuk bayar premi yang terlalu besar dibanding penghasilan lo, hati-hati.
+
+Step kelima: Bandingkan beberapa produk. Jangan langsung ambil yang pertama ditawarin. Bandingkan manfaat, premi, dan reputasi perusahaannya.
+
+Nah itu dia panduannya. Simpel kan? Tapi kalau lo masih bingung atau mau dibantu untuk menemukan yang paling cocok, lo bisa konsultasi gratis lewat link di deskripsi.
+
+Subscribe ya supaya gak ketinggalan tips-tips berguna lainnya. See you!</div>
+            </div>
+        </div>
+
+        <!-- DAY 5 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">5</div>
+                <div>
+                    <div class="day-title">Berapa Sih Idealnya Budget Asuransi? (Rumus Mudah)</div>
+                    <div class="day-theme">Tema: Practical Tips & Calculator</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day5-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day5-title">Gaji 5 Juta Bisa Punya Asuransi? INI Rumus Budget Asuransi yang Benar! (Hitungan Nyata)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day5-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day5-caption">"Gue gaji UMR, mana mampu bayar asuransi..."
+
+EITS, jangan salah! Di video ini gue buktiin kalau gaji 5 juta pun BISA punya proteksi asuransi yang proper. Kuncinya ada di RUMUS yang tepat.
+
+Yang gue bahas di video ini:
+- Rumus 10% untuk budget proteksi
+- Simulasi nyata gaji 5 juta, 10 juta, dan 15 juta
+- Trik supaya premi gak bikin kantong bolong
+- Prioritas proteksi berdasarkan kondisi finansial
+
+Setelah nonton ini, lo gak ada lagi alasan "gak mampu"!
+
+Mau hitung kebutuhan proteksi lo secara personal? Chat GRATIS di sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+Jangan lupa Subscribe + bagikan ke teman yang bilang "asuransi mahal"!
+
+#budgetasuransi #gajiUMR #asuransimurah #rumusfinansial #sharingadalahcaring</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day5-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day5-tags">budget asuransi, gaji umr asuransi, asuransi murah, cara hitung premi asuransi, rumus budget proteksi, asuransi gaji kecil, premi asuransi murah, simulasi asuransi, financial planning gaji umr, sharing adalah caring, tips hemat asuransi
+
+#budgetasuransi #gajiUMR #asuransimurah #rumusfinansial #sharingadalahcaring #tipsasuransi #premimurah #financialplanning #gaji5juta #proteksikeuangan</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day5-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day5-image">Create a YouTube thumbnail showing a happy Indonesian young worker holding money (Indonesian Rupiah) in one hand and a shield/protection symbol in the other, with a calculator and pie chart graphic showing "10%" highlighted. Background is bright green gradient suggesting money and growth. Bold text "GAJI 5 JUTA BISA!" in white with dark outline. Cheerful and motivational mood. Modern flat design elements mixed with photography. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, optimistic and energetic composition.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day5-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day5-script">Hey! Ketemu lagi di Sharing Adalah Caring.
+
+Gue sering banget denger orang bilang: gue gaji UMR, mana mampu bayar asuransi. Atau, nanti kalau gaji udah gede baru deh mikirin proteksi.
+
+Nah di video ini, gue mau buktiin kalau itu cuma excuse. Karena dengan rumus yang tepat, gaji 5 juta pun bisa punya asuransi yang layak.
+
+Rumusnya simpel. Alokasikan 5 sampai 10 persen dari penghasilan lo untuk proteksi. Jadi kalau gaji lo 5 juta, budget asuransi lo idealnya 250 ribu sampai 500 ribu per bulan.
+
+Dengan budget 300 ribu per bulan, lo udah bisa dapet asuransi kesehatan dengan limit rawat inap 1 juta per hari. Lumayan banget kan buat jaga-jaga?
+
+Kalau gaji lo 10 juta, berarti budget lo 500 ribu sampai 1 juta. Dengan budget segitu, lo udah bisa dapet kombinasi asuransi kesehatan plus jiwa.
+
+Trik tambahannya: pertama, ambil yang premi tahunan karena biasanya lebih murah. Kedua, mulai dari yang paling krusial dulu yaitu kesehatan. Ketiga, tingkatkan coverage seiring naiknya penghasilan lo.
+
+Yang penting itu mulai dulu. Gak harus langsung yang mahal. Proteksi kecil tetap lebih baik daripada gak ada sama sekali.
+
+Mau dibantu hitungin kebutuhan proteksi yang pas buat kondisi lo? Klik link di deskripsi ya, konsultasinya gratis.
+
+Jangan lupa subscribe dan share ke teman-teman lo. See you tomorrow!</div>
+            </div>
+        </div>
+
+        <!-- DAY 6 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">6</div>
+                <div>
+                    <div class="day-title">Testimoni: Hidup Tenang Setelah Punya Proteksi</div>
+                    <div class="day-theme">Tema: Social Proof & Testimoni</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day6-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day6-title">Klaim Asuransi 500 JUTA Cair! Ini Pengalaman Nyata yang Bikin Gue Yakin (Testimoni Lengkap)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day6-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day6-caption">Banyak yang ragu... "Emang beneran bisa klaim?"
+
+Di video ini gue share pengalaman NYATA dari beberapa nasabah yang sudah merasakan manfaat asuransi mereka. Ada yang klaim sampai 500 JUTA dan cair!
+
+Yang mereka rasakan setelah punya proteksi:
+- Gak panik lagi kalau ada musibah
+- Tabungan tetap aman gak kesentuh
+- Keluarga terjamin meski terjadi hal terburuk
+- Hidup lebih tenang dan bisa fokus kerja
+
+Ini bukan iklan. Ini BUKTI NYATA.
+
+Lo juga bisa merasakan ketenangan yang sama. Mulai langkah pertama lo di sini:
+https://projectcuan.petrusjakub.workers.dev/
+
+Subscribe + Turn on notification bell biar gak ketinggalan konten selanjutnya!
+
+#testimoniasuransi #klaimasuransi #buktinya #asuransiterpercaya #sharingadalahcaring</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day6-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day6-tags">testimoni asuransi, klaim asuransi berhasil, pengalaman klaim asuransi, asuransi terpercaya, bukti klaim asuransi, manfaat asuransi nyata, review asuransi, nasabah asuransi puas, sharing adalah caring, asuransi beneran bayar
+
+#testimoniasuransi #klaimasuransi #buktinya #asuransiterpercaya #sharingadalahcaring #reviewasuransi #manfaatasuransi #nasabahasuransi #asuransiindonesia #proteksi</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day6-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day6-image">Create a YouTube thumbnail showing a happy Indonesian family (parents with children) in their living room, smiling with relief and gratitude. One parent holding a document/check showing "Rp 500.000.000" with a green checkmark stamp "APPROVED". Warm golden lighting creating a sense of safety and peace. Bold text "KLAIM 500 JUTA CAIR!" in gold and white colors. Background warm and cozy home setting. Emotional and uplifting mood. Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, heartwarming composition.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day6-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day6-script">Halo semua! Selamat datang kembali di Sharing Adalah Caring.
+
+Di video-video sebelumnya, gue udah bahas banyak tentang pentingnya asuransi, cara milih, dan cara budgetingnya. Tapi mungkin lo masih ragu. Lo masih mikir... emang beneran works?
+
+Nah hari ini gue mau share testimoni nyata dari beberapa orang yang sudah merasakan manfaatnya langsung.
+
+Cerita pertama: Mas Andi, karyawan swasta di Jakarta. Tahun lalu dia didiagnosa penyakit yang butuh operasi. Total biayanya hampir 200 juta. Karena punya asuransi kesehatan, semua biaya ditanggung penuh. Tabungannya tetap utuh.
+
+Cerita kedua: Bu Sarah, ibu rumah tangga. Suaminya meninggal mendadak tahun lalu. Karena suaminya punya asuransi jiwa, Bu Sarah menerima santunan 500 juta. Uang itu cukup untuk biaya hidup dan sekolah anak-anaknya selama beberapa tahun ke depan.
+
+Cerita ketiga: Pak Rudi, pengusaha kecil. Dia sempat ragu bayar premi setiap bulan. Tapi ketika anaknya harus rawat inap selama 2 minggu, semua biaya di-cover. Dia bilang, itu keputusan terbaik yang pernah dia buat.
+
+Tiga cerita berbeda, satu kesamaan: mereka semua bilang, hidup jadi lebih tenang setelah punya proteksi.
+
+Lo gak harus nunggu musibah untuk sadar pentingnya ini. Mulai sekarang, mulai hari ini.
+
+Klik link di deskripsi untuk konsultasi gratis. Gak ada paksaan, gak ada commitment. Cuma ngobrol dan cari tau apa yang terbaik buat lo.
+
+Subscribe, like, dan share video ini. Sampai jumpa di video terakhir series ini besok!</div>
+            </div>
+        </div>
+
+        <!-- DAY 7 -->
+        <div class="day-card">
+            <div class="day-header">
+                <div class="day-number">7</div>
+                <div>
+                    <div class="day-title">Langkah Pertama Lo Dimulai HARI INI (Final CTA)</div>
+                    <div class="day-theme">Tema: Hard CTA & Urgency Closing</div>
+                </div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Judul Video (SEO Friendly)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day7-title')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day7-title">JANGAN TUNDA LAGI! Ini Langkah Pertama untuk Proteksi Masa Depan Lo (Panduan Aksi Nyata)</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Caption YouTube (Hook + Engaging + CTA)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day7-caption')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day7-caption">Ini dia video TERAKHIR dari series 7 hari proteksi keuangan!
+
+Selama seminggu ini lo udah belajar:
+- Kenapa proteksi itu URGENT
+- Kisah nyata yang bikin melek
+- Mitos yang harus lo buang
+- Cara pilih yang tepat
+- Rumus budget yang realistis
+- Bukti nyata manfaatnya
+
+Sekarang pertanyaannya SATU: Lo mau tetap diam atau AMBIL AKSI?
+
+Di video ini gue kasih roadmap JELAS langkah pertama yang bisa lo ambil HARI INI. Gak perlu ribet, gak perlu mahal, cukup 5 menit untuk mulai.
+
+AMBIL LANGKAH PERTAMA LO SEKARANG (100% FREE consultation):
+https://projectcuan.petrusjakub.workers.dev/
+
+Terima kasih udah nonton series ini. Kalau bermanfaat, SUBSCRIBE dan share ke semua orang yang lo sayangi!
+
+Karena sharing... adalah caring.
+
+#ambilaksi #mulaidarisekarang #proteksimasa depan #asuransiindonesia #sharingadalahcaring #langkahpertama</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Tags & Hashtags (SEO)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day7-tags')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day7-tags">langkah pertama asuransi, mulai asuransi sekarang, cara daftar asuransi, proteksi masa depan, action plan keuangan, konsultasi asuransi gratis, asuransi mudah, asuransi online, daftar asuransi 2024, sharing adalah caring, financial freedom
+
+#ambilaksi #mulaidarisekarang #proteksimasadepan #asuransiindonesia #sharingadalahcaring #langkahpertama #konsultasigratis #daftarasuransi #financialfreedom #asuransionline</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Prompt Generate Image (Scene Awal + Watermark)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day7-image')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day7-image">Create a YouTube thumbnail showing a determined Indonesian young professional taking a confident step forward on a path/road that leads to a bright golden sunrise horizon. The path has milestone markers showing "LANGKAH 1", "PROTEKSI", "MASA DEPAN CERAH". Dynamic composition with the person in action pose. Bold text "MULAI HARI INI!" in white and gold colors with a glowing effect. Inspirational and motivational mood with warm sunrise colors (orange, gold, yellow). Add a small YouTube play button watermark icon with text "@sharingadalahcaring" in the bottom right corner. Aspect ratio 16:9, high quality, empowering and action-oriented composition.</div>
+            </div>
+
+            <div class="section">
+                <div class="section-label">
+                    <h3>Script Video untuk HeyGen (Siap Copas)</h3>
+                    <button class="copy-btn" onclick="copyText(this, 'day7-script')">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+                        Copy
+                    </button>
+                </div>
+                <div class="content-box" id="day7-script">Halo semuanya! Ini dia... video terakhir dari series 7 hari proteksi keuangan di channel Sharing Adalah Caring.
+
+Selama seminggu ini, kita udah bahas banyak hal. Dari fakta mengejutkan tentang kondisi proteksi di Indonesia, kisah nyata yang menyentuh, mitos-mitos yang harus dibuang, panduan memilih, cara budgeting yang realistis, sampai bukti nyata dari orang-orang yang udah merasakan manfaatnya.
+
+Sekarang... giliran lo.
+
+Gue gak mau lo jadi orang yang nonton, paham, setuju, tapi gak ambil aksi. Karena pengetahuan tanpa aksi itu percuma.
+
+Jadi ini dia langkah pertama yang bisa lo ambil hari ini. Cuma butuh 5 menit.
+
+Langkah satu: Klik link di deskripsi video ini. Lo akan diarahkan ke halaman konsultasi gratis.
+
+Langkah dua: Isi form singkat tentang kondisi lo sekarang. Usia, status, tanggungan, dan budget.
+
+Langkah tiga: Tim ahli akan hubungi lo untuk diskusi. Ingat, ini gratis dan tanpa paksaan. Lo cuma ngobrol dan dapet rekomendasi yang sesuai.
+
+Itu aja. Tiga langkah simpel yang bisa mengubah masa depan finansial lo dan keluarga lo.
+
+Gue percaya... setiap orang berhak mendapatkan ketenangan finansial. Dan langkah pertama selalu yang paling berat, tapi juga yang paling penting.
+
+Terima kasih udah nonton series ini dari awal sampai akhir. Kalau lo ngerasa ini bermanfaat, tolong subscribe, like, dan yang paling penting... share ke orang-orang yang lo sayangi.
+
+Karena sharing... adalah caring.
+
+Gue tunggu lo di link deskripsi ya. Sampai ketemu di konten-konten selanjutnya!</div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Content Plan by @sharingadalahcaring | Target: <a href="https://projectcuan.petrusjakub.workers.dev/" style="color: #48dbfb;" target="_blank">projectcuan.petrusjakub.workers.dev</a></p>
+            <p style="margin-top: 8px;">Jadwal: 1 post per hari | Posting di jam prime time (17:00 - 20:00 WIB)</p>
+        </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast">Berhasil disalin!</div>
+
+    <script>
+        function copyText(button, elementId) {
+            const element = document.getElementById(elementId);
+            const text = element.innerText || element.textContent;
+
+            navigator.clipboard.writeText(text).then(() => {
+                // Update button state
+                button.classList.add('copied');
+                button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+
+                // Reset after 2 seconds
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+                    toast.classList.remove('show');
+                }, 2000);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+
+                // Update button state
+                button.classList.add('copied');
+                button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+
+                // Show toast
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copy';
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
