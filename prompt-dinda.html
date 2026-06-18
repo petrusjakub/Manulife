@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Banana 2 - Dinda Lestari (Sabtu)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .profile-info {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+            color: white;
+            font-size: 0.95em;
+            line-height: 1.6;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .time-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+            margin-bottom: 12px;
+        }
+
+        .outfit-badge {
+            display: inline-block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+
+        .section-title {
+            font-size: 0.85em;
+            font-weight: 600;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-top: 15px;
+            margin-bottom: 6px;
+        }
+
+        .prompt-box {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 0.92em;
+            line-height: 1.6;
+            color: #333;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .prompt-box:hover {
+            background: #e9ecef;
+        }
+
+        .prompt-box::after {
+            content: '📋 Click to copy';
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: 0.75em;
+            color: #888;
+        }
+
+        .prompt-box.copied {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .prompt-box.copied::after {
+            content: '✅ Copied!';
+            color: #28a745;
+        }
+
+        .caption-box {
+            background: #fff3e0;
+            border: 1px solid #ffe0b2;
+            border-radius: 10px;
+            padding: 14px;
+            font-size: 0.92em;
+            line-height: 1.6;
+            color: #e65100;
+            position: relative;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .caption-box:hover {
+            background: #ffe0b2;
+        }
+
+        .caption-box::after {
+            content: '📋 Click to copy';
+            position: absolute;
+            top: 8px;
+            right: 10px;
+            font-size: 0.75em;
+            color: #888;
+        }
+
+        .caption-box.copied {
+            background: #d4edda;
+            border-color: #c3e6cb;
+        }
+
+        .caption-box.copied::after {
+            content: '✅ Copied!';
+            color: #28a745;
+        }
+
+        .pinterest-link {
+            display: inline-block;
+            margin-top: 10px;
+            background: #e60023;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: opacity 0.2s;
+        }
+
+        .pinterest-link:hover {
+            opacity: 0.85;
+        }
+
+        .divider {
+            text-align: center;
+            color: white;
+            font-size: 1.5em;
+            margin: 10px 0;
+            opacity: 0.6;
+        }
+
+        .outfit-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 20px;
+            color: white;
+            text-align: center;
+        }
+
+        .outfit-section h3 {
+            margin-bottom: 5px;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.4em;
+            }
+            .card {
+                padding: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Prompt Banana 2 - Dinda Lestari</h1>
+            <p>Sabtu - Hari Santai | Posting Setiap 2 Jam</p>
+            <div class="profile-info">
+                <strong>Karakter:</strong> Dinda Lestari, 25 tahun, Freelancer<br>
+                <strong>Lokasi:</strong> Kos sederhana di Jakarta Selatan<br>
+                <strong>Vibes:</strong> Flirty, santai, relatable<br>
+                <strong>Outfit Siang (09:00-17:00):</strong> Oversized cream knit top, denim mini skirt, messy bun<br>
+                <strong>Outfit Malam (17:00-00:00):</strong> Silk cami top warna dusty pink, celana pendek katun hitam, rambut terurai
+            </div>
+        </div>
+
+        <!-- OUTFIT REFERENCE -->
+        <div class="outfit-section">
+            <h3>Outfit Siang (09:00 - 17:00)</h3>
+            <p>Oversized cream knit top + denim mini skirt + messy bun + natural makeup</p>
+        </div>
+
+        <!-- POST 1: 09:00 -->
+        <div class="card">
+            <span class="time-badge">09:00 WIB</span>
+            <span class="outfit-badge">Outfit Siang</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, sitting on a small single bed in a simple boarding room (kos-kosan), morning sunlight streaming through thin curtains. She is wearing an oversized cream knit top and denim mini skirt, hair in a messy bun. She is stretching her arms with a sleepy cute smile, flirty expression. Simple room with white walls, small desk with laptop, hanging fairy lights. Soft golden hour morning light. Shot on Canon EOS R5, 35mm lens, shallow depth of field, natural warm tones.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=korean+girl+morning+stretch+bed+aesthetic+cozy+room" target="_blank" class="pinterest-link">Pinterest: Morning Stretch Aesthetic Room</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Sabtu pagi tuh enaknya rebahan dulu 5 menit... eh udah sejam 😴💕
+
+Yang bangunin siapa nih? 👀
+
+#saturdayvibes #weekendmood #jaksellife #koslife #morningvibes #rebahan</div>
+        </div>
+
+        <!-- POST 2: 11:00 -->
+        <div class="card">
+            <span class="time-badge">11:00 WIB</span>
+            <span class="outfit-badge">Outfit Siang</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, in a small simple kitchen/pantry area of a boarding house (kos-kosan). She is wearing an oversized cream knit top and denim mini skirt, hair in a messy bun. She is making instant coffee, leaning against the kitchen counter with a playful flirty smile, one hand holding a mug. Simple kitchen with basic tiles, small stove, some instant noodle packets visible. Bright natural daylight. Shot on Canon EOS R5, 50mm lens, lifestyle photography, warm color grading.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=aesthetic+girl+making+coffee+kitchen+cozy+minimal" target="_blank" class="pinterest-link">Pinterest: Girl Making Coffee Aesthetic Kitchen</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Brunch ala anak kos: kopi sachetan + roti bakar 🍞☕
+
+Tapi yang penting vibes-nya dulu ya kan ✨
+
+Kalian tim kopi atau tim teh? 👇
+
+#brunchtime #anakkos #kopilovers #weekendbrunch #jaksellife #flirtyvibes</div>
+        </div>
+
+        <!-- POST 3: 13:00 -->
+        <div class="card">
+            <span class="time-badge">13:00 WIB</span>
+            <span class="outfit-badge">Outfit Siang</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, sitting cross-legged on a simple bed with a laptop on her lap, working as a freelancer. She is wearing an oversized cream knit top and denim mini skirt, hair in a messy bun. She has a focused but cute expression, biting her lower lip slightly, flirty vibe. Simple kos room with white walls, a small desk nearby with scattered notes, a glass of iced tea beside her. Afternoon natural light from window. Shot on Canon EOS R5, 35mm lens, lifestyle editorial, soft warm tones.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=girl+working+laptop+bed+aesthetic+cozy+freelancer" target="_blank" class="pinterest-link">Pinterest: Girl Working Laptop Bed Aesthetic</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Weekend tapi deadline nggak kenal libur 💻✨
+
+Freelancer life: kerja dari kasur tapi tetap produktif (katanya) 😂
+
+Yang lagi kerja juga weekend ini mana suaranya? 🙋‍♀️
+
+#freelancerlife #workfromkos #weekendwork #hustlemode #jakselgirl #productiveday</div>
+        </div>
+
+        <!-- POST 4: 15:00 -->
+        <div class="card">
+            <span class="time-badge">15:00 WIB</span>
+            <span class="outfit-badge">Outfit Siang</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, taking a mirror selfie in a simple boarding room (kos-kosan). She is wearing an oversized cream knit top and denim mini skirt, hair in a messy bun. She is posing with one hand on her hip, phone covering part of her face, flirty playful expression with a slight smirk. Full-length mirror with some stickers on the edge, simple room background with hanging clothes rack visible. Afternoon golden light. Shot on iPhone 15 Pro, mirror selfie style, natural lighting, instagram aesthetic.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=mirror+selfie+aesthetic+girl+simple+room+outfit+check" target="_blank" class="pinterest-link">Pinterest: Mirror Selfie OOTD Simple Room</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Outfit check sebelum keluar kamar ✌️💕
+
+Mau ke mana? Ya ke dapur sih... tapi tetep harus foto dulu dong 📸😜
+
+Rate outfit aku 1-10? 👀
+
+#ootd #mirrorselfie #outfitcheck #casualstyle #weekendoutfit #jakselvibes</div>
+        </div>
+
+        <!-- OUTFIT CHANGE -->
+        <div class="outfit-section">
+            <h3>Outfit Malam (17:00 - 00:00)</h3>
+            <p>Silk cami top dusty pink + celana pendek katun hitam + rambut terurai + bare face</p>
+        </div>
+
+        <!-- POST 5: 17:00 -->
+        <div class="card">
+            <span class="time-badge">17:00 WIB</span>
+            <span class="outfit-badge">Outfit Malam</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, sitting on the floor of a simple boarding room near the window during golden hour sunset. She is wearing a dusty pink silk cami top and black cotton shorts, hair down and flowing naturally. She is hugging her knees with a soft dreamy flirty smile, sunset light illuminating her face warmly. Simple room background with thin white curtains, warm orange-pink sunset glow. Shot on Canon EOS R5, 85mm lens, portrait photography, golden hour, cinematic warm tones, soft bokeh.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=golden+hour+girl+window+silk+cami+aesthetic+sunset+portrait" target="_blank" class="pinterest-link">Pinterest: Golden Hour Window Portrait</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Golden hour dari jendela kos 🌅💛
+
+Nggak perlu ke pantai, sunset di kamar juga aesthetic kok ✨
+
+Siapa yang mau nemenin nonton sunset? 👀💕
+
+#goldenhour #sunsetvibes #koslife #aestheticroom #weekendchill #jakselgirl</div>
+        </div>
+
+        <!-- POST 6: 19:00 -->
+        <div class="card">
+            <span class="time-badge">19:00 WIB</span>
+            <span class="outfit-badge">Outfit Malam</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, sitting on her bed eating instant noodles from a bowl, watching something on her laptop screen. She is wearing a dusty pink silk cami top and black cotton shorts, hair down and messy-casual. She has a happy satisfied expression, slightly flirty smile with noodles on chopsticks near her mouth. Simple kos room with warm lamp lighting, fairy lights on the wall, laptop showing a drama on screen. Cozy evening atmosphere. Shot on Canon EOS R5, 35mm lens, lifestyle photography, warm tungsten lighting, cozy mood.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=girl+eating+noodles+bed+laptop+cozy+night+aesthetic" target="_blank" class="pinterest-link">Pinterest: Cozy Night Eating Noodles Bed</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Dinner ala anak kos: Indomie + drakor = healing terbaik 🍜📺
+
+Nggak ada yang ngalahin combo ini sih fr fr 😌💕
+
+Drop rekomendasi drakor dong! 👇
+
+#indomielovers #drakorfavorit #nightvibes #koslife #healingtime #saturdaynight</div>
+        </div>
+
+        <!-- POST 7: 21:00 -->
+        <div class="card">
+            <span class="time-badge">21:00 WIB</span>
+            <span class="outfit-badge">Outfit Malam</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, doing skincare routine in front of a small vanity mirror in a simple boarding room. She is wearing a dusty pink silk cami top and black cotton shorts, hair down. She is applying face mask or serum, looking at the mirror with a playful wink and flirty expression. Small vanity table with affordable skincare products (bottles, tubes), warm desk lamp lighting, simple room background. Shot on Canon EOS R5, 50mm lens, beauty lifestyle photography, soft warm lighting, close-up portrait, dewy skin look.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=girl+skincare+routine+night+vanity+mirror+aesthetic+cozy" target="_blank" class="pinterest-link">Pinterest: Night Skincare Routine Aesthetic</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Self-care Saturday night 🧴✨
+
+Skincare routine sebelum tidur biar besok glowing (semoga) 😂💕
+
+Produk andalan kalian apa? Share dong!
+
+#skincareroutine #selfcare #nightroutine #glowingskin #beautytips #saturdaynight #koslife</div>
+        </div>
+
+        <!-- POST 8: 23:00 -->
+        <div class="card">
+            <span class="time-badge">23:00 WIB</span>
+            <span class="outfit-badge">Outfit Malam</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, lying on her bed on her stomach, scrolling phone with a sleepy flirty smile. She is wearing a dusty pink silk cami top and black cotton shorts, hair down spread on the pillow. Cozy late night bedroom atmosphere, soft warm fairy lights as only light source, pillow and blanket visible. She is looking at the phone screen with a soft playful expression, chin resting on one hand. Simple kos room at night, intimate cozy mood. Shot on Canon EOS R5, 35mm lens, boudoir-lite style, soft warm low light, intimate mood, film grain.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=girl+lying+bed+phone+night+fairy+lights+cozy+aesthetic" target="_blank" class="pinterest-link">Pinterest: Late Night Bed Phone Aesthetic</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Udah jam 11 malem tapi masih scroll-scroll aja 📱😴
+
+Besok bilang "aku tidur cepet kok" padahal boong 😂💕
+
+Yang masih melek mana? Chat yuk 👀✨
+
+#latenight #midnightthoughts #cantsleeep #weekendnight #koslife #flirtyvibes #jakselgirl</div>
+        </div>
+
+        <!-- BONUS POST: 01:00 (optional) -->
+        <div class="card">
+            <span class="time-badge">00:00 WIB (Bonus)</span>
+            <span class="outfit-badge">Outfit Malam</span>
+
+            <div class="section-title">Prompt Banana 2</div>
+            <div class="prompt-box" onclick="copyText(this)">A young Indonesian woman, 25 years old, in bed under a thin blanket, only her face and shoulders visible, eyes half-closed with a sleepy cute flirty smile. She is wearing a dusty pink silk cami top, hair spread messily on white pillow. Very soft dim lighting from fairy lights on the wall, creating a warm intimate atmosphere. Simple kos room at midnight, peaceful sleeping mood. Shot on Canon EOS R5, 50mm lens, intimate portrait, very soft warm lighting, dreamy ethereal mood, slight film grain.</div>
+
+            <div class="section-title">Pinterest Reference</div>
+            <a href="https://www.pinterest.com/search/pins/?q=girl+sleeping+cozy+bed+fairy+lights+aesthetic+peaceful" target="_blank" class="pinterest-link">Pinterest: Sleepy Cozy Bed Night Aesthetic</a>
+
+            <div class="section-title">Caption Instagram</div>
+            <div class="caption-box" onclick="copyText(this)">Good night dari aku 🌙💕
+
+Mimpi indah ya... semoga mimpinya ada aku 😜✨
+
+See you tomorrow, loves 💤
+
+#goodnight #sleepyhead #midnightpost #sweetdreams #weekendvibes #koslife #jakselgirl</div>
+        </div>
+
+    </div>
+
+    <script>
+        function copyText(element) {
+            const text = element.innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            }).catch(err => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                element.classList.add('copied');
+                setTimeout(() => {
+                    element.classList.remove('copied');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
