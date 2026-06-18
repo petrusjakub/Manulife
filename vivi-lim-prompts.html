@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vivi Lim - AI Influencer Prompts (Banana 2) | Saturday</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            padding: 30px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2em;
+            color: #e91e63;
+            margin-bottom: 10px;
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.1em;
+            line-height: 1.6;
+        }
+
+        .header .character-info {
+            margin-top: 15px;
+            padding: 15px;
+            background: #fff3e0;
+            border-radius: 12px;
+            text-align: left;
+            font-size: 0.95em;
+            color: #555;
+        }
+
+        .header .character-info strong {
+            color: #e91e63;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: transform 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .time-badge {
+            background: linear-gradient(135deg, #e91e63, #ff5722);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .outfit-badge {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 500;
+        }
+
+        .prompt-section {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .prompt-section label {
+            display: block;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .prompt-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #444;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.9em;
+            font-weight: 500;
+            transition: all 0.3s;
+            margin-top: 10px;
+        }
+
+        .copy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .copy-btn.copied {
+            background: linear-gradient(135deg, #4caf50, #45a049);
+        }
+
+        .links-section {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        .pinterest-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e60023;
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 10px;
+            font-size: 0.85em;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .pinterest-link:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(230, 0, 35, 0.3);
+        }
+
+        .caption-section {
+            background: #fce4ec;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+
+        .caption-section label {
+            display: block;
+            font-weight: 600;
+            color: #c2185b;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+        }
+
+        .caption-text {
+            font-size: 0.95em;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #e91e63, transparent);
+            margin: 10px 0;
+            border-radius: 2px;
+        }
+
+        .schedule-overview {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .schedule-item {
+            text-align: center;
+            padding: 8px;
+            background: #fce4ec;
+            border-radius: 8px;
+            font-size: 0.8em;
+            font-weight: 500;
+            color: #c2185b;
+        }
+
+        @media (max-width: 600px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .card {
+                padding: 18px;
+            }
+            .card-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Vivi Lim - AI Influencer</h1>
+            <p class="subtitle">Banana 2 Prompts | Saturday - Day Off</p>
+            <div class="character-info">
+                <strong>Character:</strong> Vivi Lim, 28 tahun, pekerja kantoran<br>
+                <strong>Lokasi:</strong> Apartemen di Bandung<br>
+                <strong>Vibes:</strong> Happy, positive, cheerful<br>
+                <strong>Hari:</strong> Sabtu (hari libur kerja)<br>
+                <strong>Outfit Siang (9AM-5PM):</strong> White oversized t-shirt, light blue high-waisted jeans, white sneakers, minimal gold jewelry<br>
+                <strong>Outfit Malam (5PM-12AM):</strong> Soft pink satin pajama set, hair in messy bun, fuzzy slippers
+            </div>
+            <div class="schedule-overview">
+                <div class="schedule-item">07:00</div>
+                <div class="schedule-item">09:00</div>
+                <div class="schedule-item">11:00</div>
+                <div class="schedule-item">13:00</div>
+                <div class="schedule-item">15:00</div>
+                <div class="schedule-item">17:00</div>
+                <div class="schedule-item">19:00</div>
+                <div class="schedule-item">21:00</div>
+                <div class="schedule-item">23:00</div>
+            </div>
+        </div>
+
+        <!-- 07:00 - Morning Routine -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">07:00</span>
+                <span class="outfit-badge">Morning / Sleepwear</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-0700">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, soft natural makeup, long straight black hair slightly messy from sleep, wearing a soft pink satin pajama set, standing by a large apartment window in Bandung with morning sunlight streaming in, holding a cup of warm coffee, stretching slightly with a happy relaxed smile, modern minimalist apartment interior with plants, warm golden hour lighting, candid lifestyle photography style, full body shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-0700', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+morning+routine+apartment+coffee+asian+girl+pajama" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Morning Routine Apartment
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=pink+satin+pajama+set+aesthetic" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Pink Satin Pajama
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Saturday morning = no alarm clock needed ☀️ Just me, my coffee, and the beautiful Bandung sunrise. Starting the weekend right! ☕✨ #SaturdayMorning #WeekendVibes #BandungLife #MorningRoutine #ApartmentLiving #CoffeeFirst</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 09:00 - Brunch/Cafe -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">09:00</span>
+                <span class="outfit-badge">Casual Day Out</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-0900">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, natural glowing makeup, long straight black hair let down, wearing a white oversized t-shirt tucked into light blue high-waisted jeans, white sneakers, minimal gold necklace and small hoop earrings, sitting at a trendy brunch cafe in Bandung, holding a plate of pancakes with berries, bright natural daylight, happy cheerful smile, aesthetic cafe interior with wooden furniture and green plants, lifestyle photography, medium shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-0900', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+brunch+cafe+bandung+indonesia" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Brunch Cafe Bandung
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=white+oversized+tshirt+high+waisted+jeans+casual+outfit+asian" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Casual Outfit Reference
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Weekend brunch hits different when you don't have Monday anxiety 😌🥞 Found this cute cafe spot in Bandung and I'm obsessed! Who wants the location? Drop a 📍 below! #BrunchTime #WeekendBrunch #BandungCafe #FoodieLife #SaturdayMood #CafeHopping</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 11:00 - Exploring Bandung -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">11:00</span>
+                <span class="outfit-badge">Casual Day Out</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-1100">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, natural glowing makeup, long straight black hair, wearing a white oversized t-shirt tucked into light blue high-waisted jeans, white sneakers, minimal gold necklace and small hoop earrings, walking on a charming street in Bandung with colonial-era buildings and trees, holding a small tote bag, happy carefree expression, bright sunny day, street photography style, full body shot, candid walking pose, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-1100', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=bandung+street+aesthetic+colonial+building+indonesia" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Bandung Street Aesthetic
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=casual+street+style+white+tee+jeans+asian+girl" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Street Style Reference
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Just wandering around Bandung with no plans and no rush. Sometimes the best adventures are unplanned ones 🚶‍♀️🌿 This city never runs out of charm! #BandungExplore #WeekendWalk #CityVibes #NoPlansJustVibes #StreetStyle #HappySaturday</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 13:00 - Lunch -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">13:00</span>
+                <span class="outfit-badge">Casual Day Out</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-1300">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, natural glowing makeup, long straight black hair, wearing a white oversized t-shirt tucked into light blue high-waisted jeans, white sneakers, minimal gold necklace and small hoop earrings, sitting at a restaurant table enjoying Indonesian food, nasi goreng and iced tea on the table, happy expression while eating, warm restaurant ambiance with natural light from window, food photography style, medium close-up shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-1300', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+indonesian+food+restaurant+nasi+goreng" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Indonesian Food Aesthetic
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+restaurant+bandung+cozy+interior" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Restaurant Bandung
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Lunch date with myself because self-love is the best love 💕🍽️ This nasi goreng is giving everything it needs to give! Rate my lunch setup 1-10? #LunchTime #NasiGoreng #FoodieGram #BandungFood #SelfDateDay #WeekendEats #IndonesianFood</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 15:00 - Afternoon Activity -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">15:00</span>
+                <span class="outfit-badge">Casual Day Out</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-1500">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, natural glowing makeup, long straight black hair, wearing a white oversized t-shirt tucked into light blue high-waisted jeans, white sneakers, minimal gold necklace and small hoop earrings, browsing books at an aesthetic bookstore in Bandung, holding an open book with a curious happy expression, warm ambient lighting, wooden bookshelves filled with books in the background, cozy intellectual atmosphere, lifestyle photography, medium shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-1500', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+bookstore+cozy+reading+asian+girl" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Aesthetic Bookstore
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=bookstore+bandung+indonesia+aesthetic" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Bookstore Bandung
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Saturday afternoon well spent 📚 Getting lost between the pages is my favorite kind of therapy. What are you reading this weekend? Drop your book recs! 👇 #BookLover #WeekendReading #BookstoreVibes #BandungHiddenGem #Bookworm #SaturdayAfternoon</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 17:00 - Coming Home / Sunset -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">17:00</span>
+                <span class="outfit-badge">Transition - Home Outfit</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-1700">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, natural makeup, long straight black hair in a messy bun, wearing a soft pink satin pajama set, fuzzy slippers, standing on a high-rise apartment balcony in Bandung watching the sunset over the city skyline, golden hour lighting, warm orange and pink sky, holding a cup of tea, peaceful happy expression, apartment balcony with plants and string lights, lifestyle photography, full body shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-1700', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=apartment+balcony+sunset+golden+hour+city+view" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Balcony Sunset View
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=pink+satin+pajama+set+cozy+home+aesthetic" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Cozy Home Outfit
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Home sweet home 🌅 Changed into my comfiest clothes and caught the most beautiful Bandung sunset from my balcony. This is what happiness looks like. Golden hour never disappoints! ✨ #SunsetVibes #BandungSunset #ApartmentLife #GoldenHour #HomeSweetHome #CozyEvening</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 19:00 - Evening at Home -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">19:00</span>
+                <span class="outfit-badge">Home Outfit</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-1900">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, minimal makeup, long straight black hair in a messy bun, wearing a soft pink satin pajama set, fuzzy slippers, cooking dinner in a modern minimalist apartment kitchen in Bandung, stirring a pot on the stove with a happy smile, warm kitchen lighting, clean white kitchen with wooden accents, vegetables and ingredients on the counter, cozy domestic scene, lifestyle photography, medium shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-1900', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=aesthetic+cooking+home+kitchen+minimalist+apartment" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Cooking Home Aesthetic
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=modern+minimalist+apartment+kitchen+small+cozy" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Minimalist Kitchen
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Chef Vivi is in the kitchen tonight! 👩‍🍳🍳 Nothing beats homemade dinner after a full day of exploring. Cooking is my meditation. What should I cook next time? 💭 #HomeCooking #DinnerTime #ApartmentLife #CookingAtHome #WeekendDinner #DomesticGoddess</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 21:00 - Night Relaxation -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">21:00</span>
+                <span class="outfit-badge">Home Outfit</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-2100">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, bare minimal makeup, long straight black hair in a messy bun, wearing a soft pink satin pajama set, sitting on a comfortable sofa in her modern minimalist apartment living room in Bandung, watching a movie on a laptop with a cozy blanket, bowl of popcorn beside her, warm dim ambient lighting, fairy lights on the wall, relaxed happy cozy expression, lifestyle photography, medium shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-2100', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=cozy+movie+night+apartment+aesthetic+blanket+popcorn" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Cozy Movie Night
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=minimalist+apartment+living+room+fairy+lights+cozy" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Living Room Aesthetic
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Movie marathon Saturday night! 🍿🎬 Popcorn ready, blanket on, and zero plans to move from this couch. This is my happy place. What movie should I watch next? 🎥 #MovieNight #CozyNight #WeekendMode #NetflixAndChill #ApartmentLife #SaturdayNight</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- 23:00 - Before Sleep -->
+        <div class="card">
+            <div class="card-header">
+                <span class="time-badge">23:00</span>
+                <span class="outfit-badge">Home Outfit</span>
+            </div>
+            <div class="prompt-section">
+                <label>Banana 2 Prompt</label>
+                <p class="prompt-text" id="prompt-2300">A beautiful 28-year-old Indonesian-Chinese woman named Vivi Lim, no makeup fresh clean face, long straight black hair in a messy bun, wearing a soft pink satin pajama set, doing skincare routine in a modern bathroom mirror, applying face serum with a relaxed happy smile, soft warm bathroom lighting, aesthetic skincare products neatly arranged on the vanity, clean minimalist bathroom interior, nighttime self-care routine, lifestyle photography, close-up to medium shot, high quality, realistic, 4K</p>
+                <button class="copy-btn" onclick="copyPrompt('prompt-2300', this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Prompt
+                </button>
+            </div>
+            <div class="links-section">
+                <a href="https://www.pinterest.com/search/pins/?q=skincare+routine+night+aesthetic+asian+girl+bathroom" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Skincare Routine Aesthetic
+                </a>
+                <a href="https://www.pinterest.com/search/pins/?q=modern+minimalist+bathroom+vanity+skincare+products" target="_blank" class="pinterest-link">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M8 0a8 8 0 0 0-2.915 15.452c-.07-.633-.134-1.606.027-2.297.146-.625.938-3.977.938-3.977s-.239-.479-.239-1.187c0-1.113.645-1.943 1.448-1.943.682 0 1.012.512 1.012 1.127 0 .686-.437 1.712-.663 2.663-.188.796.4 1.446 1.185 1.446 1.423 0 2.515-1.5 2.515-3.664 0-1.915-1.377-3.254-3.342-3.254-2.276 0-3.612 1.707-3.612 3.471 0 .688.265 1.425.595 1.826a.24.24 0 0 1 .056.23c-.061.252-.196.796-.222.907-.035.146-.116.177-.268.107-1-.465-1.624-1.926-1.624-3.1 0-2.523 1.834-4.84 5.286-4.84 2.775 0 4.932 1.977 4.932 4.62 0 2.757-1.739 4.976-4.151 4.976-.811 0-1.573-.421-1.834-.919l-.498 1.902c-.181.695-.669 1.566-.995 2.097A8 8 0 1 0 8 0z"/></svg>
+                    Pinterest: Bathroom Vanity Setup
+                </a>
+            </div>
+            <div class="caption-section">
+                <label>Instagram Caption</label>
+                <p class="caption-text">Ending this perfect Saturday with my favorite part of the day - skincare time! 🧴✨ Consistency is key, even on weekends! What's your holy grail product? Mine is this serum that makes me glow! 💫 #SkincareRoutine #NightRoutine #SelfCare #GlowUp #SkincareLover #BeautyRoutine #SaturdayNightIn</p>
+                <button class="copy-btn" onclick="copyCaption(this)">
+                    <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg>
+                    Copy Caption
+                </button>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="header" style="margin-top: 30px;">
+            <h2 style="color: #e91e63; margin-bottom: 10px;">Tips Penggunaan</h2>
+            <div class="character-info" style="text-align: left;">
+                <p><strong>1.</strong> Klik tombol "Copy Prompt" untuk menyalin prompt ke clipboard</p>
+                <p><strong>2.</strong> Paste prompt di Banana 2 AI Image Generator</p>
+                <p><strong>3.</strong> Gunakan link Pinterest sebagai referensi visual untuk outfit dan background</p>
+                <p><strong>4.</strong> Copy caption untuk posting di Instagram</p>
+                <p><strong>5.</strong> Pastikan konsistensi wajah Vivi Lim di setiap generate</p>
+                <p style="margin-top: 10px;"><strong>Outfit Siang (9AM-5PM):</strong> White oversized t-shirt + light blue high-waisted jeans + white sneakers + minimal gold jewelry</p>
+                <p><strong>Outfit Malam (5PM-12AM):</strong> Soft pink satin pajama set + messy bun + fuzzy slippers</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyPrompt(elementId, button) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg> Copy Prompt';
+                }, 2000);
+            });
+        }
+
+        function copyCaption(button) {
+            const captionText = button.parentElement.querySelector('.caption-text').innerText;
+            navigator.clipboard.writeText(captionText).then(() => {
+                button.classList.add('copied');
+                button.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg> Copied!';
+                setTimeout(() => {
+                    button.classList.remove('copied');
+                    button.innerHTML = '<svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H6zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1H2z"/></svg> Copy Caption';
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
